@@ -1,5 +1,6 @@
 {
   "name": "github-report",
+  "author": "Riku Rauhala <riku.rauhala@helsinki.fi>",
   "private": true,
   "version": "0.0.0",
   "type": "module",
