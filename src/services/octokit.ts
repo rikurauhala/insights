@@ -25,27 +25,28 @@ const getLanguages = (languagesUrl: string, setState: (arg0: string[]) => void):
   void fetchLanguages()
 }
 
-const getRepositories = (setState: (arg0: RepositoryFull[]) => void): void => {
-  const repositories = sessionStorage.getItem('repositories')
-  if (repositories) {
-    setState(JSON.parse(repositories) as RepositoryFull[])
-    return
-  }
-
-  const fetchRepositories = async () => {
-    try {
-      const response = await octokit.request('GET /user/repos', {
-        affiliation: 'owner,collaborator',
-        per_page: 100,
-      })
-      setState(response.data as Array<RepositoryFull>)
-      sessionStorage.setItem('repositories', JSON.stringify(response.data))
-    } catch (error) {
-      console.error(error)
+const getRepositories = (): Promise<RepositoryFull[]> => {
+  return new Promise((resolve, reject) => {
+    const repositories = sessionStorage.getItem('repositories')
+    if (repositories) {
+      resolve(JSON.parse(repositories) as RepositoryFull[])
+    } else {
+      octokit
+        .request('GET /user/repos', {
+          affiliation: 'owner,collaborator',
+          per_page: 100,
+        })
+        .then((response) => {
+          const repositoriesData = response.data as RepositoryFull[]
+          sessionStorage.setItem('repositories', JSON.stringify(repositoriesData))
+          resolve(repositoriesData)
+        })
+        .catch((error) => {
+          console.error(error)
+          reject(error)
+        })
     }
-  }
-
-  void fetchRepositories()
+  })
 }
 
 const getUser = (): Promise<UserFull> => {
