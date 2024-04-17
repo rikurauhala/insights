@@ -1,5 +1,5 @@
 export interface LanguageMap {
-  [key: string]: number
+  [language: string]: number
 }
 
 interface License {

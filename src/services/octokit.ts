@@ -32,9 +32,20 @@ const getLanguages = (repositories: RepositoryFull[]): Promise<LanguageMap> => {
       Object.entries(languages).sort(([, a], [, b]) => b - a)
     )
 
-    sessionStorage.setItem('languages', JSON.stringify(sortedLanguages))
+    const topLanguages = Object.fromEntries(Object.entries(sortedLanguages).slice(0, 5))
 
-    return sortedLanguages
+    const totalBytes = Object.values(languages).reduce((total, bytes) => total + bytes, 0)
+    const topLanguagesBytes = Object.values(topLanguages).reduce((total, bytes) => total + bytes, 0)
+    const otherBytes = totalBytes - topLanguagesBytes
+
+    const limitedLanguages = {
+      ...topLanguages,
+      Other: otherBytes,
+    }
+
+    sessionStorage.setItem('languages', JSON.stringify(limitedLanguages))
+
+    return limitedLanguages
   })
 }
 

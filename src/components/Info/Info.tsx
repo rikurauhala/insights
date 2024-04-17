@@ -12,7 +12,7 @@ import PlaceIcon from '@mui/icons-material/Place'
 
 import octokitService from '~/services/octokit'
 import { UserFull } from '~/types'
-import { formatTimestamp } from '~/util'
+import { formatTimestamp } from '~/utils'
 
 import ProfilePicture from './ProfilePicture'
 
