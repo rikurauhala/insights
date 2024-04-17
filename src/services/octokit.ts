@@ -5,7 +5,7 @@ import { RepositoryFull, UserFull } from '~/types'
 
 const octokit = new Octokit({ auth: TOKEN })
 
-const getLanguages = (languagesUrl: string, setState: (arg0: string[]) => void) => {
+const getLanguages = (languagesUrl: string, setState: (arg0: string[]) => void): void => {
   const languages = sessionStorage.getItem(`languages${languagesUrl}`)
   if (languages) {
     setState(JSON.parse(languages) as string[])
@@ -25,7 +25,7 @@ const getLanguages = (languagesUrl: string, setState: (arg0: string[]) => void) 
   void fetchLanguages()
 }
 
-const getRepositories = (setState: (arg0: RepositoryFull[]) => void) => {
+const getRepositories = (setState: (arg0: RepositoryFull[]) => void): void => {
   const repositories = sessionStorage.getItem('repositories')
   if (repositories) {
     setState(JSON.parse(repositories) as RepositoryFull[])
@@ -34,7 +34,10 @@ const getRepositories = (setState: (arg0: RepositoryFull[]) => void) => {
 
   const fetchRepositories = async () => {
     try {
-      const response = await octokit.request('GET /user/repos')
+      const response = await octokit.request('GET /user/repos', {
+        affiliation: 'owner,collaborator',
+        per_page: 100,
+      })
       setState(response.data as Array<RepositoryFull>)
       sessionStorage.setItem('repositories', JSON.stringify(response.data))
     } catch (error) {
@@ -45,7 +48,7 @@ const getRepositories = (setState: (arg0: RepositoryFull[]) => void) => {
   void fetchRepositories()
 }
 
-const getUser = (setState: (arg0: UserFull) => void) => {
+const getUser = (setState: (arg0: UserFull) => void): void => {
   const gitHubUser = sessionStorage.getItem('gitHubUser')
   if (gitHubUser) {
     setState(JSON.parse(gitHubUser) as UserFull)
