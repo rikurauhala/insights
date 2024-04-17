@@ -1,7 +1,7 @@
 import { Octokit } from 'octokit'
 
-import { TOKEN } from '@/config'
-import { RepositoryFull, UserFull } from '@/types'
+import { TOKEN } from '~/config'
+import { RepositoryFull, UserFull } from '~/types'
 
 const octokit = new Octokit({ auth: TOKEN })
 

@@ -10,9 +10,9 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import GitHubIcon from '@mui/icons-material/GitHub'
 import PlaceIcon from '@mui/icons-material/Place'
 
-import octokitService from '@/services/octokit'
-import { UserFull } from '@/types'
-import { formatTimestamp } from '@/util'
+import octokitService from '~/services/octokit'
+import { UserFull } from '~/types'
+import { formatTimestamp } from '~/util'
 
 import ProfilePicture from './ProfilePicture'
 

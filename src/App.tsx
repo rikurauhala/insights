@@ -1,8 +1,8 @@
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import Container from '@mui/material/Container'
 
-import Info from '@/components/Info'
-import { theme } from '@/theme'
+import Info from '~/components/Info'
+import { theme } from '~/theme'
 
 import './App.css'
 
