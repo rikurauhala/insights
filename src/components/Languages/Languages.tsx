@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react'
-import Paper from '@mui/material/Paper'
-import Typography from '@mui/material/Typography'
 import { PieChart } from '@mui/x-charts/PieChart'
 
 import octokitService from '~/services/octokit'
@@ -27,23 +25,20 @@ const Languages = (): JSX.Element => {
   }))
 
   return (
-    <Paper sx={{ marginTop: '20px', padding: '30px' }}>
-      <Typography variant="h5">Languages</Typography>
-      <PieChart
-        series={[
-          {
-            cornerRadius: 5,
-            data: data,
-            highlightScope: { faded: 'global', highlighted: 'item' },
-            innerRadius: 50,
-            paddingAngle: 3,
-            valueFormatter: (language) => `${((language.value / totalBytes) * 100).toFixed(2)}%`,
-          },
-        ]}
-        width={400}
-        height={200}
-      />
-    </Paper>
+    <PieChart
+      series={[
+        {
+          cornerRadius: 5,
+          data: data,
+          highlightScope: { faded: 'global', highlighted: 'item' },
+          innerRadius: 50,
+          paddingAngle: 3,
+          valueFormatter: (language) => `${((language.value / totalBytes) * 100).toFixed(2)}%`,
+        },
+      ]}
+      width={400}
+      height={200}
+    />
   )
 }
 
