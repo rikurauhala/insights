@@ -48,24 +48,25 @@ const getRepositories = (setState: (arg0: RepositoryFull[]) => void): void => {
   void fetchRepositories()
 }
 
-const getUser = (setState: (arg0: UserFull) => void): void => {
-  const gitHubUser = sessionStorage.getItem('gitHubUser')
-  if (gitHubUser) {
-    setState(JSON.parse(gitHubUser) as UserFull)
-    return
-  }
-
-  const fetchUser = async () => {
-    try {
-      const response = await octokit.request('GET /user')
-      setState(response.data as UserFull)
-      sessionStorage.setItem('gitHubUser', JSON.stringify(response.data))
-    } catch (error) {
-      console.error(error)
+const getUser = (): Promise<UserFull> => {
+  return new Promise((resolve, reject) => {
+    const gitHubUser = sessionStorage.getItem('gitHubUser')
+    if (gitHubUser) {
+      resolve(JSON.parse(gitHubUser) as UserFull)
+    } else {
+      octokit
+        .request('GET /user')
+        .then((response) => {
+          const userData = response.data as UserFull
+          sessionStorage.setItem('gitHubUser', JSON.stringify(userData))
+          resolve(userData)
+        })
+        .catch((error) => {
+          console.error(error)
+          reject(error)
+        })
     }
-  }
-
-  void fetchUser()
+  })
 }
 
 export default { getLanguages, getRepositories, getUser }

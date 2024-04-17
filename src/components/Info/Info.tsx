@@ -20,7 +20,7 @@ const Info = (): JSX.Element => {
   const [user, setUser] = useState<UserFull | null>(null)
 
   useEffect(() => {
-    void octokitService.getUser(setUser)
+    void octokitService.getUser().then((userData) => setUser(userData))
   }, [])
 
   if (!user) {
@@ -50,22 +50,20 @@ const Info = (): JSX.Element => {
   ]
 
   return (
-    <Box sx={{ marginTop: '10px', textAlign: 'center' }}>
-      <Paper sx={{ padding: '30px' }}>
-        <Stack alignItems="center" direction="row" justifyContent="center" spacing={4}>
-          <ProfilePicture url={user.avatar_url} />
-          <Stack direction="column" height="150px" justifyContent="space-between" textAlign="left">
-            <Typography variant="h5">{user.name || user.login}</Typography>
-            {infoItems.map(({ key, icon, value }) => (
-              <Stack alignItems="center" direction="row" key={key} spacing={1}>
-                {icon}
-                <Typography>{value}</Typography>
-              </Stack>
-            ))}
-          </Stack>
+    <Paper sx={{ marginTop: '20px', padding: '30px' }}>
+      <Stack alignItems="center" direction="row" justifyContent="center" spacing={4}>
+        <ProfilePicture url={user.avatar_url} />
+        <Stack direction="column" height="150px" justifyContent="space-between" textAlign="left">
+          <Typography variant="h5">{user.name || user.login}</Typography>
+          {infoItems.map(({ key, icon, value }) => (
+            <Stack alignItems="center" direction="row" key={key} spacing={1}>
+              {icon}
+              <Typography>{value}</Typography>
+            </Stack>
+          ))}
         </Stack>
-      </Paper>
-    </Box>
+      </Stack>
+    </Paper>
   )
 }
 
