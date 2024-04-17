@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 
 import Box from '@mui/material/Box'
 import Link from '@mui/material/Link'
-import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 
@@ -50,25 +49,23 @@ const Info = (): JSX.Element => {
   ]
 
   return (
-    <Paper sx={{ marginTop: '20px', padding: '30px' }}>
-      <Stack
-        alignItems="center"
-        direction={{ xs: 'column', sm: 'row' }}
-        justifyContent="center"
-        spacing={4}
-      >
-        <ProfilePicture url={user.avatar_url} />
-        <Stack direction="column" height="150px" justifyContent="space-between" textAlign="left">
-          <Typography variant="h5">{user.name || user.login}</Typography>
-          {infoItems.map(({ key, icon, value }) => (
-            <Stack alignItems="center" direction="row" key={key} spacing={1}>
-              {icon}
-              <Typography>{value}</Typography>
-            </Stack>
-          ))}
-        </Stack>
+    <Stack
+      alignItems="center"
+      direction={{ xs: 'column', sm: 'row' }}
+      justifyContent="center"
+      spacing={4}
+    >
+      <ProfilePicture url={user.avatar_url} />
+      <Stack direction="column" height="150px" justifyContent="space-between" textAlign="left">
+        <Typography variant="h5">{user.name || user.login}</Typography>
+        {infoItems.map(({ key, icon, value }) => (
+          <Stack alignItems="center" direction="row" key={key} spacing={1}>
+            {icon}
+            <Typography>{value}</Typography>
+          </Stack>
+        ))}
       </Stack>
-    </Paper>
+    </Stack>
   )
 }
 

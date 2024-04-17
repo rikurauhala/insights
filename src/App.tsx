@@ -10,6 +10,11 @@ import './App.css'
 
 const content = [
   {
+    key: 'info',
+    component: <Info />,
+  },
+  {
+    key: 'languages',
     title: 'Languages',
     description: 'Top programming languages',
     component: <Languages />,
@@ -20,9 +25,8 @@ const App = (): JSX.Element => (
   <ThemeProvider theme={theme}>
     <CssBaseline />
     <Container maxWidth="md">
-      <Info />
-      {content.map(({ title, description, component }) => (
-        <Section key={title} title={title} description={description}>
+      {content.map(({ key, title, description, component }) => (
+        <Section key={key} title={title} description={description}>
           {component}
         </Section>
       ))}
