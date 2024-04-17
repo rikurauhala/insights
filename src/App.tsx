@@ -2,6 +2,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material'
 import Container from '@mui/material/Container'
 
 import Info from '~/components/Info'
+import Languages from '~/components/Languages'
 import { theme } from '~/theme'
 
 import './App.css'
@@ -11,6 +12,7 @@ const App = (): JSX.Element => (
     <CssBaseline />
     <Container maxWidth="md">
       <Info />
+      <Languages />
     </Container>
   </ThemeProvider>
 )

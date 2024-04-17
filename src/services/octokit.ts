@@ -1,28 +1,41 @@
 import { Octokit } from 'octokit'
 
 import { TOKEN } from '~/config'
-import { RepositoryFull, UserFull } from '~/types'
+import { LanguageMap, RepositoryFull, UserFull } from '~/types'
 
 const octokit = new Octokit({ auth: TOKEN })
 
-const getLanguages = (languagesUrl: string, setState: (arg0: string[]) => void): void => {
-  const languages = sessionStorage.getItem(`languages${languagesUrl}`)
+const getLanguages = (repositories: RepositoryFull[]): Promise<LanguageMap> => {
+  const languages = sessionStorage.getItem('languages')
   if (languages) {
-    setState(JSON.parse(languages) as string[])
-    return
+    return Promise.resolve(JSON.parse(languages) as LanguageMap)
   }
 
-  const fetchLanguages = async () => {
-    try {
-      const response = await octokit.request(`GET ${languagesUrl}`)
-      setState(response.data as Array<string>)
-      sessionStorage.setItem(`languages${languagesUrl}`, JSON.stringify(response.data))
-    } catch (error) {
-      console.error(error)
-    }
-  }
+  const languagePromises = repositories.map((repository) =>
+    octokit.request(`GET ${repository.languages_url}`).then((response) => response.data)
+  )
 
-  void fetchLanguages()
+  return Promise.all(languagePromises).then((languagesArray) => {
+    const languages: LanguageMap = {}
+
+    languagesArray.forEach((repoLanguages) => {
+      for (const language in repoLanguages) {
+        if (languages[language]) {
+          languages[language] += repoLanguages[language]
+        } else {
+          languages[language] = repoLanguages[language]
+        }
+      }
+    })
+
+    const sortedLanguages = Object.fromEntries(
+      Object.entries(languages).sort(([, a], [, b]) => b - a)
+    )
+
+    sessionStorage.setItem('languages', JSON.stringify(sortedLanguages))
+
+    return sortedLanguages
+  })
 }
 
 const getRepositories = (): Promise<RepositoryFull[]> => {
@@ -33,7 +46,7 @@ const getRepositories = (): Promise<RepositoryFull[]> => {
     } else {
       octokit
         .request('GET /user/repos', {
-          affiliation: 'owner,collaborator',
+          affiliation: 'owner',
           per_page: 100,
         })
         .then((response) => {
@@ -70,4 +83,8 @@ const getUser = (): Promise<UserFull> => {
   })
 }
 
-export default { getLanguages, getRepositories, getUser }
+export default {
+  getLanguages,
+  getRepositories,
+  getUser,
+}

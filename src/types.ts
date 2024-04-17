@@ -1,3 +1,7 @@
+export interface LanguageMap {
+  [key: string]: number
+}
+
 interface License {
   key: string
   name: string
