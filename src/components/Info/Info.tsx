@@ -51,7 +51,12 @@ const Info = (): JSX.Element => {
 
   return (
     <Paper sx={{ marginTop: '20px', padding: '30px' }}>
-      <Stack alignItems="center" direction="row" justifyContent="center" spacing={4}>
+      <Stack
+        alignItems="center"
+        direction={{ xs: 'column', sm: 'row' }}
+        justifyContent="center"
+        spacing={4}
+      >
         <ProfilePicture url={user.avatar_url} />
         <Stack direction="column" height="150px" justifyContent="space-between" textAlign="left">
           <Typography variant="h5">{user.name || user.login}</Typography>

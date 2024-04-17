@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import Box from '@mui/material/Box'
 import { PieChart } from '@mui/x-charts/PieChart'
 
 import octokitService from '~/services/octokit'
@@ -25,20 +26,23 @@ const Languages = (): JSX.Element => {
   }))
 
   return (
-    <PieChart
-      series={[
-        {
-          cornerRadius: 5,
-          data: data,
-          highlightScope: { faded: 'global', highlighted: 'item' },
-          innerRadius: 50,
-          paddingAngle: 3,
-          valueFormatter: (language) => `${((language.value / totalBytes) * 100).toFixed(2)}%`,
-        },
-      ]}
-      width={400}
-      height={200}
-    />
+    <Box margin="30px 0px">
+      <PieChart
+        margin={{ top: 0, right: 160, bottom: 0, left: 0 }}
+        series={[
+          {
+            cornerRadius: 5,
+            data: data,
+            highlightScope: { faded: 'global', highlighted: 'item' },
+            innerRadius: 50,
+            paddingAngle: 3,
+            valueFormatter: (language) => `${((language.value / totalBytes) * 100).toFixed(2)}%`,
+          },
+        ]}
+        width={350}
+        height={190}
+      />
+    </Box>
   )
 }
 
