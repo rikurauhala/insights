@@ -31,7 +31,11 @@ const Info = (): JSX.Element => {
     {
       key: 'Username',
       icon: <GitHubIcon fontSize="small" />,
-      value: <Link href={`https://github.com/${user.login}`}>@{user.login}</Link>,
+      value: (
+        <Link href={`https://github.com/${user.login}`} rel="noopener" target="_blank">
+          {user.login}
+        </Link>
+      ),
     },
     {
       key: 'Registered',
@@ -53,9 +57,9 @@ const Info = (): JSX.Element => {
           <Stack direction="column" height="150px" justifyContent="space-between" textAlign="left">
             <Typography variant="h5">{user.name || user.login}</Typography>
             {infoItems.map(({ key, icon, value }) => (
-              <Stack alignItems="center" direction="row" spacing={1}>
+              <Stack alignItems="center" direction="row" key={key} spacing={1}>
                 {icon}
-                <Typography key={key}>{value}</Typography>
+                <Typography>{value}</Typography>
               </Stack>
             ))}
           </Stack>
