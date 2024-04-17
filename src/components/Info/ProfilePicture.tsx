@@ -6,7 +6,7 @@ interface ProfilePictureProps {
 }
 
 const ProfilePicture = ({ url }: ProfilePictureProps): JSX.Element => {
-  const size = '200px'
+  const size = '150px'
 
   const styleSkeleton = {
     backgroundColor: '#5e707a',

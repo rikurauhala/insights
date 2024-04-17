@@ -3,7 +3,6 @@ import { Octokit } from 'octokit'
 import { TOKEN } from '@/config'
 import { RepositoryFull, UserFull } from '@/types'
 
-const username = 'rikurauhala'
 const octokit = new Octokit({ auth: TOKEN })
 
 const getLanguages = (languagesUrl: string, setState: (arg0: string[]) => void) => {
@@ -22,7 +21,7 @@ const getLanguages = (languagesUrl: string, setState: (arg0: string[]) => void) 
 const getRepositories = (setState: (arg0: RepositoryFull[]) => void) => {
   const fetchRepositories = async () => {
     try {
-      const response = await octokit.request(`GET /users/${username}/repos`)
+      const response = await octokit.request(`GET /user/repos`)
       setState(response.data as Array<RepositoryFull>)
     } catch (error) {
       console.error(error)
@@ -34,7 +33,7 @@ const getRepositories = (setState: (arg0: RepositoryFull[]) => void) => {
 const getUser = (setState: (arg0: UserFull) => void) => {
   const fetchUser = async () => {
     try {
-      const response = await octokit.request(`GET /users/${username}`)
+      const response = await octokit.request('GET /user')
       setState(response.data as UserFull)
     } catch (error) {
       console.error(error)

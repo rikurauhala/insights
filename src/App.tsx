@@ -9,7 +9,7 @@ import './App.css'
 const App = (): JSX.Element => (
   <ThemeProvider theme={theme}>
     <CssBaseline />
-    <Container maxWidth="lg">
+    <Container maxWidth="md">
       <Info />
     </Container>
   </ThemeProvider>
