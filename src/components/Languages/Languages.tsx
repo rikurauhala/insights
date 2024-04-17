@@ -9,6 +9,7 @@ import colors from '~/utils/colors'
 
 const Languages = (): JSX.Element => {
   const [languages, setLanguages] = useState<LanguageMap>({})
+  const totalBytes = Object.values(languages).reduce((total, bytes) => total + bytes, 0)
 
   useEffect(() => {
     void octokitService.getRepositories().then((repositoriesData) => {
@@ -36,6 +37,7 @@ const Languages = (): JSX.Element => {
             highlightScope: { faded: 'global', highlighted: 'item' },
             innerRadius: 50,
             paddingAngle: 3,
+            valueFormatter: (language) => `${((language.value / totalBytes) * 100).toFixed(2)}%`,
           },
         ]}
         width={400}
