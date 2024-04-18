@@ -73,29 +73,23 @@ const getRepositories = (): Promise<RepositoryFull[]> => {
   })
 }
 
-const getUser = (): Promise<UserFull> => {
+const fetchUser = (): Promise<UserFull> => {
   return new Promise((resolve, reject) => {
-    const gitHubUser = sessionStorage.getItem('gitHubUser')
-    if (gitHubUser) {
-      resolve(JSON.parse(gitHubUser) as UserFull)
-    } else {
-      octokit
-        .request('GET /user')
-        .then((response) => {
-          const userData = response.data as UserFull
-          sessionStorage.setItem('gitHubUser', JSON.stringify(userData))
-          resolve(userData)
-        })
-        .catch((error) => {
-          console.error(error)
-          reject(error)
-        })
-    }
+    octokit
+      .request('GET /user')
+      .then((response) => {
+        const userData = response.data as UserFull
+        resolve(userData)
+      })
+      .catch((error) => {
+        console.error(error)
+        reject(error)
+      })
   })
 }
 
 export default {
   getLanguages,
   getRepositories,
-  getUser,
+  fetchUser,
 }

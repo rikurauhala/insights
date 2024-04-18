@@ -9,7 +9,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import GitHubIcon from '@mui/icons-material/GitHub'
 import PlaceIcon from '@mui/icons-material/Place'
 
-import octokitService from '~/services/octokit'
+import dataService from '~/services/data'
 import { UserFull } from '~/types'
 import { formatTimestamp } from '~/utils'
 
@@ -19,7 +19,7 @@ const Info = (): JSX.Element => {
   const [user, setUser] = useState<UserFull | null>(null)
 
   useEffect(() => {
-    void octokitService.getUser().then((userData) => setUser(userData))
+    void dataService.getUser().then((userData) => setUser(userData))
   }, [])
 
   if (!user) {
