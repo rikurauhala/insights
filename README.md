@@ -1,9 +1,17 @@
-<h1 align="center">:bar_chart: The GitHub Report</h1>
+<div align="center">
+  <img
+    height="100px"
+    src="docs/img/logo.png"
+    width="100px"
+  />
+</div>
+
+<h1 align="center">
+  The GitHub Report
+</h1>
 
 <div align="center">
-
-Visualize your coding journey!
-
+  Visualize your coding journey!
 </div>
 
 ## About
