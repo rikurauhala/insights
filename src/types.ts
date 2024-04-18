@@ -1,3 +1,12 @@
+export interface GitHubUser {
+  avatarUrl: string
+  location: string
+  name: string
+  profileUrl: string
+  registrationDate: string
+  username: string
+}
+
 export interface LanguageMap {
   [language: string]: number
 }

@@ -1,6 +1,7 @@
 import octokitService from '~/services/octokit'
 import sessionStorage from '~/repositories/sessionStorage'
-import { LanguageMap, RepositoryFull, UserFull } from '~/types'
+import { GitHubUser, LanguageMap, RepositoryFull, UserFull } from '~/types'
+import { formatTimestamp } from '~/utils'
 
 const getLanguages = async (): Promise<LanguageMap> => {
   const languages = sessionStorage.read('languages')
@@ -25,15 +26,24 @@ const getRepositories = async (): Promise<RepositoryFull[]> => {
   return repositoriesData
 }
 
-const getUser = async (): Promise<UserFull> => {
+const getUser = async (): Promise<GitHubUser> => {
   const gitHubUser = sessionStorage.read('gitHubUser')
   if (gitHubUser) {
-    return gitHubUser as UserFull
+    console.log(gitHubUser)
+    return gitHubUser as GitHubUser
   }
 
-  const userData = await octokitService.fetchUser()
-  sessionStorage.write('gitHubUser', userData)
-  return userData
+  const userData: UserFull = await octokitService.fetchUser()
+  const user = {
+    avatarUrl: userData.avatar_url,
+    location: userData.location || 'Unknown',
+    name: userData.name || userData.login,
+    profileUrl: userData.html_url,
+    registrationDate: formatTimestamp(userData.created_at),
+    username: userData.login,
+  }
+  sessionStorage.write('gitHubUser', user)
+  return user
 }
 
 export default { getLanguages, getRepositories, getUser }
