@@ -5,28 +5,15 @@ import { formatTimestamp } from '~/utils'
 
 const getLanguagesByBytes = async (): Promise<LanguageMap> => {
   const storageKey = 'languagesByBytes'
-  const languages = sessionStorage.read(storageKey)
-  if (languages) {
-    return languages as LanguageMap
+  const languagesByBytes = sessionStorage.read(storageKey)
+  if (languagesByBytes) {
+    return languagesByBytes as LanguageMap
   }
 
   const repositories = await getRepositories()
-  const languagesData = await octokitService.fetchLanguages(repositories)
-  const sortedLanguages = Object.fromEntries(
-    Object.entries(languagesData).sort(([, a], [, b]) => b - a)
-  )
+  const languages = await octokitService.fetchLanguages(repositories)
 
-  const topLanguages = Object.fromEntries(Object.entries(sortedLanguages).slice(0, 5))
-
-  const totalBytes = Object.values(languagesData).reduce((total, bytes) => total + bytes, 0)
-  const topLanguagesBytes = Object.values(topLanguages).reduce((total, bytes) => total + bytes, 0)
-  const otherBytes = totalBytes - topLanguagesBytes
-
-  const limitedLanguages = {
-    ...topLanguages,
-    Other: otherBytes,
-  }
-
+  const limitedLanguages = sortAndLimitLanguages(languages, 5)
   sessionStorage.write(storageKey, limitedLanguages)
   return limitedLanguages
 }
@@ -51,24 +38,7 @@ const getLanguagesByRepository = async (): Promise<LanguageMap> => {
     }
   })
 
-  const sortedLanguages = Object.fromEntries(
-    Object.entries(languages).sort(([, a], [, b]) => b - a)
-  )
-
-  const topLanguages = Object.fromEntries(Object.entries(sortedLanguages).slice(0, 5))
-
-  const totalBytes = Object.values(languages).reduce((total, instances) => total + instances, 0)
-  const topLanguagesBytes = Object.values(topLanguages).reduce(
-    (total, instances) => total + instances,
-    0
-  )
-  const otherBytes = totalBytes - topLanguagesBytes
-
-  const limitedLanguages = {
-    ...topLanguages,
-    Other: otherBytes,
-  }
-
+  const limitedLanguages = sortAndLimitLanguages(languages, 5)
   sessionStorage.write(storageKey, limitedLanguages)
   return limitedLanguages
 }
@@ -103,6 +73,24 @@ const getUser = async (): Promise<GitHubUser> => {
   }
   sessionStorage.write(storageKey, user)
   return user
+}
+
+const sortAndLimitLanguages = (languagesData: LanguageMap, limit: number): LanguageMap => {
+  const sortedLanguages = Object.fromEntries(
+    Object.entries(languagesData).sort(([, a], [, b]) => b - a)
+  )
+
+  const topLanguages = Object.fromEntries(Object.entries(sortedLanguages).slice(0, limit))
+  const totalItems = Object.values(languagesData).reduce((total, items) => total + items, 0)
+  const topLanguagesItems = Object.values(topLanguages).reduce((total, items) => total + items, 0)
+  const otherItems = totalItems - topLanguagesItems
+
+  const limitedLanguages = {
+    ...topLanguages,
+    Other: otherItems,
+  }
+
+  return limitedLanguages
 }
 
 export default {
