@@ -6,6 +6,7 @@ import Footer from '~/components/Footer'
 import Info from '~/components/Info'
 import Languages from '~/components/Languages'
 import Section from '~/components/Section'
+import Topics from '~/components/Topics'
 import theme from '~/theme'
 
 import './App.css'
@@ -20,6 +21,12 @@ const content = [
     title: 'Languages',
     description: 'Top programming languages',
     component: <Languages />,
+  },
+  {
+    key: 'topics',
+    title: 'Topics',
+    description: 'Top repository topics',
+    component: <Topics />,
   },
 ]
 
