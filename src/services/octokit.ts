@@ -12,7 +12,6 @@ const fetchLanguages = (repositories: RepositoryFull[]): Promise<LanguageMap> =>
 
   return Promise.all(languagePromises).then((languagesArray) => {
     const languages: LanguageMap = {}
-
     languagesArray.forEach((repoLanguages) => {
       for (const language in repoLanguages) {
         if (languages[language]) {
@@ -22,23 +21,7 @@ const fetchLanguages = (repositories: RepositoryFull[]): Promise<LanguageMap> =>
         }
       }
     })
-
-    const sortedLanguages = Object.fromEntries(
-      Object.entries(languages).sort(([, a], [, b]) => b - a)
-    )
-
-    const topLanguages = Object.fromEntries(Object.entries(sortedLanguages).slice(0, 5))
-
-    const totalBytes = Object.values(languages).reduce((total, bytes) => total + bytes, 0)
-    const topLanguagesBytes = Object.values(topLanguages).reduce((total, bytes) => total + bytes, 0)
-    const otherBytes = totalBytes - topLanguagesBytes
-
-    const limitedLanguages = {
-      ...topLanguages,
-      Other: otherBytes,
-    }
-
-    return limitedLanguages
+    return languages
   })
 }
 

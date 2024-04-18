@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import Box from '@mui/material/Box'
+import Paper from '@mui/material/Paper'
 import { PieChart } from '@mui/x-charts/PieChart'
 
 import dataService from '~/services/data'
@@ -11,7 +11,7 @@ const Languages = (): JSX.Element => {
   const totalBytes = Object.values(languages).reduce((total, bytes) => total + bytes, 0)
 
   useEffect(() => {
-    void dataService.getLanguages().then((languagesData) => {
+    void dataService.getLanguagesByRepository().then((languagesData) => {
       setLanguages(languagesData)
     })
   }, [])
@@ -24,7 +24,15 @@ const Languages = (): JSX.Element => {
   }))
 
   return (
-    <Box margin="20px 0px" height="350px" width="100%">
+    <Paper
+      elevation={3}
+      sx={{
+        height: '390px',
+        margin: '20px 0px',
+        padding: '20px 0px',
+        width: '100%',
+      }}
+    >
       <PieChart
         margin={{ top: 100, bottom: 0, left: 0, right: 0 }}
         series={[
@@ -49,7 +57,7 @@ const Languages = (): JSX.Element => {
           },
         }}
       />
-    </Box>
+    </Paper>
   )
 }
 
