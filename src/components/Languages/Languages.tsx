@@ -14,7 +14,6 @@ const Languages = (): JSX.Element => {
   const [languagesByBytes, setLanguagesByBytes] = useState<LanguageMap>({})
   const [languagesByRepository, setLanguagesByRepository] = useState<LanguageMap>({})
   const [source, setSource] = useState<string>('repository')
-  const totalBytes = Object.values(languagesByBytes).reduce((total, bytes) => total + bytes, 0)
 
   useEffect(() => {
     void dataService.getLanguagesByBytes().then((languagesData) => {
@@ -25,21 +24,22 @@ const Languages = (): JSX.Element => {
     })
   }, [])
 
-  const languagesByBytesData = Object.entries(languagesByBytes).map(([language, bytes]) => ({
+  const formatTooltipText = (value: number): string => {
+    const units = source === 'repository' ? (value === 1 ? 'repository' : 'repositories') : 'bytes'
+    const total = Object.values(
+      source === 'repository' ? languagesByRepository : languagesByBytes
+    ).reduce((total, bytes) => total + bytes, 0)
+    return `${value.toLocaleString()} ${units} (${((value / total) * 100).toFixed(2)}%)`
+  }
+
+  const data = Object.entries(
+    source === 'repository' ? languagesByRepository : languagesByBytes
+  ).map(([language, units]) => ({
     id: language,
-    value: bytes,
+    value: units,
     label: language,
     color: colors[language as keyof typeof colors],
   }))
-
-  const languagesByRepositoryData = Object.entries(languagesByRepository).map(
-    ([language, instances]) => ({
-      id: language,
-      value: instances,
-      label: language,
-      color: colors[language as keyof typeof colors],
-    })
-  )
 
   return (
     <>
@@ -63,11 +63,11 @@ const Languages = (): JSX.Element => {
           series={[
             {
               cornerRadius: 5,
-              data: source === 'repository' ? languagesByRepositoryData : languagesByBytesData,
+              data: data,
               highlightScope: { faded: 'global', highlighted: 'item' },
               innerRadius: 50,
               paddingAngle: 3,
-              valueFormatter: (language) => `${((language.value / totalBytes) * 100).toFixed(2)}%`,
+              valueFormatter: (language) => formatTooltipText(language.value),
             },
           ]}
           slotProps={{
