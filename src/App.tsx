@@ -2,6 +2,7 @@ import Container from '@mui/material/Container'
 import CssBaseline from '@mui/material/CssBaseline'
 import ThemeProvider from '@mui/material/styles/ThemeProvider'
 
+import Footer from '~/components/Footer'
 import Info from '~/components/Info'
 import Languages from '~/components/Languages'
 import Section from '~/components/Section'
@@ -31,6 +32,7 @@ const App = (): JSX.Element => (
           {component}
         </Section>
       ))}
+      <Footer />
     </Container>
   </ThemeProvider>
 )
