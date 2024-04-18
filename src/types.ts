@@ -112,6 +112,10 @@ export interface RepositoryFull {
   web_commit_signoff_required: boolean
 }
 
+export interface TopicMap {
+  [topic: string]: number
+}
+
 interface User {
   avatar_url: string
   events_url: string
