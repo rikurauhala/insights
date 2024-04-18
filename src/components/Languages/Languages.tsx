@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import { PieChart } from '@mui/x-charts/PieChart'
 
-import octokitService from '~/services/octokit'
+import dataService from '~/services/data'
 import { LanguageMap } from '~/types'
 import colors from '~/utils/colors'
 
@@ -11,10 +11,8 @@ const Languages = (): JSX.Element => {
   const totalBytes = Object.values(languages).reduce((total, bytes) => total + bytes, 0)
 
   useEffect(() => {
-    void octokitService.getRepositories().then((repositoriesData) => {
-      octokitService.getLanguages(repositoriesData).then((languagesData) => {
-        setLanguages(languagesData)
-      })
+    void dataService.getLanguages().then((languagesData) => {
+      setLanguages(languagesData)
     })
   }, [])
 

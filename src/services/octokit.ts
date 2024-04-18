@@ -5,12 +5,7 @@ import { LanguageMap, RepositoryFull, UserFull } from '~/types'
 
 const octokit = new Octokit({ auth: TOKEN })
 
-const getLanguages = (repositories: RepositoryFull[]): Promise<LanguageMap> => {
-  const languages = sessionStorage.getItem('languages')
-  if (languages) {
-    return Promise.resolve(JSON.parse(languages) as LanguageMap)
-  }
-
+const fetchLanguages = (repositories: RepositoryFull[]): Promise<LanguageMap> => {
   const languagePromises = repositories.map((repository) =>
     octokit.request(`GET ${repository.languages_url}`).then((response) => response.data)
   )
@@ -43,33 +38,25 @@ const getLanguages = (repositories: RepositoryFull[]): Promise<LanguageMap> => {
       Other: otherBytes,
     }
 
-    sessionStorage.setItem('languages', JSON.stringify(limitedLanguages))
-
     return limitedLanguages
   })
 }
 
-const getRepositories = (): Promise<RepositoryFull[]> => {
+const fetchRepositories = (): Promise<RepositoryFull[]> => {
   return new Promise((resolve, reject) => {
-    const repositories = sessionStorage.getItem('repositories')
-    if (repositories) {
-      resolve(JSON.parse(repositories) as RepositoryFull[])
-    } else {
-      octokit
-        .request('GET /user/repos', {
-          affiliation: 'owner',
-          per_page: 100,
-        })
-        .then((response) => {
-          const repositoriesData = response.data as RepositoryFull[]
-          sessionStorage.setItem('repositories', JSON.stringify(repositoriesData))
-          resolve(repositoriesData)
-        })
-        .catch((error) => {
-          console.error(error)
-          reject(error)
-        })
-    }
+    octokit
+      .request('GET /user/repos', {
+        affiliation: 'owner',
+        per_page: 100,
+      })
+      .then((response) => {
+        const repositoriesData = response.data as RepositoryFull[]
+        resolve(repositoriesData)
+      })
+      .catch((error) => {
+        console.error(error)
+        reject(error)
+      })
   })
 }
 
@@ -89,7 +76,7 @@ const fetchUser = (): Promise<UserFull> => {
 }
 
 export default {
-  getLanguages,
-  getRepositories,
+  fetchLanguages,
+  fetchRepositories,
   fetchUser,
 }
