@@ -1,14 +1,15 @@
-import octokitService from './octokit'
+import octokitService from '~/services/octokit'
+import sessionStorage from '~/repositories/sessionStorage'
 import { UserFull } from '~/types'
 
 const getUser = async (): Promise<UserFull> => {
-  const gitHubUser = sessionStorage.getItem('gitHubUser')
+  const gitHubUser = sessionStorage.read('gitHubUser')
   if (gitHubUser) {
-    return JSON.parse(gitHubUser) as UserFull
+    return gitHubUser as UserFull
   }
 
   const userData = await octokitService.fetchUser()
-  sessionStorage.setItem('gitHubUser', JSON.stringify(userData))
+  sessionStorage.write('gitHubUser', userData)
   return userData
 }
 
