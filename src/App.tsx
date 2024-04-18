@@ -1,4 +1,5 @@
 import { CssBaseline, ThemeProvider } from '@mui/material'
+import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 
 import Info from '~/components/Info'
@@ -25,10 +26,12 @@ const App = (): JSX.Element => (
   <ThemeProvider theme={theme}>
     <CssBaseline />
     <Container maxWidth="md">
-      {content.map(({ key, title, description, component }) => (
-        <Section key={key} title={title} description={description}>
-          {component}
-        </Section>
+      {content.map(({ key, title, description, component }, index) => (
+        <Box sx={{ marginBottom: index === content.length - 1 ? '20px' : 0 }}>
+          <Section key={key} title={title} description={description}>
+            {component}
+          </Section>
+        </Box>
       ))}
     </Container>
   </ThemeProvider>

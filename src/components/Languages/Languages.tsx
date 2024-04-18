@@ -26,9 +26,9 @@ const Languages = (): JSX.Element => {
   }))
 
   return (
-    <Box margin="30px 0px">
+    <Box margin="20px 0px" height="350px" width="100%">
       <PieChart
-        margin={{ top: 0, right: 160, bottom: 0, left: 0 }}
+        margin={{ top: 100, bottom: 0, left: 0, right: 0 }}
         series={[
           {
             cornerRadius: 5,
@@ -39,8 +39,17 @@ const Languages = (): JSX.Element => {
             valueFormatter: (language) => `${((language.value / totalBytes) * 100).toFixed(2)}%`,
           },
         ]}
-        width={350}
-        height={190}
+        slotProps={{
+          legend: {
+            direction: 'row',
+            itemGap: 10,
+            markGap: 8,
+            position: {
+              horizontal: 'middle',
+              vertical: 'top',
+            },
+          },
+        }}
       />
     </Box>
   )
