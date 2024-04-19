@@ -24,3 +24,8 @@ _To be written._
 ## Instructions
 
 _To be written._
+
+## Documentation
+
+- [Credits](./docs/credits.md)
+- [License](./LICENSE.md)
