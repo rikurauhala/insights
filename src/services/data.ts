@@ -88,8 +88,9 @@ const getTopics = async (): Promise<TopicMap> => {
     })
   })
 
-  sessionStorage.write(storageKey, topicMap)
-  return topicMap
+  const sortedTopics = sortTopics(topicMap)
+  sessionStorage.write(storageKey, sortedTopics)
+  return sortedTopics
 }
 
 const sortAndLimitLanguages = (languagesData: LanguageMap, limit: number): LanguageMap => {
@@ -108,6 +109,10 @@ const sortAndLimitLanguages = (languagesData: LanguageMap, limit: number): Langu
   }
 
   return limitedLanguages
+}
+
+const sortTopics = (topicsMap: TopicMap): TopicMap => {
+  return Object.fromEntries(Object.entries(topicsMap).sort(([, a], [, b]) => b - a))
 }
 
 export default {
