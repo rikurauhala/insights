@@ -19,14 +19,16 @@ const Topics = (): JSX.Element => {
   }, [])
 
   return (
-    <Paper elevation={3} sx={{ margin: '20px 0px', width: '100%' }}>
+    <Paper elevation={3} sx={{ margin: '20px 0px', padding: '20px' }}>
       <ReactWordcloud
         callbacks={{
           getWordTooltip: (word) => `${word.text} (${word.value})`,
         }}
         options={{
+          fontSizes: [20, 100],
           rotations: 2,
           rotationAngles: [-90, 0],
+          padding: 5,
         }}
         words={words}
       />
