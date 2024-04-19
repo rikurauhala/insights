@@ -26,19 +26,16 @@ const getLanguagesByRepository = async (): Promise<LanguageMap> => {
   }
 
   const repositories = await getRepositories()
-  const languages: LanguageMap = {}
-  repositories.forEach((repository) => {
-    if (!repository.language) {
+  const languageMap: LanguageMap = {}
+  repositories.forEach(({ language }) => {
+    if (!language) {
       return
     }
-    if (languages[repository.language]) {
-      languages[repository.language]++
-    } else {
-      languages[repository.language] = 1
-    }
+    const count = languageMap[language] || 0
+    languageMap[language] = count + 1
   })
 
-  const limitedLanguages = sortAndLimitLanguages(languages, 5)
+  const limitedLanguages = sortAndLimitLanguages(languageMap, 5)
   sessionStorage.write(storageKey, limitedLanguages)
   return limitedLanguages
 }
@@ -84,13 +81,10 @@ const getTopics = async (): Promise<TopicMap> => {
 
   const repositories = await getRepositories()
   const topicMap: TopicMap = {}
-  repositories.forEach((repository) => {
-    repository.topics.forEach((topic) => {
-      if (topicMap[topic]) {
-        topicMap[topic]++
-      } else {
-        topicMap[topic] = 1
-      }
+  repositories.forEach(({ topics }) => {
+    topics.forEach((topic) => {
+      const count = topicMap[topic] || 0
+      topicMap[topic] = count + 1
     })
   })
 
