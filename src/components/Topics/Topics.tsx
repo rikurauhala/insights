@@ -5,6 +5,7 @@ import Slider from '@mui/material/Slider'
 
 import dataService from '~/services/data'
 import { TopicMap } from '~/types'
+import { getColor } from '~/utils'
 
 const Topics = (): JSX.Element => {
   const [topics, setTopics] = useState<TopicMap>({})
@@ -33,6 +34,7 @@ const Topics = (): JSX.Element => {
       <Paper elevation={3} sx={{ margin: '20px 0px', padding: '20px' }}>
         <ReactWordcloud
           callbacks={{
+            getWordColor: (word) => getColor(word.text),
             getWordTooltip: (word) => `${word.text} (${word.value})`,
           }}
           options={{

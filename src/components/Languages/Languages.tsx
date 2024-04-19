@@ -8,7 +8,7 @@ import { PieChart } from '@mui/x-charts/PieChart'
 
 import dataService from '~/services/data'
 import { LanguageMap } from '~/types'
-import colors from '~/utils/colors'
+import { getColor } from '~/utils'
 
 const Languages = (): JSX.Element => {
   const [languagesByBytes, setLanguagesByBytes] = useState<LanguageMap>({})
@@ -38,7 +38,7 @@ const Languages = (): JSX.Element => {
     id: language,
     value: units,
     label: language,
-    color: colors[language as keyof typeof colors],
+    color: getColor(language),
   }))
 
   return (
