@@ -7,6 +7,8 @@ export interface GitHubUser {
   username: string
 }
 
+export type ColorCode = `#${string}`
+
 export interface LanguageMap {
   [language: string]: number
 }

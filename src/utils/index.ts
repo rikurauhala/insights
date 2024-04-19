@@ -1,5 +1,6 @@
 import ColorContrastChecker from 'color-contrast-checker'
 import theme from '~/theme'
+import { ColorCode } from '~/types'
 import colorMap from './colors.json'
 
 const colors: { [key: string]: string } = {}
@@ -15,20 +16,22 @@ const colorContrastChecker = new ColorContrastChecker()
 /**
  * Returns a random color from a predefined list.
  *
- * @returns {string} The color in hexadecimal format.
- * @example getRandomColor() // Returns '#f1e05a'
+ * @returns {ColorCode} The color in hexadecimal format.
+ * @example getRandomColor() // Returns '#3178c6'
  */
-const getRandomColor = (): string => {
-  return colors[Object.keys(colors)[Math.floor(Math.random() * Object.keys(colors).length)]]
+const getRandomColor = (): ColorCode => {
+  return colors[
+    Object.keys(colors)[Math.floor(Math.random() * Object.keys(colors).length)]
+  ] as ColorCode
 }
 
 /**
  * Returns a random color that has a high contrast with the background.
  *
- * @returns {string} The color in hexadecimal format.
+ * @returns {ColorCode} The color in hexadecimal format.
  * @example getRandomContrastColor() // Returns '#f1e05a'
  */
-const getRandomContrastColor = (): string => {
+const getRandomContrastColor = (): ColorCode => {
   let contrastColor = getRandomColor()
   const backgroundColor = theme.palette.background.paper
   while (!colorContrastChecker.isLevelAA(backgroundColor, contrastColor)) {
@@ -59,9 +62,9 @@ export const formatTimestamp = (timestamp: string): string => {
  * The colors are based on the GitHub language colors.
  *
  * @param {string} key - The key to get the color for.
- * @returns {string} The color in hexadecimal format.
+ * @returns {ColorCode} The color in hexadecimal format.
  * @example getColor('JavaScript') // Returns '#f1e05a'
  */
-export const getColor = (key: string): string => {
-  return colors[key.toLowerCase() as keyof typeof colors] || getRandomContrastColor()
+export const getColor = (key: string): ColorCode => {
+  return (colors[key.toLowerCase() as keyof typeof colors] as ColorCode) || getRandomContrastColor()
 }
