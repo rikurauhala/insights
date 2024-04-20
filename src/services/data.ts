@@ -11,6 +11,19 @@ import {
 } from '~/types'
 import { formatTimestamp } from '~/utils'
 
+const getIssues = async (): Promise<IssueOrPullRequest[]> => {
+  const storageKey = 'issues'
+  const issues = sessionStorage.read(storageKey)
+  if (issues) {
+    return issues as IssueOrPullRequest[]
+  }
+
+  const contributions: IssueOrPullRequest[] = await getIssuesAndPullRequests()
+  const issuesOnly = contributions.filter((contribution) => contribution.type === 'issue')
+  sessionStorage.write(storageKey, issuesOnly)
+  return issuesOnly
+}
+
 const getIssuesAndPullRequests = async (): Promise<IssueOrPullRequest[]> => {
   const storageKey = 'issuesAndPullRequests'
   const issuesAndPullRequests = sessionStorage.read(storageKey)
@@ -148,7 +161,7 @@ const sortTopics = (topicsMap: TopicMap): TopicMap => {
 export default {
   getLanguagesByBytes,
   getLanguagesByRepository,
-  getIssuesAndPullRequests,
+  getIssues,
   getRepositories,
   getTopics,
   getUser,
