@@ -14,8 +14,8 @@ const fetchLanguages = (repositories: RepositoryFull[]): Promise<LanguageMap> =>
     const languages: LanguageMap = {}
     languagesArray.forEach((repoLanguages) => {
       for (const language in repoLanguages) {
-        const count = repoLanguages[language] || 0
-        languages[language] = count + languages[language]
+        const count = languages[language] || 0
+        languages[language] = count + repoLanguages[language]
       }
     })
     return languages
