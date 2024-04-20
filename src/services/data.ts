@@ -1,7 +1,37 @@
 import octokitService from '~/services/octokit'
 import sessionStorage from '~/repositories/sessionStorage'
-import { GitHubUser, LanguageMap, RepositoryFull, TopicMap, UserFull } from '~/types'
+import {
+  GitHubUser,
+  IssueOrPullRequest,
+  IssueOrPullRequestFromAPI,
+  LanguageMap,
+  RepositoryFull,
+  TopicMap,
+  UserFull,
+} from '~/types'
 import { formatTimestamp } from '~/utils'
+
+const getIssuesAndPullRequests = async (): Promise<IssueOrPullRequest[]> => {
+  const storageKey = 'issuesAndPullRequests'
+  const issuesAndPullRequests = sessionStorage.read(storageKey)
+  if (issuesAndPullRequests) {
+    return issuesAndPullRequests as IssueOrPullRequest[]
+  }
+
+  const data: IssueOrPullRequestFromAPI[] = await octokitService.fetchIssuesAndPullRequests()
+  const contributions: IssueOrPullRequest[] = []
+  data.forEach((issueOrPullRequest) => {
+    const contribution: IssueOrPullRequest = {
+      closedAt: issueOrPullRequest.closed_at,
+      createdAt: issueOrPullRequest.created_at,
+      state: issueOrPullRequest.state,
+      type: issueOrPullRequest.pull_request ? 'pullRequest' : 'issue',
+    }
+    contributions.push(contribution)
+  })
+  sessionStorage.write(storageKey, contributions)
+  return contributions
+}
 
 const getLanguagesByBytes = async (): Promise<LanguageMap> => {
   const storageKey = 'languagesByBytes'
@@ -118,6 +148,7 @@ const sortTopics = (topicsMap: TopicMap): TopicMap => {
 export default {
   getLanguagesByBytes,
   getLanguagesByRepository,
+  getIssuesAndPullRequests,
   getRepositories,
   getTopics,
   getUser,
