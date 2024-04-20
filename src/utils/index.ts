@@ -66,5 +66,12 @@ export const formatTimestamp = (timestamp: string): string => {
  * @example getColor('JavaScript') // Returns '#f1e05a'
  */
 export const getColor = (key: string): ColorCode => {
-  return (colors[key.toLowerCase() as keyof typeof colors] as ColorCode) || getRandomContrastColor()
+  if (key === 'Other') {
+    return '#808080'
+  }
+  const languageColor = colors[key.toLowerCase() as keyof typeof colors] as ColorCode
+  if (languageColor) {
+    return languageColor
+  }
+  return getRandomContrastColor()
 }
