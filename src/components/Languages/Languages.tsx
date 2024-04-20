@@ -8,7 +8,7 @@ import { PieChart } from '@mui/x-charts/PieChart'
 
 import dataService from '~/services/data'
 import { LanguageMap } from '~/types'
-import { getColor } from '~/utils'
+import { formatPercentage, getColor } from '~/utils'
 
 const Languages = (): JSX.Element => {
   const [languagesByBytes, setLanguagesByBytes] = useState<LanguageMap>({})
@@ -29,7 +29,7 @@ const Languages = (): JSX.Element => {
     const total = Object.values(
       source === 'repository' ? languagesByRepository : languagesByBytes
     ).reduce((total, bytes) => total + bytes, 0)
-    return `${value.toLocaleString()} ${units} (${((value / total) * 100).toFixed(2)}%)`
+    return formatPercentage(total, units, value)
   }
 
   const data = Object.entries(

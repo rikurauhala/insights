@@ -40,6 +40,10 @@ const getRandomContrastColor = (): ColorCode => {
   return contrastColor
 }
 
+export const formatPercentage = (total: number, units: string, value: number): string => {
+  return `${value.toLocaleString()} ${units} (${((value / total) * 100).toFixed(2)}%)`
+}
+
 /**
  * Formats a timestamp to a human-readable date.
  *

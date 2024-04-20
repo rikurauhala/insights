@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react'
 import Paper from '@mui/material/Paper'
 import { PieChart } from '@mui/x-charts/PieChart'
+
 import dataService from '~/services/data'
+import theme from '~/theme'
 import { IssueOrPullRequest } from '~/types'
+import { formatPercentage } from '~/utils'
 
 const Issues = (): JSX.Element => {
   const [issues, setIssues] = useState<IssueOrPullRequest[]>([])
@@ -21,8 +24,8 @@ const Issues = (): JSX.Element => {
   const closedIssues = issues.filter((issue) => issue.state === 'closed').length
 
   const data = [
-    { color: '#3fb950', label: 'Open', value: openIssues },
-    { color: '#a371f7', label: 'Closed', value: closedIssues },
+    { color: theme.palette.issues.open, label: 'Open', value: openIssues },
+    { color: theme.palette.issues.closed, label: 'Closed', value: closedIssues },
   ]
 
   return (
@@ -41,6 +44,10 @@ const Issues = (): JSX.Element => {
           {
             cornerRadius: 5,
             data: data,
+            highlightScope: { faded: 'global', highlighted: 'item' },
+            innerRadius: 50,
+            paddingAngle: 3,
+            valueFormatter: ({ value }) => formatPercentage(issues.length, 'issues', value),
           },
         ]}
         slotProps={{
