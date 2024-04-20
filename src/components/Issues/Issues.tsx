@@ -28,18 +28,20 @@ const Issues = (): JSX.Element => {
     { color: theme.palette.issues.closed, label: 'Closed', value: closedIssues },
   ]
 
+  const margin = 30
+
   return (
     <Paper
       elevation={3}
       sx={{
-        height: '390px',
+        height: '300px',
         margin: '20px 0px',
         padding: '20px 0px',
         width: '100%',
       }}
     >
       <PieChart
-        margin={{ top: 100, bottom: 0, left: 0, right: 0 }}
+        margin={{ top: margin, bottom: margin, left: margin, right: margin }}
         series={[
           {
             cornerRadius: 5,
@@ -51,15 +53,7 @@ const Issues = (): JSX.Element => {
           },
         ]}
         slotProps={{
-          legend: {
-            direction: 'row',
-            itemGap: 10,
-            markGap: 8,
-            position: {
-              horizontal: 'middle',
-              vertical: 'top',
-            },
-          },
+          legend: { hidden: true },
         }}
       />
     </Paper>
