@@ -2,6 +2,7 @@ import Container from '@mui/material/Container'
 import CssBaseline from '@mui/material/CssBaseline'
 import ThemeProvider from '@mui/material/styles/ThemeProvider'
 
+import Issues from '~/components/Issues'
 import Footer from '~/components/Footer'
 import Info from '~/components/Info'
 import Languages from '~/components/Languages'
@@ -15,6 +16,13 @@ const content = [
   {
     key: 'info',
     component: <Info />,
+  },
+  {
+    key: 'issues',
+    title: 'Issues',
+    description: 'Issues opened by you',
+    info: 'To be written.',
+    component: <Issues />,
   },
   {
     key: 'languages',
