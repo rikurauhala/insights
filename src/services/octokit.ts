@@ -1,7 +1,7 @@
 import { Octokit } from 'octokit'
 
 import { TOKEN } from '~/config'
-import { LanguageMap, RepositoryFull, UserFull } from '~/types'
+import { IssueOrPullRequestFromAPI, LanguageMap, RepositoryFull, UserFull } from '~/types'
 
 const octokit = new Octokit({ auth: TOKEN })
 
@@ -19,6 +19,27 @@ const fetchLanguages = (repositories: RepositoryFull[]): Promise<LanguageMap> =>
       }
     })
     return languages
+  })
+}
+
+const fetchIssuesAndPullRequests = async (): Promise<IssueOrPullRequestFromAPI[]> => {
+  const {
+    data: { login: username },
+  } = await octokit.rest.users.getAuthenticated()
+  return new Promise((resolve, reject) => {
+    octokit
+      .paginate('GET /search/issues', {
+        q: `author:${username}`,
+        per_page: 100,
+      })
+      .then((response) => {
+        console.log(response)
+        resolve(response as IssueOrPullRequestFromAPI[])
+      })
+      .catch((error) => {
+        console.error(error)
+        reject(error)
+      })
   })
 }
 
@@ -57,6 +78,7 @@ const fetchUser = (): Promise<UserFull> => {
 
 export default {
   fetchLanguages,
+  fetchIssuesAndPullRequests,
   fetchRepositories,
   fetchUser,
 }
