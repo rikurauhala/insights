@@ -43,7 +43,10 @@ const Section = ({ description, info, children, title }: SectionProps): JSX.Elem
               open={tooltipOpen}
               title={info}
             >
-              <IconButton onClick={() => setTooltipOpen(true)}>
+              <IconButton
+                color={tooltipOpen ? 'primary' : 'secondary'}
+                onClick={() => setTooltipOpen(true)}
+              >
                 <InfoIcon />
               </IconButton>
             </Tooltip>
