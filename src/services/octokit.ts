@@ -22,25 +22,21 @@ const fetchLanguages = (repositories: RepositoryFull[]): Promise<LanguageMap> =>
   })
 }
 
-const fetchIssuesAndPullRequests = async (): Promise<IssueOrPullRequestFromAPI[]> => {
+const fetchIssuesAndPullRequests = async (page: number): Promise<IssueOrPullRequestFromAPI[]> => {
   const {
     data: { login: username },
   } = await octokit.rest.users.getAuthenticated()
-  return new Promise((resolve, reject) => {
-    octokit
-      .paginate('GET /search/issues', {
-        q: `author:${username}`,
-        per_page: 100,
-      })
-      .then((response) => {
-        console.log(response)
-        resolve(response as IssueOrPullRequestFromAPI[])
-      })
-      .catch((error) => {
-        console.error(error)
-        reject(error)
-      })
-  })
+  try {
+    const response = await octokit.request('GET /search/issues', {
+      q: `author:${username}`,
+      per_page: 100,
+      page: page,
+    })
+    return response.data.items as IssueOrPullRequestFromAPI[]
+  } catch (error) {
+    console.error(error)
+    return []
+  }
 }
 
 const fetchRepositories = (): Promise<RepositoryFull[]> => {

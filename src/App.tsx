@@ -8,6 +8,7 @@ import Info from '~/components/Info'
 import Languages from '~/components/Languages'
 import Section from '~/components/Section'
 import Topics from '~/components/Topics'
+
 import theme from '~/theme'
 
 import './App.css'
@@ -20,8 +21,7 @@ const content = [
   {
     key: 'issues',
     title: 'Issues',
-    description: 'Issues opened by you',
-    info: 'To be written.',
+    info: 'The pie chart displays the share of opened and closed issues.',
     component: <Issues />,
   },
   {

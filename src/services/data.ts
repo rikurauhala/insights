@@ -3,7 +3,6 @@ import sessionStorage from '~/repositories/sessionStorage'
 import {
   GitHubUser,
   IssueOrPullRequest,
-  IssueOrPullRequestFromAPI,
   LanguageMap,
   RepositoryFull,
   TopicMap,
@@ -11,28 +10,18 @@ import {
 } from '~/types'
 import { formatTimestamp } from '~/utils'
 
-const getIssues = async (): Promise<IssueOrPullRequest[]> => {
-  const storageKey = 'issues'
-  const issues = sessionStorage.read(storageKey)
-  if (issues) {
-    return issues as IssueOrPullRequest[]
-  }
-
-  const contributions: IssueOrPullRequest[] = await getIssuesAndPullRequests()
-  const issuesOnly = contributions.filter((contribution) => contribution.type === 'issue')
-  sessionStorage.write(storageKey, issuesOnly)
-  return issuesOnly
+const getIssues = async (page: number): Promise<IssueOrPullRequest[]> => {
+  const issuesAndPullRequests: IssueOrPullRequest[] = await getIssuesAndPullRequests(page)
+  const issues = issuesAndPullRequests.filter(
+    (issueOrPullRequest) => issueOrPullRequest.type === 'issue'
+  )
+  return issues
 }
 
-const getIssuesAndPullRequests = async (): Promise<IssueOrPullRequest[]> => {
-  const storageKey = 'issuesAndPullRequests'
-  const issuesAndPullRequests = sessionStorage.read(storageKey)
-  if (issuesAndPullRequests) {
-    return issuesAndPullRequests as IssueOrPullRequest[]
-  }
+const getIssuesAndPullRequests = async (page: number): Promise<IssueOrPullRequest[]> => {
+  const data = await octokitService.fetchIssuesAndPullRequests(page)
 
-  const data: IssueOrPullRequestFromAPI[] = await octokitService.fetchIssuesAndPullRequests()
-  const contributions: IssueOrPullRequest[] = []
+  const issuesAndPullRequests: IssueOrPullRequest[] = []
   data.forEach((issueOrPullRequest) => {
     const contribution: IssueOrPullRequest = {
       closedAt: issueOrPullRequest.closed_at,
@@ -40,10 +29,10 @@ const getIssuesAndPullRequests = async (): Promise<IssueOrPullRequest[]> => {
       state: issueOrPullRequest.state,
       type: issueOrPullRequest.pull_request ? 'pullRequest' : 'issue',
     }
-    contributions.push(contribution)
+    issuesAndPullRequests.push(contribution)
   })
-  sessionStorage.write(storageKey, contributions)
-  return contributions
+
+  return issuesAndPullRequests
 }
 
 const getLanguagesByBytes = async (): Promise<LanguageMap> => {
