@@ -10,14 +10,6 @@ import {
 } from '~/types'
 import { formatTimestamp } from '~/utils'
 
-const getIssues = async (page: number): Promise<IssueOrPullRequest[]> => {
-  const issuesAndPullRequests: IssueOrPullRequest[] = await getIssuesAndPullRequests(page)
-  const issues = issuesAndPullRequests.filter(
-    (issueOrPullRequest) => issueOrPullRequest.type === 'issue'
-  )
-  return issues
-}
-
 const getIssuesAndPullRequests = async (page: number): Promise<IssueOrPullRequest[]> => {
   const data = await octokitService.fetchIssuesAndPullRequests(page)
 
@@ -148,9 +140,9 @@ const sortTopics = (topicsMap: TopicMap): TopicMap => {
 }
 
 export default {
+  getIssuesAndPullRequests,
   getLanguagesByBytes,
   getLanguagesByRepository,
-  getIssues,
   getRepositories,
   getTopics,
   getUser,

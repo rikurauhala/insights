@@ -37,7 +37,7 @@ const Section = ({ description, icon, info, children, title }: SectionProps): JS
         <Stack alignItems="center" justifyContent="space-between" direction="row">
           <Stack alignItems="center" direction="row" gap={1.1}>
             {icon}
-            <Typography component="h2" variant="h5">
+            <Typography component="h2" variant="h6">
               {title}
             </Typography>
           </Stack>

@@ -6,9 +6,9 @@ import AdjustIcon from '@mui/icons-material/Adjust'
 import CodeIcon from '@mui/icons-material/Code'
 import TopicIcon from '@mui/icons-material/Topic'
 
-import Issues from '~/components/Issues'
 import Footer from '~/components/Footer'
 import Info from '~/components/Info'
+import IssuesAndPullRequests from '~/components/IssuesAndPullRequests'
 import Languages from '~/components/Languages'
 import Section from '~/components/Section'
 import Topics from '~/components/Topics'
@@ -23,11 +23,11 @@ const content = [
     component: <Info />,
   },
   {
-    key: 'issues',
-    title: 'Issues',
+    key: 'issuesAndPullRequests',
+    title: 'Issues and Pull Requests',
     icon: <AdjustIcon />,
-    info: 'The pie chart displays the share of opened and closed issues.',
-    component: <Issues />,
+    info: 'The pie charts display the share of opened and closed issues and pull requests.',
+    component: <IssuesAndPullRequests />,
   },
   {
     key: 'languages',
