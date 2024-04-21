@@ -2,6 +2,10 @@ import Container from '@mui/material/Container'
 import CssBaseline from '@mui/material/CssBaseline'
 import ThemeProvider from '@mui/material/styles/ThemeProvider'
 
+import AdjustIcon from '@mui/icons-material/Adjust'
+import CodeIcon from '@mui/icons-material/Code'
+import TopicIcon from '@mui/icons-material/Topic'
+
 import Issues from '~/components/Issues'
 import Footer from '~/components/Footer'
 import Info from '~/components/Info'
@@ -21,6 +25,7 @@ const content = [
   {
     key: 'issues',
     title: 'Issues',
+    icon: <AdjustIcon />,
     info: 'The pie chart displays the share of opened and closed issues.',
     component: <Issues />,
   },
@@ -28,6 +33,7 @@ const content = [
     key: 'languages',
     title: 'Languages',
     description: 'Top programming languages',
+    icon: <CodeIcon />,
     info: (
       <span>
         <b>Repository</b> displays the share of each language used as the main (majority) language
@@ -48,6 +54,7 @@ const content = [
     key: 'topics',
     title: 'Topics',
     description: 'Top repository topics',
+    icon: <TopicIcon />,
     info: 'Use the slider to control the number of topics shown.',
     component: <Topics />,
   },

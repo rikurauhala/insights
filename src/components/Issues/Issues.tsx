@@ -48,7 +48,7 @@ const Issues = (): JSX.Element => {
   return (
     <>
       <Box>
-        <Typography component="p">
+        <Typography component="p" margin="10px 0px" variant="body2">
           You have opened a total of <b>{issues.length}</b> issues of which {closedIssues} have been{' '}
           <Typography component="span" color={theme.palette.issues.closed} variant="inherit">
             closed
