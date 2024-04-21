@@ -40,6 +40,15 @@ const getRandomContrastColor = (): ColorCode => {
   return contrastColor
 }
 
+/**
+ * Formats a tooltip for the piechart that contains percentages.
+ *
+ * @param {number} total - The total number to calculate the percentage.
+ * @param {string} [units] - The units to display.
+ * @param {number} value - The number to format.
+ * @returns {string} The formatted tooltip.
+ * @example formatNumber(100, 'issues', 2) // Returns '2 issues (2%)'
+ */
 export const formatPercentage = (total: number, units: string, value: number): string => {
   return `${value.toLocaleString()} ${units} (${((value / total) * 100).toFixed(2)}%)`
 }
