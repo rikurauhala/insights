@@ -1,5 +1,6 @@
+import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
-import Grid from '@mui/material/Grid'
+import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { useTheme } from '@mui/material/styles'
 import { PieChart } from '@mui/x-charts/PieChart'
@@ -27,8 +28,15 @@ const Content = ({ closed, open, units }: ContentProps): JSX.Element => {
   ]
 
   return (
-    <Grid container direction="column" spacing={2}>
-      <Grid item>
+    <Stack direction="column" justifyContent="space-between" spacing={1}>
+      <Box>
+        <Typography
+          component="h3"
+          sx={{ fontWeight: 'medium', marginTop: '10px', textTransform: 'capitalize' }}
+          variant="subtitle1"
+        >
+          {units}
+        </Typography>
         <Typography component="p" margin="10px 0px" variant="body2">
           You have opened a total of <b>{total}</b> {units} of which {closed} have been{' '}
           <Typography component="span" color={colorClosed} variant="inherit">
@@ -40,8 +48,8 @@ const Content = ({ closed, open, units }: ContentProps): JSX.Element => {
           </Typography>
           !
         </Typography>
-      </Grid>
-      <Grid item>
+      </Box>
+      <Box>
         <Paper
           elevation={3}
           sx={{
@@ -67,8 +75,8 @@ const Content = ({ closed, open, units }: ContentProps): JSX.Element => {
             }}
           />
         </Paper>
-      </Grid>
-    </Grid>
+      </Box>
+    </Stack>
   )
 }
 
