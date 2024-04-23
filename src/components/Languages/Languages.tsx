@@ -4,7 +4,7 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Paper from '@mui/material/Paper'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
-import { PieChart } from '@mui/x-charts/PieChart'
+import { BarChart } from '@mui/x-charts/BarChart'
 
 import dataService from '~/services/data'
 import { LanguageMap } from '~/types'
@@ -14,6 +14,8 @@ const Languages = (): JSX.Element => {
   const [languagesByBytes, setLanguagesByBytes] = useState<LanguageMap>({})
   const [languagesByRepository, setLanguagesByRepository] = useState<LanguageMap>({})
   const [source, setSource] = useState<string>('repository')
+  const [dataset, setDataset] = useState<unknown[]>([])
+  const [series, setSeries] = useState<unknown[]>([])
 
   useEffect(() => {
     void dataService.getLanguagesByBytes().then((languagesData) => {
@@ -24,22 +26,35 @@ const Languages = (): JSX.Element => {
     })
   }, [])
 
-  const formatTooltipText = (value: number): string => {
-    const units = source === 'repository' ? (value === 1 ? 'repository' : 'repositories') : 'bytes'
-    const total = Object.values(
-      source === 'repository' ? languagesByRepository : languagesByBytes
-    ).reduce((total, bytes) => total + bytes, 0)
-    return formatPercentage(total, units, value)
-  }
+  useEffect(() => {
+    const formatTooltipText = (value: number | null): string => {
+      if (value === null) {
+        return ''
+      }
+      const units =
+        source === 'repository' ? (value === 1 ? 'repository' : 'repositories') : 'bytes'
+      const total = Object.values(
+        source === 'repository' ? languagesByRepository : languagesByBytes
+      ).reduce((total, bytes) => total + bytes, 0)
+      return formatPercentage(total, units, value)
+    }
 
-  const data = Object.entries(
-    source === 'repository' ? languagesByRepository : languagesByBytes
-  ).map(([language, units]) => ({
-    id: language,
-    value: units,
-    label: language,
-    color: getColor(language),
-  }))
+    const transformData = (data: LanguageMap) => {
+      const dataset = Object.entries(data).map(([, value]) => ({
+        value: [value as number],
+      }))
+      setDataset(dataset)
+      const series = Object.entries(data).map(([language, value]) => ({
+        color: getColor(language) as string,
+        label: language as string,
+        data: [value as number],
+        valueFormatter: (value: number | null) => formatTooltipText(value),
+      }))
+      setSeries(series)
+    }
+
+    transformData(source === 'repository' ? languagesByRepository : languagesByBytes)
+  }, [dataset, languagesByBytes, languagesByRepository, source])
 
   return (
     <>
@@ -49,38 +64,14 @@ const Languages = (): JSX.Element => {
           <FormControlLabel value="totalBytes" control={<Radio />} label="Total bytes" />
         </RadioGroup>
       </FormControl>
-      <Paper
-        elevation={3}
-        sx={{
-          height: '390px',
-          margin: '20px 0px',
-          padding: '20px 0px',
-          width: '100%',
-        }}
-      >
-        <PieChart
-          margin={{ top: 100, bottom: 0, left: 0, right: 0 }}
-          series={[
-            {
-              cornerRadius: 5,
-              data: data,
-              highlightScope: { faded: 'global', highlighted: 'item' },
-              innerRadius: 50,
-              paddingAngle: 3,
-              valueFormatter: (language) => formatTooltipText(language.value),
-            },
-          ]}
-          slotProps={{
-            legend: {
-              direction: 'row',
-              itemGap: 10,
-              markGap: 8,
-              position: {
-                horizontal: 'middle',
-                vertical: 'top',
-              },
-            },
-          }}
+      <Paper elevation={3} sx={{ height: '400px', margin: '20px 0px' }}>
+        <BarChart
+          dataset={dataset}
+          grid={{ horizontal: true }}
+          series={series}
+          slotProps={{ legend: { hidden: true } }}
+          xAxis={[{ scaleType: 'band', data: ['Language'] }]}
+          yAxis={[{}]}
         />
       </Paper>
     </>
