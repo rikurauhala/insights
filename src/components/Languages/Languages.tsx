@@ -27,6 +27,17 @@ const Languages = (): JSX.Element => {
   }, [])
 
   useEffect(() => {
+    const transformData = (data: LanguageMap) => {
+      const dataset = Object.entries(data).map(([, value]) => ({
+        value: [value as number],
+      }))
+      setDataset(dataset)
+    }
+
+    transformData(source === 'repository' ? languagesByRepository : languagesByBytes)
+  }, [source, languagesByBytes, languagesByRepository])
+
+  useEffect(() => {
     const formatTooltipText = (value: number | null): string => {
       if (value === null) {
         return ''
@@ -39,11 +50,7 @@ const Languages = (): JSX.Element => {
       return formatPercentage(total, units, value)
     }
 
-    const transformData = (data: LanguageMap) => {
-      const dataset = Object.entries(data).map(([, value]) => ({
-        value: [value as number],
-      }))
-      setDataset(dataset)
+    const transformSeries = (data: LanguageMap) => {
       const series = Object.entries(data).map(([language, value]) => ({
         color: getColor(language) as string,
         label: language as string,
@@ -53,8 +60,17 @@ const Languages = (): JSX.Element => {
       setSeries(series)
     }
 
-    transformData(source === 'repository' ? languagesByRepository : languagesByBytes)
-  }, [dataset, languagesByBytes, languagesByRepository, source])
+    transformSeries(source === 'repository' ? languagesByRepository : languagesByBytes)
+  }, [source, languagesByBytes, languagesByRepository])
+
+  if (
+    Object.keys(languagesByBytes).length === 0 ||
+    Object.keys(languagesByRepository).length === 0 ||
+    dataset.length === 0 ||
+    series.length === 0
+  ) {
+    return <div>Loading...</div>
+  }
 
   return (
     <>
