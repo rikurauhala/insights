@@ -37,7 +37,7 @@ const getLanguagesByBytes = async (): Promise<LanguageMap> => {
   const repositories = await getRepositories()
   const languages = await octokitService.fetchLanguages(repositories)
 
-  const limitedLanguages = sortAndLimitLanguages(languages, 5)
+  const limitedLanguages = sortAndLimitLanguages(languages, 10)
   sessionStorage.write(storageKey, limitedLanguages)
   return limitedLanguages
 }
@@ -59,7 +59,7 @@ const getLanguagesByRepository = async (): Promise<LanguageMap> => {
     languageMap[language] = count + 1
   })
 
-  const limitedLanguages = sortAndLimitLanguages(languageMap, 5)
+  const limitedLanguages = sortAndLimitLanguages(languageMap, 10)
   sessionStorage.write(storageKey, limitedLanguages)
   return limitedLanguages
 }
