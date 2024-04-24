@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Paper from '@mui/material/Paper'
@@ -17,6 +17,10 @@ const Languages = (): JSX.Element => {
   const [dataset, setDataset] = useState<unknown[]>([])
   const [series, setSeries] = useState<unknown[]>([])
 
+  const getSource = useCallback((): LanguageMap => {
+    return source === 'repository' ? languagesByRepository : languagesByBytes
+  }, [languagesByBytes, languagesByRepository, source])
+
   useEffect(() => {
     void dataService.getLanguagesByBytes().then((languagesData) => {
       setLanguagesByBytes(languagesData)
@@ -34,8 +38,8 @@ const Languages = (): JSX.Element => {
       setDataset(dataset)
     }
 
-    transformData(source === 'repository' ? languagesByRepository : languagesByBytes)
-  }, [source, languagesByBytes, languagesByRepository])
+    transformData(getSource())
+  }, [getSource])
 
   useEffect(() => {
     const formatTooltipText = (value: number | null): string => {
@@ -44,24 +48,24 @@ const Languages = (): JSX.Element => {
       }
       const units =
         source === 'repository' ? (value === 1 ? 'repository' : 'repositories') : 'bytes'
-      const total = Object.values(
-        source === 'repository' ? languagesByRepository : languagesByBytes
-      ).reduce((total, bytes) => total + bytes, 0)
+      const total = Object.values(getSource()).reduce((total, bytes) => total + bytes, 0)
       return formatPercentage(total, units, value)
     }
 
     const transformSeries = (data: LanguageMap) => {
-      const series = Object.entries(data).map(([language, value]) => ({
+      const languageKeys = Object.keys(data)
+      const series = languageKeys.map((language) => ({
         color: getColor(language) as string,
-        label: language as string,
-        data: [value as number],
+        id: language,
+        label: language,
+        data: languageKeys.map((key) => (key === language ? data[language] : null)),
         valueFormatter: (value: number | null) => formatTooltipText(value),
       }))
       setSeries(series)
     }
 
-    transformSeries(source === 'repository' ? languagesByRepository : languagesByBytes)
-  }, [source, languagesByBytes, languagesByRepository])
+    transformSeries(getSource())
+  }, [getSource, source])
 
   if (
     Object.keys(languagesByBytes).length === 0 ||
@@ -82,11 +86,10 @@ const Languages = (): JSX.Element => {
       </FormControl>
       <Paper elevation={3} sx={{ height: '400px', margin: '20px 0px' }}>
         <BarChart
-          dataset={dataset}
           grid={{ horizontal: true }}
           series={series}
           slotProps={{ legend: { hidden: true } }}
-          xAxis={[{ scaleType: 'band', data: ['Language'] }]}
+          xAxis={[{ data: Object.keys(getSource()), scaleType: 'band' }]}
           yAxis={[{}]}
         />
       </Paper>
