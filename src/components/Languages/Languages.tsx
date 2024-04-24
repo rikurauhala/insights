@@ -17,6 +17,8 @@ const Languages = (): JSX.Element => {
   const [dataset, setDataset] = useState<unknown[]>([])
   const [series, setSeries] = useState<unknown[]>([])
 
+  const getLabel = (): string => (source === 'repository' ? 'Repositories' : 'Total bytes')
+
   const getSource = useCallback((): LanguageMap => {
     return source === 'repository' ? languagesByRepository : languagesByBytes
   }, [languagesByBytes, languagesByRepository, source])
@@ -91,11 +93,19 @@ const Languages = (): JSX.Element => {
       </FormControl>
       <Paper elevation={3} sx={{ height: '400px', margin: '20px 0px' }}>
         <BarChart
-          grid={{ horizontal: true }}
+          grid={{ vertical: true }}
+          layout="horizontal"
+          margin={{ left: 100 }}
           series={series}
           slotProps={{ legend: { hidden: true } }}
-          xAxis={[{ data: Object.keys(getSource()), hideTooltip: true, scaleType: 'band' }]}
-          yAxis={[{}]}
+          xAxis={[{ label: getLabel() }]}
+          yAxis={[
+            {
+              data: Object.keys(getSource()),
+              hideTooltip: true,
+              scaleType: 'band',
+            },
+          ]}
         />
       </Paper>
     </>
