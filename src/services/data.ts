@@ -132,7 +132,11 @@ const sortAndLimitLanguages = (languagesData: LanguageMap, limit: number): Langu
     Other: otherItems,
   }
 
-  return limitedLanguages
+  const sortedAndLimitedLanguages = Object.fromEntries(
+    Object.entries(limitedLanguages).sort(([, a], [, b]) => b - a)
+  )
+
+  return sortedAndLimitedLanguages
 }
 
 const sortTopics = (topicsMap: TopicMap): TopicMap => {
