@@ -45,7 +45,7 @@ const content = [
         the files.
         <br />
         <br />
-        Hover over the pie chart to see the exact number and share of each item.
+        Hover over the chart to see the exact number and share of each item.
       </span>
     ),
     component: <Languages />,
