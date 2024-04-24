@@ -21,6 +21,10 @@ const Languages = (): JSX.Element => {
     return source === 'repository' ? languagesByRepository : languagesByBytes
   }, [languagesByBytes, languagesByRepository, source])
 
+  const getUnits = useCallback((): string => {
+    return source === 'repository' ? 'repositories' : 'bytes'
+  }, [source])
+
   useEffect(() => {
     void dataService.getLanguagesByBytes().then((languagesData) => {
       setLanguagesByBytes(languagesData)
@@ -46,26 +50,26 @@ const Languages = (): JSX.Element => {
       if (value === null) {
         return ''
       }
-      const units =
-        source === 'repository' ? (value === 1 ? 'repository' : 'repositories') : 'bytes'
+      const units = getUnits()
       const total = Object.values(getSource()).reduce((total, bytes) => total + bytes, 0)
       return formatPercentage(total, units, value)
     }
 
     const transformSeries = (data: LanguageMap) => {
-      const languageKeys = Object.keys(data)
-      const series = languageKeys.map((language) => ({
+      const languages = Object.keys(data)
+      const series = languages.map((language) => ({
         color: getColor(language) as string,
+        data: languages.map((key) => (key === language ? data[language] : null)),
         id: language,
         label: language,
-        data: languageKeys.map((key) => (key === language ? data[language] : null)),
+        stack: 'total',
         valueFormatter: (value: number | null) => formatTooltipText(value),
       }))
       setSeries(series)
     }
 
     transformSeries(getSource())
-  }, [getSource, source])
+  }, [getSource, getUnits, source])
 
   if (
     Object.keys(languagesByBytes).length === 0 ||
