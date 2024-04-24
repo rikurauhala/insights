@@ -46,10 +46,7 @@ const Languages = (): JSX.Element => {
   }, [getSource])
 
   useEffect(() => {
-    const formatTooltipText = (value: number | null): string => {
-      if (value === null) {
-        return ''
-      }
+    const formatTooltipText = (value: number): string => {
       const units = getUnits()
       const total = Object.values(getSource()).reduce((total, bytes) => total + bytes, 0)
       return formatPercentage(total, units, value)
@@ -60,10 +57,14 @@ const Languages = (): JSX.Element => {
       const series = languages.map((language) => ({
         color: getColor(language) as string,
         data: languages.map((key) => (key === language ? data[language] : null)),
+        highlightScope: {
+          faded: 'global',
+          highlighted: 'item',
+        },
         id: language,
         label: language,
         stack: 'total',
-        valueFormatter: (value: number | null) => formatTooltipText(value),
+        valueFormatter: (value: number | null) => value && formatTooltipText(value),
       }))
       setSeries(series)
     }
@@ -93,7 +94,7 @@ const Languages = (): JSX.Element => {
           grid={{ horizontal: true }}
           series={series}
           slotProps={{ legend: { hidden: true } }}
-          xAxis={[{ data: Object.keys(getSource()), scaleType: 'band' }]}
+          xAxis={[{ data: Object.keys(getSource()), hideTooltip: true, scaleType: 'band' }]}
           yAxis={[{}]}
         />
       </Paper>
