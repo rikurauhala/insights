@@ -14,7 +14,6 @@ const Languages = (): JSX.Element => {
   const [languagesByBytes, setLanguagesByBytes] = useState<LanguageMap>({})
   const [languagesByRepository, setLanguagesByRepository] = useState<LanguageMap>({})
   const [source, setSource] = useState<string>('repository')
-  const [dataset, setDataset] = useState<unknown[]>([])
   const [series, setSeries] = useState<unknown[]>([])
 
   const getLabel = (): string => (source === 'repository' ? 'Repositories' : 'Total bytes')
@@ -23,9 +22,15 @@ const Languages = (): JSX.Element => {
     return source === 'repository' ? languagesByRepository : languagesByBytes
   }, [languagesByBytes, languagesByRepository, source])
 
-  const getUnits = useCallback((): string => {
-    return source === 'repository' ? 'repositories' : 'bytes'
-  }, [source])
+  const getUnits = useCallback(
+    (value: number): string => {
+      if (source === 'repository') {
+        return value === 1 ? 'repository' : 'repositories'
+      }
+      return value === 1 ? 'byte' : 'bytes'
+    },
+    [source]
+  )
 
   useEffect(() => {
     void dataService.getLanguagesByBytes().then((languagesData) => {
@@ -37,19 +42,8 @@ const Languages = (): JSX.Element => {
   }, [])
 
   useEffect(() => {
-    const transformData = (data: LanguageMap) => {
-      const dataset = Object.entries(data).map(([, value]) => ({
-        value: [value as number],
-      }))
-      setDataset(dataset)
-    }
-
-    transformData(getSource())
-  }, [getSource])
-
-  useEffect(() => {
     const formatTooltipText = (value: number): string => {
-      const units = getUnits()
+      const units = getUnits(value)
       const total = Object.values(getSource()).reduce((total, bytes) => total + bytes, 0)
       return formatPercentage(total, units, value)
     }
@@ -77,7 +71,6 @@ const Languages = (): JSX.Element => {
   if (
     Object.keys(languagesByBytes).length === 0 ||
     Object.keys(languagesByRepository).length === 0 ||
-    dataset.length === 0 ||
     series.length === 0
   ) {
     return <div>Loading...</div>
@@ -95,7 +88,7 @@ const Languages = (): JSX.Element => {
         <BarChart
           grid={{ vertical: true }}
           layout="horizontal"
-          margin={{ left: 100 }}
+          margin={{ left: 90 }}
           series={series}
           slotProps={{ legend: { hidden: true } }}
           xAxis={[{ label: getLabel() }]}
