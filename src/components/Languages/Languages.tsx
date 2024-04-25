@@ -1,9 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
+
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Paper from '@mui/material/Paper'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
+
+import { BarSeriesType } from '@mui/x-charts'
 import { BarChart } from '@mui/x-charts/BarChart'
 
 import dataService from '~/services/data'
@@ -14,7 +17,7 @@ const Languages = (): JSX.Element => {
   const [languagesByBytes, setLanguagesByBytes] = useState<LanguageMap>({})
   const [languagesByRepository, setLanguagesByRepository] = useState<LanguageMap>({})
   const [source, setSource] = useState<string>('repository')
-  const [series, setSeries] = useState<unknown[]>([])
+  const [series, setSeries] = useState<BarSeriesType[]>([])
 
   const getLabel = (): string => (source === 'repository' ? 'Repositories' : 'Total bytes')
 
@@ -24,10 +27,14 @@ const Languages = (): JSX.Element => {
 
   const getUnits = useCallback(
     (value: number): string => {
-      if (source === 'repository') {
-        return value === 1 ? 'repository' : 'repositories'
+      switch (source) {
+        case 'repository':
+          return value === 1 ? 'repository' : 'repositories'
+        case 'totalBytes':
+          return value === 1 ? 'byte' : 'bytes'
+        default:
+          return ''
       }
-      return value === 1 ? 'byte' : 'bytes'
     },
     [source]
   )
@@ -62,7 +69,7 @@ const Languages = (): JSX.Element => {
         stack: 'total',
         valueFormatter: (value: number | null) => value && formatTooltipText(value),
       }))
-      setSeries(series)
+      setSeries(series as BarSeriesType[])
     }
 
     transformSeries(getSource())
