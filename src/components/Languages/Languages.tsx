@@ -13,11 +13,14 @@ import dataService from '~/services/data'
 import { LanguageMap } from '~/types'
 import { formatPercentage, getColor } from '~/utils'
 
+import Loading from './Loading'
+
 const Languages = (): JSX.Element => {
   const [languagesByBytes, setLanguagesByBytes] = useState<LanguageMap>({})
   const [languagesByRepository, setLanguagesByRepository] = useState<LanguageMap>({})
   const [source, setSource] = useState<string>('repository')
   const [series, setSeries] = useState<BarSeriesType[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
 
   const getLabel = (): string => (source === 'repository' ? 'Repositories' : 'Total bytes')
 
@@ -75,38 +78,53 @@ const Languages = (): JSX.Element => {
     transformSeries(getSource())
   }, [getSource, getUnits, source])
 
-  if (
-    Object.keys(languagesByBytes).length === 0 ||
-    Object.keys(languagesByRepository).length === 0 ||
-    series.length === 0
-  ) {
-    return <div>Loading...</div>
-  }
+  useEffect(() => {
+    if (Object.keys(languagesByBytes).length && Object.keys(languagesByRepository).length) {
+      setLoading(false)
+    }
+  }, [languagesByBytes, languagesByRepository])
 
   return (
     <>
       <FormControl>
         <RadioGroup onChange={(event) => setSource(event.target.value)} row value={source}>
-          <FormControlLabel value="repository" control={<Radio />} label="Repository" />
-          <FormControlLabel value="totalBytes" control={<Radio />} label="Total bytes" />
+          <FormControlLabel
+            control={<Radio />}
+            disabled={loading}
+            label="Repository"
+            value="repository"
+          />
+          <FormControlLabel
+            control={<Radio />}
+            disabled={loading}
+            label="Total bytes"
+            value="totalBytes"
+          />
         </RadioGroup>
       </FormControl>
-      <Paper elevation={3} sx={{ height: '400px', margin: '20px 0px' }}>
-        <BarChart
-          grid={{ vertical: true }}
-          layout="horizontal"
-          margin={{ left: 90 }}
-          series={series}
-          slotProps={{ legend: { hidden: true } }}
-          xAxis={[{ label: getLabel() }]}
-          yAxis={[
-            {
-              data: Object.keys(getSource()),
-              hideTooltip: true,
-              scaleType: 'band',
-            },
-          ]}
-        />
+      <Paper
+        elevation={3}
+        sx={{ height: '400px', margin: '20px 0px', padding: loading ? '30px' : 0 }}
+      >
+        {loading ? (
+          <Loading />
+        ) : (
+          <BarChart
+            grid={{ vertical: true }}
+            layout="horizontal"
+            margin={{ left: 90 }}
+            series={series}
+            slotProps={{ legend: { hidden: true } }}
+            xAxis={[{ label: getLabel() }]}
+            yAxis={[
+              {
+                data: Object.keys(getSource()),
+                hideTooltip: true,
+                scaleType: 'band',
+              },
+            ]}
+          />
+        )}
       </Paper>
     </>
   )
