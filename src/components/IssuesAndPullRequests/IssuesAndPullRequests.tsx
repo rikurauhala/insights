@@ -37,20 +37,18 @@ const IssuesAndPullRequests = (): JSX.Element => {
     void fetchData()
   }, [])
 
-  if (issues.length === 0) {
-    return <p>Loading issues and pull requests...</p>
-  }
-
   return (
     <>
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
         <Content
           closed={issues.filter((issue) => issue.state === 'closed').length}
+          loading={issues.length === 0}
           open={issues.filter((issue) => issue.state === 'open').length}
           units="issues"
         />
         <Content
           closed={pullRequests.filter((pr) => pr.state === 'closed').length}
+          loading={issues.length === 0}
           open={pullRequests.filter((pr) => pr.state === 'open').length}
           units="pull requests"
         />

@@ -3,17 +3,21 @@ import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { useTheme } from '@mui/material/styles'
+
 import { PieChart } from '@mui/x-charts/PieChart'
 
 import { formatPercentage } from '~/utils'
 
+import Loading from './Loading'
+
 interface ContentProps {
   closed: number
+  loading: boolean
   open: number
   units: string
 }
 
-const Content = ({ closed, open, units }: ContentProps): JSX.Element => {
+const Content = ({ closed, loading, open, units }: ContentProps): JSX.Element => {
   const theme = useTheme()
   const colorOpen = theme.palette.issues.open
   const colorClosed = theme.palette.issues.closed
@@ -58,22 +62,26 @@ const Content = ({ closed, open, units }: ContentProps): JSX.Element => {
             width: '100%',
           }}
         >
-          <PieChart
-            margin={{ top: margin, bottom: margin, left: margin, right: margin }}
-            series={[
-              {
-                cornerRadius: 5,
-                data: data,
-                highlightScope: { faded: 'global', highlighted: 'item' },
-                innerRadius: 50,
-                paddingAngle: 3,
-                valueFormatter: ({ value }) => formatPercentage(total, units, value),
-              },
-            ]}
-            slotProps={{
-              legend: { hidden: true },
-            }}
-          />
+          {loading ? (
+            <Loading />
+          ) : (
+            <PieChart
+              margin={{ top: margin, bottom: margin, left: margin, right: margin }}
+              series={[
+                {
+                  cornerRadius: 5,
+                  data: data,
+                  highlightScope: { faded: 'global', highlighted: 'item' },
+                  innerRadius: 50,
+                  paddingAngle: 3,
+                  valueFormatter: ({ value }) => formatPercentage(total, units, value),
+                },
+              ]}
+              slotProps={{
+                legend: { hidden: true },
+              }}
+            />
+          )}
         </Paper>
       </Box>
     </Stack>
