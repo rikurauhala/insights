@@ -20,6 +20,7 @@ const Footer = (): JSX.Element => {
         direction={{ xs: 'column', sm: 'row' }}
         justifyContent="space-evenly"
         spacing={{ xs: 1, md: 2 }}
+        textAlign="center"
       >
         {items.map(({ text, url }) => (
           <Link key={text} href={url} rel="noopener" target="_blank">
