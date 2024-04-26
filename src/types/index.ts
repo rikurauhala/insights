@@ -5,12 +5,12 @@ interface Author {
 }
 
 export interface GitHubUser {
-  avatarUrl: string
-  location: string
-  name: string
-  profileUrl: string
-  registrationDate: string
-  username: string
+  avatarUrl: string | null
+  location: string | null
+  name: string | null
+  profileUrl: string | null
+  registrationDate: string | null
+  username: string | null
 }
 
 export type ColorCode = `#${string}`
