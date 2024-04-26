@@ -27,8 +27,8 @@ const Content = ({ closed, loading, open, units }: ContentProps): JSX.Element =>
   const total = open + closed
 
   const data = [
-    { color: colorOpen, label: 'Open', value: open },
     { color: colorClosed, label: 'Closed', value: closed },
+    ...(open > 0 ? [{ color: colorOpen, label: 'Open', value: open }] : []),
   ]
 
   return (
@@ -69,11 +69,11 @@ const Content = ({ closed, loading, open, units }: ContentProps): JSX.Element =>
               margin={{ top: margin, bottom: margin, left: margin, right: margin }}
               series={[
                 {
-                  cornerRadius: 5,
+                  cornerRadius: open === 0 ? 0 : 5,
                   data: data,
                   highlightScope: { faded: 'global', highlighted: 'item' },
                   innerRadius: 50,
-                  paddingAngle: 3,
+                  paddingAngle: open === 0 ? 0 : 3,
                   valueFormatter: ({ value }) => formatPercentage(total, units, value),
                 },
               ]}
