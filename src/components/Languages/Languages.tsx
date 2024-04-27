@@ -15,15 +15,20 @@ import { formatPercentage, getColor } from '~/utils'
 
 import Loading from './Loading'
 
+enum Source {
+  REPO = 'repo',
+  SIZE = 'size',
+}
+
 const Languages = (): JSX.Element => {
   const [languagesByRepo, setLanguagesByRepo] = useState<LanguageMap>({})
   const [languagesBySize, setLanguagesBySize] = useState<LanguageMap>({})
-  const [source, setSource] = useState<string>('repository')
+  const [source, setSource] = useState<Source>(Source.REPO)
   const [series, setSeries] = useState<BarSeriesType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
 
   const getSource = useCallback((): LanguageMap => {
-    return source === 'repository' ? languagesByRepo : languagesBySize
+    return source === Source.REPO ? languagesByRepo : languagesBySize
   }, [languagesByRepo, languagesBySize, source])
 
   useEffect(() => {
@@ -44,7 +49,7 @@ const Languages = (): JSX.Element => {
 
     const formatTooltipText = (value: number): string => {
       const total = Object.values(getSource()).reduce((total, items) => total + items, 0)
-      if (source === 'repository') {
+      if (source === Source.REPO) {
         const units = value === 1 ? 'repository' : 'repositories'
         return formatPercentage(total, units, value)
       }
@@ -72,11 +77,11 @@ const Languages = (): JSX.Element => {
   }, [getSource, source])
 
   const getLabel = (): string => {
-    return source === 'repository' ? ' \nRepositories' : ' \nTotal size (megabytes)'
+    return source === Source.REPO ? ' \nRepositories' : ' \nTotal size (megabytes)'
   }
 
   const formatAxisValue = (value: string): string => {
-    if (source === 'repository') {
+    if (source === Source.REPO) {
       return value.toString()
     }
     const megaBytes = 1024 * 1024
@@ -86,18 +91,22 @@ const Languages = (): JSX.Element => {
   return (
     <>
       <FormControl>
-        <RadioGroup onChange={(event) => setSource(event.target.value)} row value={source}>
+        <RadioGroup
+          onChange={(event) => setSource(event.target.value as Source)}
+          row
+          value={source}
+        >
           <FormControlLabel
             control={<Radio />}
             disabled={loading}
             label="Repository"
-            value="repository"
+            value={Source.REPO}
           />
           <FormControlLabel
             control={<Radio />}
             disabled={loading}
             label="Total size"
-            value="totalBytes"
+            value={Source.SIZE}
           />
         </RadioGroup>
       </FormControl>
