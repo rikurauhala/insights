@@ -27,11 +27,11 @@ const getIssuesAndPullRequests = async (page: number): Promise<IssueOrPullReques
   return issuesAndPullRequests
 }
 
-const getLanguagesByBytes = async (): Promise<LanguageMap> => {
-  const storageKey = 'languagesByBytes'
-  const languagesByBytes = sessionStorage.read(storageKey)
-  if (languagesByBytes) {
-    return languagesByBytes as LanguageMap
+const getLanguagesBySize = async (): Promise<LanguageMap> => {
+  const storageKey = 'languagesBySize'
+  const languagesBySize = sessionStorage.read(storageKey)
+  if (languagesBySize) {
+    return languagesBySize as LanguageMap
   }
 
   const repositories = await getRepositories()
@@ -42,11 +42,11 @@ const getLanguagesByBytes = async (): Promise<LanguageMap> => {
   return limitedLanguages
 }
 
-const getLanguagesByRepository = async (): Promise<LanguageMap> => {
-  const storageKey = 'languagesByRepository'
-  const languagesByRepository = sessionStorage.read(storageKey)
-  if (languagesByRepository) {
-    return languagesByRepository as LanguageMap
+const getLanguagesByRepo = async (): Promise<LanguageMap> => {
+  const storageKey = 'languagesByRepo'
+  const languagesByRepo = sessionStorage.read(storageKey)
+  if (languagesByRepo) {
+    return languagesByRepo as LanguageMap
   }
 
   const repositories = await getRepositories()
@@ -145,8 +145,8 @@ const sortTopics = (topicsMap: TopicMap): TopicMap => {
 
 export default {
   getIssuesAndPullRequests,
-  getLanguagesByBytes,
-  getLanguagesByRepository,
+  getLanguagesBySize,
+  getLanguagesByRepo,
   getRepositories,
   getTopics,
   getUser,

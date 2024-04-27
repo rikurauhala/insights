@@ -16,23 +16,24 @@ import { formatPercentage, getColor } from '~/utils'
 import Loading from './Loading'
 
 const Languages = (): JSX.Element => {
-  const [languagesByBytes, setLanguagesByBytes] = useState<LanguageMap>({})
-  const [languagesByRepository, setLanguagesByRepository] = useState<LanguageMap>({})
+  const [languagesByRepo, setLanguagesByRepo] = useState<LanguageMap>({})
+  const [languagesBySize, setLanguagesBySize] = useState<LanguageMap>({})
   const [source, setSource] = useState<string>('repository')
   const [series, setSeries] = useState<BarSeriesType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
 
   const getSource = useCallback((): LanguageMap => {
-    return source === 'repository' ? languagesByRepository : languagesByBytes
-  }, [languagesByBytes, languagesByRepository, source])
+    return source === 'repository' ? languagesByRepo : languagesBySize
+  }, [languagesByRepo, languagesBySize, source])
 
   useEffect(() => {
-    void dataService.getLanguagesByBytes().then((languagesData) => {
-      setLanguagesByBytes(languagesData)
+    void dataService.getLanguagesByRepo().then((languages) => {
+      setLanguagesByRepo(languages)
     })
-    void dataService.getLanguagesByRepository().then((languagesData) => {
-      setLanguagesByRepository(languagesData)
+    void dataService.getLanguagesBySize().then((languages) => {
+      setLanguagesBySize(languages)
     })
+    setLoading(false)
   }, [])
 
   useEffect(() => {
@@ -69,12 +70,6 @@ const Languages = (): JSX.Element => {
 
     transformSeries(getSource())
   }, [getSource, source])
-
-  useEffect(() => {
-    if (Object.keys(languagesByBytes).length && Object.keys(languagesByRepository).length) {
-      setLoading(false)
-    }
-  }, [languagesByBytes, languagesByRepository])
 
   const getLabel = (): string => {
     return source === 'repository' ? 'Repositories' : 'Total size (megabytes)'
