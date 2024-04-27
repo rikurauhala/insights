@@ -16,7 +16,6 @@
 
 </div>
 
-
 <div align="center">
 
 ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
@@ -42,5 +41,6 @@ _To be written._
 
 ## Documentation
 
+- [Architecture](./docs/architecture.md)
 - [Credits](./docs/credits.md)
 - [License](./LICENSE.md)
