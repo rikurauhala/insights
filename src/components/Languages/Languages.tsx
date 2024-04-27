@@ -72,7 +72,7 @@ const Languages = (): JSX.Element => {
   }, [getSource, source])
 
   const getLabel = (): string => {
-    return source === 'repository' ? 'Repositories' : 'Total size (megabytes)'
+    return source === 'repository' ? ' \nRepositories' : ' \nTotal size (megabytes)'
   }
 
   const formatAxisValue = (value: string): string => {
@@ -111,7 +111,7 @@ const Languages = (): JSX.Element => {
           <BarChart
             grid={{ vertical: true }}
             layout="horizontal"
-            margin={{ left: 90 }}
+            margin={{ bottom: 80, left: 90 }}
             series={series}
             slotProps={{ legend: { hidden: true } }}
             xAxis={[
