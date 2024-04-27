@@ -5,23 +5,6 @@ import { IssueOrPullRequestFromAPI, LanguageMap, RepositoryFull, UserFull } from
 
 const octokit = new Octokit({ auth: TOKEN })
 
-const fetchLanguages = (repositories: RepositoryFull[]): Promise<LanguageMap> => {
-  const languagePromises = repositories.map((repository) =>
-    octokit.request(`GET ${repository.languages_url}`).then((response) => response.data)
-  )
-
-  return Promise.all(languagePromises).then((languagesArray) => {
-    const languages: LanguageMap = {}
-    languagesArray.forEach((repoLanguages) => {
-      for (const language in repoLanguages) {
-        const count = languages[language] || 0
-        languages[language] = count + repoLanguages[language]
-      }
-    })
-    return languages
-  })
-}
-
 const fetchIssuesAndPullRequests = async (page: number): Promise<IssueOrPullRequestFromAPI[]> => {
   const {
     data: { login: username },
@@ -37,6 +20,22 @@ const fetchIssuesAndPullRequests = async (page: number): Promise<IssueOrPullRequ
     console.error(error)
     return []
   }
+}
+
+const fetchLanguages = async (repositories: RepositoryFull[]): Promise<LanguageMap> => {
+  const languagesArray = await Promise.all(
+    repositories.map((repository) =>
+      octokit.request(`GET ${repository.languages_url}`).then((response) => response.data)
+    )
+  )
+  const languages: LanguageMap = {}
+  languagesArray.forEach((repoLanguages) => {
+    for (const language in repoLanguages) {
+      const count = languages[language] || 0
+      languages[language] = count + repoLanguages[language]
+    }
+  })
+  return languages
 }
 
 const fetchRepositories = (): Promise<RepositoryFull[]> => {
@@ -73,8 +72,8 @@ const fetchUser = (): Promise<UserFull> => {
 }
 
 export default {
-  fetchLanguages,
   fetchIssuesAndPullRequests,
+  fetchLanguages,
   fetchRepositories,
   fetchUser,
 }

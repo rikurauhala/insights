@@ -145,8 +145,8 @@ const sortTopics = (topicsMap: TopicMap): TopicMap => {
 
 export default {
   getIssuesAndPullRequests,
-  getLanguagesBySize,
   getLanguagesByRepo,
+  getLanguagesBySize,
   getRepositories,
   getTopics,
   getUser,
