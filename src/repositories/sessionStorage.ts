@@ -2,9 +2,9 @@
  * Reads a value from the session storage.
  *
  * @param {string} key - The key to read the value from.
- * @returns {unknown | null} The value stored at the key, or null if the key does not exist.
+ * @returns {object | null} The value stored at the key, or null if the key does not exist.
  */
-const read = (key: string): unknown | null => {
+const read = (key: string): object | null => {
   const value = sessionStorage.getItem(key)
   return value ? JSON.parse(value) : null
 }

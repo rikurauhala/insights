@@ -11,6 +11,12 @@ import {
 import { formatTimestamp } from '~/utils'
 
 const getIssuesAndPullRequests = async (page: number): Promise<IssueOrPullRequest[]> => {
+  const storageKey = 'issuesAndPullRequests'
+  const storedData = sessionStorage.read(storageKey) as Record<number, IssueOrPullRequest[]>
+  if (storedData && storedData[page]) {
+    return storedData[page] as IssueOrPullRequest[]
+  }
+
   const data = await octokitService.fetchIssuesAndPullRequests(page)
 
   const issuesAndPullRequests: IssueOrPullRequest[] = []
@@ -22,6 +28,11 @@ const getIssuesAndPullRequests = async (page: number): Promise<IssueOrPullReques
       type: issueOrPullRequest.pull_request ? 'pullRequest' : 'issue',
     }
     issuesAndPullRequests.push(contribution)
+  })
+
+  sessionStorage.write(storageKey, {
+    ...storedData,
+    [page]: issuesAndPullRequests,
   })
 
   return issuesAndPullRequests
