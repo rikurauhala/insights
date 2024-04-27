@@ -40,9 +40,8 @@ const content = [
         of a repository.
         <br />
         <br />
-        <b>Total bytes</b> shows the proportion of each language used across all repositories by the
-        total number of bytes. Note that some languages may have a higher share due to the size of
-        the files.
+        <b>Total size</b> shows the proportion of each language used across all repositories by the
+        total number of megabytes.
         <br />
         <br />
         Hover over the chart to see the exact number and share of each item.

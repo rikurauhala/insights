@@ -22,25 +22,9 @@ const Languages = (): JSX.Element => {
   const [series, setSeries] = useState<BarSeriesType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
 
-  const getLabel = (): string => (source === 'repository' ? 'Repositories' : 'Total bytes')
-
   const getSource = useCallback((): LanguageMap => {
     return source === 'repository' ? languagesByRepository : languagesByBytes
   }, [languagesByBytes, languagesByRepository, source])
-
-  const getUnits = useCallback(
-    (value: number): string => {
-      switch (source) {
-        case 'repository':
-          return value === 1 ? 'repository' : 'repositories'
-        case 'totalBytes':
-          return value === 1 ? 'byte' : 'bytes'
-        default:
-          return ''
-      }
-    },
-    [source]
-  )
 
   useEffect(() => {
     void dataService.getLanguagesByBytes().then((languagesData) => {
@@ -52,10 +36,18 @@ const Languages = (): JSX.Element => {
   }, [])
 
   useEffect(() => {
+    const formatBytes = (total: number, bytes: number): string => {
+      const megaBytes = 1024 * 1024
+      return `${(bytes / megaBytes).toFixed(2)} MB (${((bytes / total) * 100).toFixed(2)}%)`
+    }
+
     const formatTooltipText = (value: number): string => {
-      const units = getUnits(value)
-      const total = Object.values(getSource()).reduce((total, bytes) => total + bytes, 0)
-      return formatPercentage(total, units, value)
+      const total = Object.values(getSource()).reduce((total, items) => total + items, 0)
+      if (source === 'repository') {
+        const units = value === 1 ? 'repository' : 'repositories'
+        return formatPercentage(total, units, value)
+      }
+      return formatBytes(total, value)
     }
 
     const transformSeries = (data: LanguageMap) => {
@@ -76,13 +68,25 @@ const Languages = (): JSX.Element => {
     }
 
     transformSeries(getSource())
-  }, [getSource, getUnits, source])
+  }, [getSource, source])
 
   useEffect(() => {
     if (Object.keys(languagesByBytes).length && Object.keys(languagesByRepository).length) {
       setLoading(false)
     }
   }, [languagesByBytes, languagesByRepository])
+
+  const getLabel = (): string => {
+    return source === 'repository' ? 'Repositories' : 'Total size (megabytes)'
+  }
+
+  const formatAxisValue = (value: string): string => {
+    if (source === 'repository') {
+      return value.toString()
+    }
+    const megaBytes = 1024 * 1024
+    return `${(parseInt(value, 10) / megaBytes).toFixed(2)}`
+  }
 
   return (
     <>
@@ -97,7 +101,7 @@ const Languages = (): JSX.Element => {
           <FormControlLabel
             control={<Radio />}
             disabled={loading}
-            label="Total bytes"
+            label="Total size"
             value="totalBytes"
           />
         </RadioGroup>
@@ -115,7 +119,12 @@ const Languages = (): JSX.Element => {
             margin={{ left: 90 }}
             series={series}
             slotProps={{ legend: { hidden: true } }}
-            xAxis={[{ label: getLabel() }]}
+            xAxis={[
+              {
+                label: getLabel(),
+                valueFormatter: (value) => formatAxisValue(value),
+              },
+            ]}
             yAxis={[
               {
                 data: Object.keys(getSource()),
