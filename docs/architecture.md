@@ -39,8 +39,8 @@ sequenceDiagram
   DATA    -->> ELEMENT : returns data
   deactivate   DATA
   ELEMENT  ->> ELEMENT : renders data
-  deactivate   ELEMENT
   USER     ->> ELEMENT : reads and interacts with the data
+  deactivate   ELEMENT
 ```
 
 ### Reloading the page
@@ -70,6 +70,6 @@ sequenceDiagram
   DATA    -->> ELEMENT : returns data
   deactivate   DATA
   ELEMENT  ->> ELEMENT : renders data
-  deactivate   ELEMENT
   USER     ->> ELEMENT : reads and interacts with the data
+  deactivate   ELEMENT
 ```
