@@ -25,6 +25,7 @@ const content = [
   {
     key: 'issuesAndPullRequests',
     title: 'Issues and PRs',
+    description: 'Opened and closed issues and pull requests',
     icon: <AdjustIcon />,
     info: 'The pie charts display the share of opened and closed issues and pull requests.',
     component: <IssuesAndPullRequests />,
