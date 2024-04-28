@@ -30,14 +30,19 @@
 
 ## About
 
-> [!NOTE]  
+> [!IMPORTANT]  
 > This project is not associated with or endorsed by GitHub.
 
-_To be written._
+**The GitHub Report** is a fun, interactive web application to visualize your activity on GitHub.
 
-## Instructions
+## Features
 
-_To be written._
+- Issues and pull requests
+  - See how many issues and pull requests you have opened or closed so far
+- Top programming languages
+  - See what are your most used programming, scripting or markup languages
+- Topics
+  - See which topics are most common across all your repositories
 
 ## Documentation
 
