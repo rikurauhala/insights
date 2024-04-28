@@ -33,7 +33,24 @@ erDiagram
 
 **Directory**: [src/components](../src/components/)
 
-The user interface is made up of various React components.
+The user interface is made up of various React components. The main components that display information are:
+
+- [Info](../src/components/Info/)
+  - Displays basic information about the user
+    - Name
+    - Username
+    - Date joined
+    - Location
+- [Issues and PRs](../src/components/IssuesAndPullRequests/)
+  - Displays the share of opened and closed issues or PRs as pie charts
+- [Languages](../src/components/Languages/)
+  - Displays the share of programming languages as a bar chart
+    - By repository main language
+    - By total number of bytes
+- [Topics](../src/components/Topics)
+  - Displays the most used topics across all repositories as a word cloud
+
+Each component is responsible for rendering one type of information. They may be made up of smaller sub-components.
 
 ### Services
 
@@ -59,7 +76,7 @@ Session storage is used to store the formatted data. It uses the [session storag
 
 ### Opening the application
 
-When a user (`User`) loads the application (`React app`) for the first time in their web browser, no data is being cached yet. This means that the data has to be fetched via the GitHub API.
+When a user (`User`) loads the application (`React app`) for the first time in their web browser, no data is being cached yet. This means that the data has to be fetched via the GitHub API. The component (`React component`) could be any of the four main sections, they all work the same way but are used to display different types of information.
 
 ```mermaid
 sequenceDiagram
