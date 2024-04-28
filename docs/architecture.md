@@ -10,13 +10,17 @@ The following sequence diagram demonstrates what happens when a user (`User`) lo
 sequenceDiagram
   autonumber
 
-  actor       USER    as User
-  participant APP     as React app
-  participant ELEMENT as React component
-  participant DATA    as Data service
-  participant STORAGE as Session storage
-  participant OCTOKIT as Octokit service
-  participant GITHUB  as GitHub API
+    actor       USER    as User
+  box rgba(0, 255, 0, 0.1) Browser
+    participant APP     as React app
+    participant ELEMENT as React component
+    participant DATA    as Data service
+    participant STORAGE as Session storage
+    participant OCTOKIT as Octokit service
+  end
+  box rgba(0, 0, 255, 0.1) Internet
+    participant GITHUB  as GitHub API
+  end
 
   USER     ->> APP     : opens
   APP      ->> ELEMENT : loads
@@ -51,15 +55,19 @@ As the data is cached in the session storage, reloading the page leads to the ca
 sequenceDiagram
   autonumber
 
-  actor       USER    as User
-  participant APP     as React app
-  participant ELEMENT as React component
-  participant DATA    as Data service
-  participant STORAGE as Session storage
-  participant OCTOKIT as Octokit service
-  participant GITHUB  as GitHub API
+    actor       USER    as User
+  box rgba(0, 255, 0, 0.1) Browser
+    participant APP     as React app
+    participant ELEMENT as React component
+    participant DATA    as Data service
+    participant STORAGE as Session storage
+    participant OCTOKIT as Octokit service
+  end
+  box rgba(0, 0, 255, 0.1) Internet
+    participant GITHUB  as GitHub API
+  end
 
-  USER     ->> APP     : opens
+  USER     ->> APP     : reloads
   APP      ->> ELEMENT : loads
   activate     ELEMENT
   ELEMENT  ->> ELEMENT : renders skeleton loader
