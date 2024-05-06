@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography'
 
 const Footer = (): JSX.Element => {
   const authorUrl = 'https://github.com/rikurauhala'
-  const sourceUrl = `${authorUrl}/github-report`
+  const sourceUrl = `${authorUrl}/insights`
   const licenseUrl = `${sourceUrl}/blob/main/LICENSE.md`
 
   const items = [

@@ -7,7 +7,7 @@
 </div>
 
 <h1 align="center">
-  The GitHub Report
+  Insights
 </h1>
 
 <div align="center">
@@ -33,7 +33,7 @@
 > [!IMPORTANT]  
 > This project is not associated with or endorsed by GitHub.
 
-**The GitHub Report** is a fun, interactive web application to visualize your activity on GitHub.
+A fun, interactive web application to visualize your activity on GitHub.
 
 ## Features
 
@@ -56,27 +56,27 @@ It is also recommended to use Linux as everything has been tested only on a Linu
 
 ## Installation
 
-Start by getting the source code. Use one of the following ways to clone the repository from the command line. Alternatively, you may download the source code as a [zip package](https://github.com/rikurauhala/github-report/archive/refs/heads/main.zip).
+Start by getting the source code. Use one of the following ways to clone the repository from the command line. Alternatively, you may download the source code as a [zip package](https://github.com/rikurauhala/insights/archive/refs/heads/main.zip).
 
 ```bash
 # Get the source code via the command line
 # Choose the way you are most familiar with
 
 # Clone with SSH
-$ git clone git@github.com:rikurauhala/github-report.git
+$ git clone git@github.com:rikurauhala/insights.git
 
 # Clone with HTTPS
-$ git clone https://github.com/rikurauhala/github-report.git
+$ git clone https://github.com/rikurauhala/insights.git
 
 # Clone with GitHub CLI
-$ gh repo clone rikurauhala/github-report
+$ gh repo clone rikurauhala/insights
 ```
 
 Next, make sure you are in the correct folder and install dependencies. The application will not work without installing dependencies first!
 
 ```bash
 # Change directory
-$ cd github-report
+$ cd insights
 
 # Install dependencies
 $ npm install
