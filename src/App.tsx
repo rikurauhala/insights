@@ -18,8 +18,6 @@ import { TOKEN } from './config'
 
 import theme from '~/theme'
 
-import './App.css'
-
 const content = [
   {
     key: 'info',
