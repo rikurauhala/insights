@@ -10,8 +10,11 @@ import Footer from '~/components/Footer'
 import Info from '~/components/Info'
 import IssuesAndPullRequests from '~/components/IssuesAndPullRequests'
 import Languages from '~/components/Languages'
+import NoToken from '~/components/NoToken'
 import Section from '~/components/Section'
 import Topics from '~/components/Topics'
+
+import { TOKEN } from './config'
 
 import theme from '~/theme'
 
@@ -60,18 +63,26 @@ const content = [
   },
 ]
 
-const App = (): JSX.Element => (
-  <ThemeProvider theme={theme}>
-    <CssBaseline />
-    <Container maxWidth="md">
-      {content.map(({ key, component, ...props }) => (
-        <Section key={key} {...props}>
-          {component}
-        </Section>
-      ))}
-      <Footer />
-    </Container>
-  </ThemeProvider>
-)
+const App = (): JSX.Element => {
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Container maxWidth="md">
+        {!TOKEN ? (
+          <NoToken />
+        ) : (
+          <>
+            {content.map(({ key, component, ...props }) => (
+              <Section key={key} {...props}>
+                {component}
+              </Section>
+            ))}
+            <Footer />
+          </>
+        )}
+      </Container>
+    </ThemeProvider>
+  )
+}
 
 export default App
