@@ -56,6 +56,8 @@ It is also recommended to use Linux as everything has been tested only on a Linu
 
 ## Installation
 
+### Download
+
 Start by getting the source code. Use one of the following ways to clone the repository from the command line. Alternatively, you may download the source code as a [zip package](https://github.com/rikurauhala/insights/archive/refs/heads/main.zip).
 
 ```bash
@@ -72,6 +74,8 @@ $ git clone https://github.com/rikurauhala/insights.git
 $ gh repo clone rikurauhala/insights
 ```
 
+### Install
+
 Next, make sure you are in the correct folder and install dependencies. The application will not work without installing dependencies first!
 
 ```bash
@@ -81,6 +85,8 @@ $ cd insights
 # Install dependencies
 $ npm install
 ```
+
+### Configure
 
 To use the application, you must use your own [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens). The application will not work without it as the token is used to authenticate with the GitHub API and fetch all the data used by the application. You can create a new personal access token in the [settings](https://github.com/settings/tokens) of your GitHub account. Click the `Generate new token` button and choose `classic`. Choose a name and expiration time for the token. Select the scopes `repo` (everything) and `read:user`.
 
@@ -95,6 +101,15 @@ VITE_TOKEN='your-token-here'
 
 > [!WARNING]  
 > **Do not** commit or share your personal access token, it should remain private.
+
+### Run
+
+To start the application in your browser, run the following command.
+
+```bash
+# Run in the root of the directory
+$ npm run dev
+```
 
 ## Documentation
 
