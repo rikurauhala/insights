@@ -44,7 +44,9 @@ A fun, interactive web application to visualize your activity on GitHub.
 - Topics
   - See which topics are most common across all your repositories
 
-## Prerequisites
+## Installation
+
+### Prerequisites
 
 You should have the following software installed. The application has been tested with the following versions but more recent versions should be fine as well.
 
@@ -53,8 +55,6 @@ You should have the following software installed. The application has been teste
 - `npm: ^10.2.3`
 
 It is also recommended to use Linux as everything has been tested only on a Linux distro. To use other operating systems, you may have to do some research of your own.
-
-## Installation
 
 ### Download
 
