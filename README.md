@@ -82,7 +82,9 @@ $ cd insights
 $ npm install
 ```
 
-To use the application, you must use your own [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens). The application will not work without it as the token is used to authenticate with the GitHub API and fetch all the data used by the application. You can create a new personal access token in the [Settings](https://github.com/settings/tokens) of your GitHub account.
+To use the application, you must use your own [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens). The application will not work without it as the token is used to authenticate with the GitHub API and fetch all the data used by the application. You can create a new personal access token in the [settings](https://github.com/settings/tokens) of your GitHub account. Click the `Generate new token` button and choose `classic`. Choose a name and expiration time for the token. Select the scopes `repo` (everything) and `read:user`.
+
+Paste your token in a file named `.env` at the root of the project. Your token should be the value of the variable `VITE_TOKEN`.
 
 ```bash
 # File: .env
