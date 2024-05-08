@@ -48,30 +48,22 @@ A fun, interactive web application to visualize your activity on GitHub.
 
 ### Prerequisites
 
-You should have the following software installed. The application has been tested with the following versions but more recent versions should be fine as well.
+You should have the following software installed. The application has been developed and tested with these versions but more recent and some older versions should be fine as well. If you run into any issues, try updating to a newer version.
 
-- `git: ^2.25.1`
-- `node: ^v20.10.0`
-- `npm: ^10.2.3`
+- `git: 2.25.1`
+- `node: v20.10.0`
+- `npm: 10.2.3`
+
+You can check which version you have installed from the command line by typing the name of the command followed by the `--version` flag.
 
 It is also recommended to use Linux as everything has been tested only on a Linux distro. To use other operating systems, you may have to do some research of your own.
 
 ### Download
 
-Start by getting the source code. Use one of the following ways to clone the repository from the command line. Alternatively, you may download the source code as a [zip package](https://github.com/rikurauhala/insights/archive/refs/heads/main.zip).
+Start by getting the source code by cloning the repository from the command line. Alternatively, you may download the source code as a [zip archive](https://github.com/rikurauhala/insights/archive/refs/heads/main.zip) or use [other methods](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository).
 
 ```bash
-# Get the source code via the command line
-# Choose the way you are most familiar with
-
-# Clone with SSH
-$ git clone git@github.com:rikurauhala/insights.git
-
-# Clone with HTTPS
-$ git clone https://github.com/rikurauhala/insights.git
-
-# Clone with GitHub CLI
-$ gh repo clone rikurauhala/insights
+git clone git@github.com:rikurauhala/insights.git
 ```
 
 ### Install
@@ -79,36 +71,43 @@ $ gh repo clone rikurauhala/insights
 Next, make sure you are in the correct folder and install dependencies. The application will not work without installing dependencies first!
 
 ```bash
-# Change directory
-$ cd insights
-
-# Install dependencies
-$ npm install
+cd insights && npm install
 ```
 
 ### Configure
 
-To use the application, you must use your own [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens). The application will not work without it as the token is used to authenticate with the GitHub API and fetch all the data used by the application. You can create a new personal access token in the [settings](https://github.com/settings/tokens) of your GitHub account. Click the `Generate new token` button and choose `classic`. Choose a name and expiration time for the token. Select the scopes `repo` (everything) and `read:user`.
+> [!WARNING]  
+> **Do not** commit or share your personal access token, it should remain private.
 
-Paste your token in a file named `.env` at the root of the project. Your token should be the value of the variable `VITE_TOKEN`.
+To use the application, you must use your own [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens). The application **will not work without it** as the token is used to authenticate with the GitHub API and fetch all the data used by the application.
+
+You can create a new personal access token in the [settings](https://github.com/settings/tokens) of your GitHub account.
+
+1. Click the `Generate new token` button and choose `classic`
+2. Choose a name and expiration time for the token
+3. Select the scopes `repo` (everything) and `read:user`
+4. Copy your token
+
+Paste your token in a file named `.env` at the root of the project directory. Your token should be the value of the variable `VITE_TOKEN`.
+
+```bash
+echo 'VITE_TOKEN=your-token' >> .env
+```
+
+The file should look like this
 
 ```bash
 # File: .env
 
-# Replace the string with your own personal access token
-VITE_TOKEN='your-token-here'
+VITE_TOKEN='your-token'
 ```
-
-> [!WARNING]  
-> **Do not** commit or share your personal access token, it should remain private.
 
 ### Run
 
-To start the application in your browser, run the following command.
+To start the application in your browser, run the `dev` command. By default the application should be available at http://localhost:5173. Run `npm run dev -- --host` to access the application from your network with another device.
 
 ```bash
-# Run in the root of the directory
-$ npm run dev
+npm run dev
 ```
 
 ## Documentation
