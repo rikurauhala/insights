@@ -30,6 +30,7 @@ const LanguagesChart = ({
       xAxis={[
         {
           label,
+          tickMinStep: 1,
           valueFormatter: (value) => formatAxisValue(value),
         },
       ]}
