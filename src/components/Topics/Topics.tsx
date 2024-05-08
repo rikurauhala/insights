@@ -9,23 +9,26 @@ import { TopicMap } from '~/types'
 import { getColor } from '~/utils'
 
 import Loading from './Loading'
+import NoData from './NoData'
 
 const Topics = (): JSX.Element => {
   const [topics, setTopics] = useState<TopicMap>({})
   const [shown, setShown] = useState<number>(20)
   const [loading, setLoading] = useState<boolean>(true)
+  const [noData, setNoData] = useState<boolean>(false)
 
   useEffect(() => {
     void dataService.getTopics().then((topicData) => {
       setTopics(topicData)
       setLoading(false)
+      setNoData(Object.keys(topicData).length === 0)
     })
   }, [])
 
   return (
     <>
       <Slider
-        disabled={loading}
+        disabled={loading || noData}
         marks={Array.from({ length: 5 }, (_, i) => ({
           value: (i + 1) * 10,
           label: ((i + 1) * 10).toString(),
@@ -38,9 +41,9 @@ const Topics = (): JSX.Element => {
         valueLabelDisplay="auto"
       />
       <Paper elevation={3} sx={{ margin: '20px 0px', padding: '20px' }}>
-        {loading ? (
-          <Loading />
-        ) : (
+        {loading && <Loading />}
+        {noData && <NoData />}
+        {!loading && !noData && (
           <ReactWordcloud
             callbacks={{
               getWordColor: (word) => getColor(word.text),
