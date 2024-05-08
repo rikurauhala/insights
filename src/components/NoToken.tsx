@@ -1,20 +1,10 @@
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
-import Link from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
 
 import WarningIcon from '@mui/icons-material/Warning'
 
-interface HyperLinkProps {
-  href: string
-  text: string
-}
-
-const HyperLink = ({ href, text }: HyperLinkProps): JSX.Element => (
-  <Link href={href} target="_blank" rel="noopener noreferrer">
-    {text}
-  </Link>
-)
+import HyperLink from './HyperLink'
 
 const NoToken = (): JSX.Element => {
   return (

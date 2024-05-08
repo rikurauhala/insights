@@ -1,7 +1,7 @@
-import Link from '@mui/material/Link'
 import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
-import Typography from '@mui/material/Typography'
+
+import HyperLink from '~/components/HyperLink'
 
 const Footer = (): JSX.Element => {
   const authorUrl = 'https://github.com/rikurauhala'
@@ -9,9 +9,9 @@ const Footer = (): JSX.Element => {
   const licenseUrl = `${sourceUrl}/blob/main/LICENSE.md`
 
   const items = [
-    { text: 'Author', url: authorUrl },
-    { text: 'Source code', url: sourceUrl },
-    { text: 'License', url: licenseUrl },
+    { key: 'author', text: 'Author', url: authorUrl },
+    { key: 'source', text: 'Source code', url: sourceUrl },
+    { key: 'license', text: 'License', url: licenseUrl },
   ]
 
   return (
@@ -22,10 +22,8 @@ const Footer = (): JSX.Element => {
         spacing={{ xs: 1, md: 2 }}
         textAlign="center"
       >
-        {items.map(({ text, url }) => (
-          <Link key={text} href={url} rel="noopener" target="_blank">
-            <Typography variant="body2">{text}</Typography>
-          </Link>
+        {items.map(({ key, text, url }) => (
+          <HyperLink key={key} href={url} text={text} />
         ))}
       </Stack>
     </Paper>
