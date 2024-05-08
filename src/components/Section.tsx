@@ -1,13 +1,11 @@
-import { useState } from 'react'
-
+import InfoIcon from '@mui/icons-material/InfoOutlined'
 import ClickAwayListener from '@mui/material/ClickAwayListener'
 import IconButton from '@mui/material/IconButton'
 import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
-
-import InfoIcon from '@mui/icons-material/InfoOutlined'
+import { useState } from 'react'
 
 interface SectionProps {
   description?: string

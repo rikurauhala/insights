@@ -1,10 +1,9 @@
-import Container from '@mui/material/Container'
-import CssBaseline from '@mui/material/CssBaseline'
-import ThemeProvider from '@mui/material/styles/ThemeProvider'
-
 import AdjustIcon from '@mui/icons-material/Adjust'
 import CodeIcon from '@mui/icons-material/Code'
 import TopicIcon from '@mui/icons-material/Topic'
+import Container from '@mui/material/Container'
+import CssBaseline from '@mui/material/CssBaseline'
+import ThemeProvider from '@mui/material/styles/ThemeProvider'
 
 import Footer from '~/components/Footer'
 import Info from '~/components/Info'
@@ -14,9 +13,8 @@ import NoToken from '~/components/NoToken'
 import Section from '~/components/Section'
 import Topics from '~/components/Topics'
 
-import { TOKEN } from './config'
-
 import theme from '~/theme'
+import { TOKEN } from './config'
 
 const content = [
   {

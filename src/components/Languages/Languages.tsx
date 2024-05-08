@@ -1,5 +1,3 @@
-import { useCallback, useEffect, useState } from 'react'
-
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Paper from '@mui/material/Paper'
@@ -8,6 +6,7 @@ import RadioGroup from '@mui/material/RadioGroup'
 
 import { BarSeriesType } from '@mui/x-charts'
 import { BarChart } from '@mui/x-charts/BarChart'
+import { useCallback, useEffect, useState } from 'react'
 
 import dataService from '~/services/data'
 import { LanguageMap } from '~/types'

@@ -1,5 +1,5 @@
-import octokitService from '~/services/octokit'
 import sessionStorage from '~/repositories/sessionStorage'
+import octokitService from '~/services/octokit'
 import {
   GitHubUser,
   IssueOrPullRequest,

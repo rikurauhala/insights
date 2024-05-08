@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react'
 import ReactWordcloud from '@cyberblast/react-wordcloud'
-
 import Paper from '@mui/material/Paper'
 import Slider from '@mui/material/Slider'
+import { useEffect, useState } from 'react'
 
 import dataService from '~/services/data'
 import { TopicMap } from '~/types'

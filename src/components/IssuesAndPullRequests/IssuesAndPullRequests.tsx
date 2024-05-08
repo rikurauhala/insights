@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
 import Stack from '@mui/material/Stack'
+import { useEffect, useState } from 'react'
 
 import dataService from '~/services/data'
 import { IssueOrPullRequest } from '~/types'

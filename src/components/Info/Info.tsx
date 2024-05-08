@@ -1,11 +1,9 @@
-import { useEffect, useState } from 'react'
-
-import Stack from '@mui/material/Stack'
-import Typography from '@mui/material/Typography'
-
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import GitHubIcon from '@mui/icons-material/GitHub'
 import PlaceIcon from '@mui/icons-material/Place'
+import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
+import { useEffect, useState } from 'react'
 
 import dataService from '~/services/data'
 import { GitHubUser } from '~/types'
