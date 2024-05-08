@@ -1,7 +1,15 @@
 import Grid from '@mui/material/Grid'
 import Skeleton from '@mui/material/Skeleton'
 
-const Loading = (): JSX.Element => {
+interface LoadingProps {
+  visible: boolean
+}
+
+const Loading = ({ visible }: LoadingProps): JSX.Element => {
+  if (!visible) {
+    return <></>
+  }
+
   return (
     <Grid container height="100%" spacing={2}>
       {Array.from({ length: 36 }, (_, index) => (

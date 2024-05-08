@@ -3,7 +3,15 @@ import Typography from '@mui/material/Typography'
 
 import HyperLink from '~/components/HyperLink'
 
-const NoData = (): JSX.Element => {
+interface NoDataProps {
+  visible: boolean
+}
+
+const NoData = ({ visible }: NoDataProps): JSX.Element => {
+  if (!visible) {
+    return <></>
+  }
+
   return (
     <Box alignContent="center" height="300px" textAlign="center">
       <Typography>

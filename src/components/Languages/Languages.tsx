@@ -1,3 +1,4 @@
+import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Paper from '@mui/material/Paper'
@@ -5,13 +6,13 @@ import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
 
 import { BarSeriesType } from '@mui/x-charts'
-import { BarChart } from '@mui/x-charts/BarChart'
 import { useCallback, useEffect, useState } from 'react'
 
 import dataService from '~/services/data'
 import { LanguageMap } from '~/types'
 import { formatPercentage, getColor } from '~/utils'
 
+import LanguagesChart from './LanguagesChart'
 import Loading from './Loading'
 import NoData from './NoData'
 
@@ -92,7 +93,7 @@ const Languages = (): JSX.Element => {
   }
 
   return (
-    <>
+    <Box>
       <FormControl>
         <RadioGroup
           onChange={(event) => setSource(event.target.value as Source)}
@@ -117,32 +118,17 @@ const Languages = (): JSX.Element => {
         elevation={3}
         sx={{ height: '400px', margin: '20px 0px', padding: loading ? '30px' : 0 }}
       >
-        {loading && <Loading />}
-        {noData && !loading && <NoData />}
-        {!loading && !noData && (
-          <BarChart
-            grid={{ vertical: true }}
-            layout="horizontal"
-            margin={{ bottom: 80, left: 90 }}
-            series={series}
-            slotProps={{ legend: { hidden: true } }}
-            xAxis={[
-              {
-                label: getLabel(),
-                valueFormatter: (value) => formatAxisValue(value),
-              },
-            ]}
-            yAxis={[
-              {
-                data: Object.keys(getSource()),
-                hideTooltip: true,
-                scaleType: 'band',
-              },
-            ]}
-          />
-        )}
+        <Loading visible={loading} />
+        <NoData visible={noData && !loading} />
+        <LanguagesChart
+          data={Object.keys(getSource())}
+          formatAxisValue={formatAxisValue}
+          label={getLabel()}
+          series={series}
+          visible={!loading && !noData}
+        />
       </Paper>
-    </>
+    </Box>
   )
 }
 

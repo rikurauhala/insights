@@ -1,14 +1,13 @@
-import ReactWordcloud from '@cyberblast/react-wordcloud'
 import Paper from '@mui/material/Paper'
 import Slider from '@mui/material/Slider'
 import { useEffect, useState } from 'react'
 
 import dataService from '~/services/data'
 import { TopicMap } from '~/types'
-import { getColor } from '~/utils'
 
 import Loading from './Loading'
 import NoData from './NoData'
+import TopicsWordCloud from './TopicsWordCloud'
 
 const Topics = (): JSX.Element => {
   const [topics, setTopics] = useState<TopicMap>({})
@@ -40,25 +39,9 @@ const Topics = (): JSX.Element => {
         valueLabelDisplay="auto"
       />
       <Paper elevation={3} sx={{ margin: '20px 0px', padding: '20px' }}>
-        {loading && <Loading />}
-        {noData && <NoData />}
-        {!loading && !noData && (
-          <ReactWordcloud
-            callbacks={{
-              getWordColor: (word) => getColor(word.text),
-              getWordTooltip: (word) => `${word.text} (${word.value})`,
-            }}
-            options={{
-              fontSizes: [20, 100],
-              rotations: 2,
-              rotationAngles: [-90, 0],
-              padding: 5,
-            }}
-            words={Object.entries(topics)
-              .map(([topic, count]) => ({ text: topic, value: count }))
-              .slice(0, shown)}
-          />
-        )}
+        <Loading visible={loading} />
+        <NoData visible={noData} />
+        <TopicsWordCloud shown={shown} topics={topics} visible={!loading && !noData} />
       </Paper>
     </>
   )
