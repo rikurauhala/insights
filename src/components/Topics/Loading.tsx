@@ -5,7 +5,7 @@ const Loading = (): JSX.Element => {
   return (
     <Grid container height="100%" spacing={2}>
       {Array.from({ length: 36 }, (_, index) => (
-        <Grid item key={index} xs={3}>
+        <Grid key={index} item xs={3}>
           <Skeleton animation="wave" height="20px" />
         </Grid>
       ))}

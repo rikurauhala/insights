@@ -23,7 +23,7 @@ const Footer = (): JSX.Element => {
         textAlign="center"
       >
         {items.map(({ key, text, url }) => (
-          <HyperLink href={url} key={key} text={text} />
+          <HyperLink key={key} href={url} text={text} />
         ))}
       </Stack>
     </Paper>

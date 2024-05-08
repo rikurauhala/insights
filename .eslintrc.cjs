@@ -10,7 +10,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: ['react', 'react-refresh'],
   rules: {
-    'react/jsx-sort-props': ['error'],
+    'react/jsx-sort-props': ['error', { reservedFirst: true }],
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
   },
 }

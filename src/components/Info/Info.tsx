@@ -60,7 +60,7 @@ const Info = (): JSX.Element => {
           {user.name ? user.name : <Loading />}
         </Typography>
         {infoItems.map(({ key, icon, value }) => (
-          <Stack alignItems="center" direction="row" key={key} spacing={1}>
+          <Stack key={key} alignItems="center" direction="row" spacing={1}>
             {icon}
             <Typography component="span">{value ? value : <Loading />}</Typography>
           </Stack>

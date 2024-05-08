@@ -5,7 +5,7 @@ const Loading = (): JSX.Element => {
   return (
     <Stack direction="column" height="100%" justifyContent="space-between">
       {[5, 6, 8, 10, 15, 19, 21, 32, 48, 50].map((margin) => (
-        <Skeleton animation="wave" height="20px" key={margin} sx={{ marginRight: margin }} />
+        <Skeleton key={margin} animation="wave" height="20px" sx={{ marginRight: margin }} />
       ))}
     </Stack>
   )
