@@ -43,11 +43,11 @@ const Content = ({ closed, loading, open, units }: ContentProps): JSX.Element =>
         </Typography>
         <Typography component="p" margin="10px 0px" variant="body2">
           You have opened a total of <b>{total}</b> {units} of which {closed} have been{' '}
-          <Typography component="span" color={colorClosed} variant="inherit">
+          <Typography color={colorClosed} component="span" variant="inherit">
             closed
           </Typography>{' '}
           and {open} are still{' '}
-          <Typography component="span" color={colorOpen} variant="inherit">
+          <Typography color={colorOpen} component="span" variant="inherit">
             open
           </Typography>
           !

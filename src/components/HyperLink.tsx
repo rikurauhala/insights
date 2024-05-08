@@ -13,7 +13,7 @@ interface HyperLinkProps {
  * @returns {JSX.Element} A new HyperLink component.
  */
 const HyperLink = ({ href, text }: HyperLinkProps): JSX.Element => (
-  <Link href={href} target="_blank" rel="noopener noreferrer">
+  <Link href={href} rel="noopener noreferrer" target="_blank">
     {text}
   </Link>
 )

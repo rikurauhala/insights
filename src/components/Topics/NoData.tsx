@@ -5,7 +5,7 @@ import HyperLink from '~/components/HyperLink'
 
 const NoData = (): JSX.Element => {
   return (
-    <Box height="300px" alignContent="center" textAlign="center">
+    <Box alignContent="center" height="300px" textAlign="center">
       <Typography>
         No{' '}
         <HyperLink

@@ -34,7 +34,7 @@ const Section = ({ description, icon, info, children, title }: SectionProps): JS
   return (
     <Paper sx={{ marginTop: '20px', padding: '30px' }}>
       {title && (
-        <Stack alignItems="center" justifyContent="space-between" direction="row">
+        <Stack alignItems="center" direction="row" justifyContent="space-between">
           <Stack alignItems="center" direction="row" gap={1}>
             {icon}
             <Typography component="h2" variant="h6">
