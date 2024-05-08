@@ -5,20 +5,19 @@ import { useTheme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 
 import Loading from './Loading'
+import NoData from './NoData'
 import PieChart from './PieChart'
 
 interface ContentProps {
   closed: number
   loading: boolean
+  noData: boolean
   open: number
   units: string
 }
 
-const Content = ({ closed, loading, open, units }: ContentProps): JSX.Element => {
+const Content = ({ closed, loading, noData, open, units }: ContentProps): JSX.Element => {
   const theme = useTheme()
-  const colorOpen = theme.palette.issues.open
-  const colorClosed = theme.palette.issues.closed
-
   const total = open + closed
 
   return (
@@ -33,29 +32,28 @@ const Content = ({ closed, loading, open, units }: ContentProps): JSX.Element =>
         </Typography>
         <Typography component="p" margin="10px 0px" variant="body2">
           You have opened a total of <b>{total}</b> {units} of which {closed} have been{' '}
-          <Typography color={colorClosed} component="span" variant="inherit">
+          <Typography color={theme.palette.issues.closed} component="span" variant="inherit">
             closed
           </Typography>{' '}
           and {open} are still{' '}
-          <Typography color={colorOpen} component="span" variant="inherit">
+          <Typography color={theme.palette.issues.open} component="span" variant="inherit">
             open
           </Typography>
           !
         </Typography>
       </Box>
-      <Box>
-        <Paper
-          elevation={3}
-          sx={{
-            height: '300px',
-            padding: '20px',
-            width: '100%',
-          }}
-        >
-          <Loading visible={loading} />
-          <PieChart closed={closed} open={open} units={units} visible={!loading} />
-        </Paper>
-      </Box>
+      <Paper
+        elevation={3}
+        sx={{
+          height: '300px',
+          padding: '20px',
+          width: '100%',
+        }}
+      >
+        <Loading visible={loading && noData} />
+        <NoData units={units} visible={noData && !loading} />
+        <PieChart closed={closed} open={open} units={units} visible={!loading && !noData} />
+      </Paper>
     </Stack>
   )
 }

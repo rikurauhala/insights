@@ -8,7 +8,10 @@ import Content from './Content'
 
 const IssuesAndPullRequests = (): JSX.Element => {
   const [issues, setIssues] = useState<IssueOrPullRequest[]>([])
+  const [noIssues, setNoIssues] = useState<boolean>(true)
   const [pullRequests, setPullRequests] = useState<IssueOrPullRequest[]>([])
+  const [noPullRequests, setNoPullRequests] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,33 +24,44 @@ const IssuesAndPullRequests = (): JSX.Element => {
           fetching = false
           break
         }
-        setIssues((prevIssues) =>
-          prevIssues.concat(
-            newData.filter((issueOrPullRequest) => issueOrPullRequest.type === 'issue')
+        setIssues((prevIssues) => {
+          const newIssues = newData.filter(
+            (issueOrPullRequest) => issueOrPullRequest.type === 'issue'
           )
-        )
-        setPullRequests((prevPullRequests) =>
-          prevPullRequests.concat(
-            newData.filter((issueOrPullRequest) => issueOrPullRequest.type === 'pullRequest')
+          if (newIssues.length > 0) {
+            setNoIssues(false)
+          }
+          return prevIssues.concat(newIssues)
+        })
+        setPullRequests((prevPullRequests) => {
+          const newPullRequests = newData.filter(
+            (issueOrPullRequest) => issueOrPullRequest.type === 'pullRequest'
           )
-        )
+          if (newPullRequests.length > 0) {
+            setNoPullRequests(false)
+          }
+          return prevPullRequests.concat(newPullRequests)
+        })
       }
     }
 
     void fetchData()
+    setLoading(false)
   }, [])
 
   return (
     <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
       <Content
         closed={issues.filter((issue) => issue.state === 'closed').length}
-        loading={issues.length === 0}
+        loading={loading}
+        noData={noIssues}
         open={issues.filter((issue) => issue.state === 'open').length}
         units="issues"
       />
       <Content
         closed={pullRequests.filter((pr) => pr.state === 'closed').length}
-        loading={issues.length === 0}
+        loading={loading}
+        noData={noPullRequests}
         open={pullRequests.filter((pr) => pr.state === 'open').length}
         units="pull requests"
       />
