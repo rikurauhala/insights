@@ -4,11 +4,8 @@ import Stack from '@mui/material/Stack'
 import { useTheme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 
-import { PieChart } from '@mui/x-charts/PieChart'
-
-import { formatPercentage } from '~/utils'
-
 import Loading from './Loading'
+import PieChart from './PieChart'
 
 interface ContentProps {
   closed: number
@@ -22,14 +19,7 @@ const Content = ({ closed, loading, open, units }: ContentProps): JSX.Element =>
   const colorOpen = theme.palette.issues.open
   const colorClosed = theme.palette.issues.closed
 
-  const margin = 30
-
   const total = open + closed
-
-  const data = [
-    { color: colorClosed, label: 'Closed', value: closed },
-    ...(open > 0 ? [{ color: colorOpen, label: 'Open', value: open }] : []),
-  ]
 
   return (
     <Stack direction="column" justifyContent="space-between" spacing={1}>
@@ -62,26 +52,8 @@ const Content = ({ closed, loading, open, units }: ContentProps): JSX.Element =>
             width: '100%',
           }}
         >
-          {loading ? (
-            <Loading />
-          ) : (
-            <PieChart
-              margin={{ top: margin, bottom: margin, left: margin, right: margin }}
-              series={[
-                {
-                  cornerRadius: open === 0 ? 0 : 5,
-                  data: data,
-                  highlightScope: { faded: 'global', highlighted: 'item' },
-                  innerRadius: 50,
-                  paddingAngle: open === 0 ? 0 : 3,
-                  valueFormatter: ({ value }) => formatPercentage(total, units, value),
-                },
-              ]}
-              slotProps={{
-                legend: { hidden: true },
-              }}
-            />
-          )}
+          <Loading visible={loading} />
+          <PieChart closed={closed} open={open} units={units} visible={!loading} />
         </Paper>
       </Box>
     </Stack>

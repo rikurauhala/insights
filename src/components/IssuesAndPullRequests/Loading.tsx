@@ -1,7 +1,15 @@
 import Box from '@mui/material/Box'
 import Skeleton from '@mui/material/Skeleton'
 
-const Loading = (): JSX.Element => {
+interface LoadingProps {
+  visible: boolean
+}
+
+const Loading = ({ visible }: LoadingProps): JSX.Element => {
+  if (!visible) {
+    return <></>
+  }
+
   return (
     <Box
       sx={{
