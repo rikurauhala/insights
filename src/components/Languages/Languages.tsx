@@ -13,6 +13,7 @@ import { LanguageMap } from '~/types'
 import { formatPercentage, getColor } from '~/utils'
 
 import Loading from './Loading'
+import NoData from './NoData'
 
 enum Source {
   REPO = 'repo',
@@ -25,6 +26,7 @@ const Languages = (): JSX.Element => {
   const [source, setSource] = useState<Source>(Source.REPO)
   const [series, setSeries] = useState<BarSeriesType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
+  const [noData, setNoData] = useState<boolean>(false)
 
   const getSource = useCallback((): LanguageMap => {
     return source === Source.REPO ? languagesByRepo : languagesBySize
@@ -33,9 +35,11 @@ const Languages = (): JSX.Element => {
   useEffect(() => {
     void dataService.getLanguagesByRepo().then((languages) => {
       setLanguagesByRepo(languages)
+      setNoData(Object.keys(languages).length === 0)
     })
     void dataService.getLanguagesBySize().then((languages) => {
       setLanguagesBySize(languages)
+      setNoData(Object.keys(languages).length === 0)
     })
     setLoading(false)
   }, [])
@@ -97,13 +101,13 @@ const Languages = (): JSX.Element => {
         >
           <FormControlLabel
             control={<Radio />}
-            disabled={loading}
+            disabled={loading || noData}
             label="Repository"
             value={Source.REPO}
           />
           <FormControlLabel
             control={<Radio />}
-            disabled={loading}
+            disabled={loading || noData}
             label="Total size"
             value={Source.SIZE}
           />
@@ -113,9 +117,9 @@ const Languages = (): JSX.Element => {
         elevation={3}
         sx={{ height: '400px', margin: '20px 0px', padding: loading ? '30px' : 0 }}
       >
-        {loading ? (
-          <Loading />
-        ) : (
+        {loading && <Loading />}
+        {noData && !loading && <NoData />}
+        {!loading && !noData && (
           <BarChart
             grid={{ vertical: true }}
             layout="horizontal"
