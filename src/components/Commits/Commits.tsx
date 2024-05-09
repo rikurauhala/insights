@@ -56,6 +56,8 @@ const Commits = (): JSX.Element => {
   const xAxisData = sortedData.map(({ date }) => date)
   const seriesData = sortedData.map(({ count }) => count)
 
+  const uniqueYears = Array.from(new Set(xAxisData.map((date) => date.getFullYear())))
+
   const formatDate = (date: Date) => {
     return date.toLocaleDateString('en-US', { month: 'numeric', year: 'numeric' })
   }
@@ -63,17 +65,18 @@ const Commits = (): JSX.Element => {
   return (
     <Paper elevation={3} sx={{ height: '400px', margin: '20px 0px', padding: '15px' }}>
       <LineChart
-        grid={{ horizontal: true }}
+        grid={{ horizontal: true, vertical: true }}
         series={[{ color: theme.palette.commits.main, data: seriesData }]}
         xAxis={[
           {
             data: xAxisData,
             label: 'Month',
             scaleType: 'time',
+            tickInterval: uniqueYears.map((year) => new Date(`${year}-01-01`)),
             valueFormatter: (date) => formatDate(date),
           },
         ]}
-        yAxis={[{ label: 'Commits' }]}
+        yAxis={[{ label: 'Commits', tickMinStep: 1 }]}
       />
     </Paper>
   )
