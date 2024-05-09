@@ -6,11 +6,17 @@ declare module '@mui/material/styles' {
       open: string
       closed: string
     }
+    commits: {
+      main: string
+    }
   }
   interface PaletteOptions {
     issues?: {
       open?: string
       closed?: string
+    }
+    commits?: {
+      main?: string
     }
   }
 }
@@ -32,6 +38,9 @@ const theme = createTheme({
     issues: {
       open: '#3fb950',
       closed: '#a371f7',
+    },
+    commits: {
+      main: '#40c463',
     },
   },
 })

@@ -1,4 +1,5 @@
 import Paper from '@mui/material/Paper'
+import { useTheme } from '@mui/material/styles'
 import { LineChart } from '@mui/x-charts'
 import { useEffect, useState } from 'react'
 
@@ -7,6 +8,7 @@ import { Commit } from '~/types'
 
 const Commits = (): JSX.Element => {
   const [commits, setCommits] = useState<Commit[]>([])
+  const theme = useTheme()
 
   useEffect(() => {
     const page = 1
@@ -32,7 +34,7 @@ const Commits = (): JSX.Element => {
     <Paper elevation={3} sx={{ height: '400px', margin: '20px 0px', padding: '15px' }}>
       <LineChart
         grid={{ horizontal: true }}
-        series={[{ data: seriesData }]}
+        series={[{ color: theme.palette.commits.main, data: seriesData }]}
         xAxis={[
           {
             data: xAxisData,
