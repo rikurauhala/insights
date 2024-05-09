@@ -15,12 +15,30 @@ export interface GitHubUser {
 
 export type ColorCode = `#${string}`
 
-interface Commit {
+export interface Commit {
+  date: string
+}
+
+interface CommitDetails {
   author: Author
   comment_count: number
   committer: Author | null
   message: string
   tree: Tree
+  url: string
+}
+
+export interface CommitFromAPI {
+  author: User
+  comments_url: string
+  commit: CommitDetails
+  committer: User | null
+  html_url: string
+  node_id: string
+  parents: Tree[]
+  repository: Repository
+  score: number
+  sha: string
   url: string
 }
 
@@ -246,6 +264,12 @@ export interface TopicMap {
   [topic: string]: number
 }
 
+interface Tree {
+  html_url?: string
+  sha: string
+  url: string
+}
+
 interface User {
   avatar_url: string
   email?: string | null | undefined
@@ -302,31 +326,5 @@ export interface UserFull {
   twitter_username: string
   type: string
   updated_at: string
-  url: string
-}
-
-interface CommitFromAPI {
-  author: User
-  comments_url: string
-  commit: Commit
-  committer: User | null
-  html_url: string
-  node_id: string
-  parents: Tree[]
-  repository: Repository
-  score: number
-  sha: string
-  url: string
-}
-
-export interface CommitsFromAPI {
-  total_count: number
-  incomplete_results: boolean
-  items: CommitFromAPI[] | null
-}
-
-interface Tree {
-  html_url?: string
-  sha: string
   url: string
 }

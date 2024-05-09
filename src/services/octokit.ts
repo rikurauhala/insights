@@ -1,9 +1,32 @@
 import { Octokit } from 'octokit'
 
 import { TOKEN } from '~/config'
-import { IssueOrPullRequestFromAPI, LanguageMap, RepositoryFull, UserFull } from '~/types'
+import {
+  CommitFromAPI,
+  IssueOrPullRequestFromAPI,
+  LanguageMap,
+  RepositoryFull,
+  UserFull,
+} from '~/types'
 
 const octokit = new Octokit({ auth: TOKEN })
+
+const fetchCommits = async (page: number): Promise<CommitFromAPI[]> => {
+  const {
+    data: { login: username },
+  } = await octokit.rest.users.getAuthenticated()
+  try {
+    const response = await octokit.request('GET /search/commits', {
+      q: `author:${username}`,
+      per_page: 100,
+      page: page,
+    })
+    return response.data.items as CommitFromAPI[]
+  } catch (error) {
+    console.error(error)
+    return []
+  }
+}
 
 const fetchIssuesAndPullRequests = async (page: number): Promise<IssueOrPullRequestFromAPI[]> => {
   const {
@@ -72,6 +95,7 @@ const fetchUser = (): Promise<UserFull> => {
 }
 
 export default {
+  fetchCommits,
   fetchIssuesAndPullRequests,
   fetchLanguages,
   fetchRepositories,

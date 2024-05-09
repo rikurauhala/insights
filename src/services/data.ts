@@ -1,6 +1,7 @@
 import sessionStorage from '~/repositories/sessionStorage'
 import octokitService from '~/services/octokit'
 import {
+  Commit,
   GitHubUser,
   IssueOrPullRequest,
   LanguageMap,
@@ -9,6 +10,19 @@ import {
   UserFull,
 } from '~/types'
 import { formatTimestamp } from '~/utils'
+
+const getCommits = async (page: number): Promise<Commit[]> => {
+  const data = await octokitService.fetchCommits(page)
+
+  const commits: Commit[] = []
+  data.forEach((commit) => {
+    commits.push({
+      date: commit.commit.author.date,
+    })
+  })
+
+  return commits
+}
 
 const getIssuesAndPullRequests = async (page: number): Promise<IssueOrPullRequest[]> => {
   const storageKey = 'issuesAndPullRequests'
@@ -155,10 +169,10 @@ const sortTopics = (topicsMap: TopicMap): TopicMap => {
 }
 
 export default {
+  getCommits,
   getIssuesAndPullRequests,
   getLanguagesByRepo,
   getLanguagesBySize,
-  getRepositories,
   getTopics,
   getUser,
 }
