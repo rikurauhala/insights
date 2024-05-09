@@ -29,18 +29,21 @@ const Info = (): JSX.Element => {
 
   const infoItems = [
     {
-      key: 'Username',
-      icon: <GitHubIcon fontSize="small" />,
+      key: 'username',
+      title: 'Username',
+      icon: <GitHubIcon />,
       value: user.username,
     },
     {
-      key: 'Registered',
-      icon: <CalendarMonthIcon fontSize="small" />,
+      key: 'registered',
+      title: 'Registered',
+      icon: <CalendarMonthIcon />,
       value: user.registrationDate,
     },
     {
-      key: 'Location',
-      icon: <PlaceIcon fontSize="small" />,
+      key: 'location',
+      title: 'Location',
+      icon: <PlaceIcon />,
       value: user.location,
     },
   ]
@@ -53,14 +56,19 @@ const Info = (): JSX.Element => {
       spacing={4}
     >
       <ProfilePicture url={user.avatarUrl} />
-      <Stack direction="column" height="150px" justifyContent="space-between" textAlign="left">
+      <Stack direction="column" justifyContent="space-between" spacing={1} textAlign="left">
         <Typography component="h2" variant="h5">
-          {user.name ? user.name : <Loading />}
+          {user.name ?? <Loading />}
         </Typography>
-        {infoItems.map(({ key, icon, value }) => (
-          <Stack key={key} alignItems="center" direction="row" spacing={1}>
+        {infoItems.map(({ key, title, icon, value }) => (
+          <Stack key={key} alignItems="center" direction="row" spacing={1.5}>
             {icon}
-            <Typography component="span">{value ? value : <Loading />}</Typography>
+            <Stack alignItems="start" direction="column">
+              <Typography color="secondary" variant="body1">
+                {title}
+              </Typography>
+              <Typography variant="body2">{value ? value : <Loading />}</Typography>
+            </Stack>
           </Stack>
         ))}
       </Stack>

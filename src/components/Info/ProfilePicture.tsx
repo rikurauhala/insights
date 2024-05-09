@@ -6,7 +6,7 @@ interface ProfilePictureProps {
 }
 
 const ProfilePicture = ({ url }: ProfilePictureProps): JSX.Element => {
-  const size = '150px'
+  const size = '175px'
 
   const style = {
     borderRadius: '50%',
