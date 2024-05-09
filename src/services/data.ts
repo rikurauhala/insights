@@ -21,8 +21,6 @@ const getCommits = async (page: number): Promise<Commit[]> => {
     })
   })
 
-  commits.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-
   return commits
 }
 

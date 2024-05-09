@@ -27,8 +27,38 @@ const Commits = (): JSX.Element => {
     return counts
   }, {} as Record<string, number>)
 
-  const xAxisData = Object.keys(commitCountsByMonth).map((monthYear) => new Date(monthYear))
-  const seriesData = Object.values(commitCountsByMonth)
+  const earliestDate = new Date(
+    Math.min(...Object.keys(commitCountsByMonth).map((key) => new Date(key).getTime()))
+  )
+  const latestDate = new Date(
+    Math.max(...Object.keys(commitCountsByMonth).map((key) => new Date(key).getTime()))
+  )
+
+  const monthsWithZeroCommits: Record<string, number> = {}
+  const currentDate = new Date(earliestDate)
+  while (currentDate <= latestDate) {
+    const monthYear = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(
+      2,
+      '0'
+    )}`
+    if (!(monthYear in commitCountsByMonth)) {
+      monthsWithZeroCommits[monthYear] = 0
+    }
+    currentDate.setMonth(currentDate.getMonth() + 1)
+  }
+
+  const mergedCommitCounts = { ...monthsWithZeroCommits, ...commitCountsByMonth }
+
+  const sortedData = Object.entries(mergedCommitCounts)
+    .map(([monthYear, count]) => ({ date: new Date(monthYear), count }))
+    .sort((a, b) => a.date.getTime() - b.date.getTime())
+
+  const xAxisData = sortedData.map(({ date }) => date)
+  const seriesData = sortedData.map(({ count }) => count)
+
+  const formatDate = (date: Date) => {
+    return date.toLocaleDateString('en-US', { month: 'numeric', year: 'numeric' })
+  }
 
   return (
     <Paper elevation={3} sx={{ height: '400px', margin: '20px 0px', padding: '15px' }}>
@@ -40,8 +70,7 @@ const Commits = (): JSX.Element => {
             data: xAxisData,
             label: 'Month',
             scaleType: 'time',
-            valueFormatter: (date) =>
-              new Date(date).toLocaleDateString('en-US', { month: 'numeric', year: 'numeric' }),
+            valueFormatter: (date) => formatDate(date),
           },
         ]}
         yAxis={[{ label: 'Commits' }]}
