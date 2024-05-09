@@ -1,10 +1,12 @@
 import AdjustIcon from '@mui/icons-material/Adjust'
 import CodeIcon from '@mui/icons-material/Code'
+import CommitIcon from '@mui/icons-material/Commit'
 import TopicIcon from '@mui/icons-material/Topic'
 import Container from '@mui/material/Container'
 import CssBaseline from '@mui/material/CssBaseline'
 import ThemeProvider from '@mui/material/styles/ThemeProvider'
 
+import Commits from '~/components/Commits'
 import Footer from '~/components/Footer'
 import Info from '~/components/Info'
 import IssuesAndPullRequests from '~/components/IssuesAndPullRequests'
@@ -20,6 +22,14 @@ const content = [
   {
     key: 'info',
     component: <Info />,
+  },
+  {
+    key: 'commits',
+    title: 'Commits',
+    description: 'Commits over time',
+    icon: <CommitIcon />,
+    info: 'The chart displays commits made by you over time.',
+    component: <Commits />,
   },
   {
     key: 'issuesAndPullRequests',
