@@ -17,7 +17,7 @@ const fetchCommits = async (page: number): Promise<CommitFromAPI[]> => {
   } = await octokit.rest.users.getAuthenticated()
   try {
     const response = await octokit.request('GET /search/commits', {
-      q: `author:${username}`,
+      q: `author:${username} sort:author-date-desc`,
       per_page: 100,
       page: page,
     })

@@ -8,6 +8,8 @@ import { Commit } from '~/types'
 
 const Commits = (): JSX.Element => {
   const [commits, setCommits] = useState<Commit[]>([])
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [loading, setLoading] = useState(true)
   const theme = useTheme()
 
   useEffect(() => {
@@ -15,6 +17,27 @@ const Commits = (): JSX.Element => {
     void dataService.getCommits(page).then((data) => {
       setCommits(data)
     })
+  }, [])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let page = 1
+      let fetching = true
+      while (fetching) {
+        const newCommits = await dataService.getCommits(page)
+        page++
+        if (newCommits.length === 0) {
+          fetching = false
+          break
+        }
+        setCommits((prevCommits) => {
+          return prevCommits.concat(newCommits)
+        })
+      }
+    }
+
+    void fetchData()
+    setLoading(false)
   }, [])
 
   const commitCountsByMonth = commits.reduce((counts, commit) => {
@@ -76,7 +99,7 @@ const Commits = (): JSX.Element => {
             valueFormatter: (date) => formatDate(date),
           },
         ]}
-        yAxis={[{ label: 'Commits', tickMinStep: 1 }]}
+        yAxis={[{ label: 'Commits', min: 0, tickMinStep: 1 }]}
       />
     </Paper>
   )
