@@ -64,10 +64,10 @@ const Info = (): JSX.Element => {
           <Stack key={key} alignItems="center" direction="row" spacing={1.5}>
             {icon}
             <Stack alignItems="start" direction="column">
-              <Typography color="secondary" variant="body1">
+              <Typography color="secondary" variant="body2">
                 {title}
               </Typography>
-              <Typography variant="body2">{value ? value : <Loading />}</Typography>
+              <Typography variant="body1">{value ?? <Loading />}</Typography>
             </Stack>
           </Stack>
         ))}
