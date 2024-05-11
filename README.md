@@ -37,6 +37,8 @@ A fun, interactive web application to visualize your activity on GitHub.
 
 ## Features
 
+- Commits
+  - See how many commits you have made each month or year
 - Issues and pull requests
   - See how many issues and pull requests you have opened or closed so far
 - Top programming languages
