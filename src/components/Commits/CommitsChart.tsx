@@ -2,20 +2,24 @@ import { useTheme } from '@mui/material/styles'
 import { LineChart } from '@mui/x-charts'
 
 interface CommitChartProps {
+  formatDate: (date: Date) => string
+  label: string
   seriesData: number[]
   visible: boolean
   xAxisData: Date[]
 }
 
-const CommitChart = ({ seriesData, visible, xAxisData }: CommitChartProps): JSX.Element => {
+const CommitChart = ({
+  formatDate,
+  label,
+  seriesData,
+  visible,
+  xAxisData,
+}: CommitChartProps): JSX.Element => {
   const theme = useTheme()
 
   if (!visible) {
     return <></>
-  }
-
-  const formatDate = (date: Date) => {
-    return date.toLocaleDateString('en-US', { month: '2-digit', year: 'numeric' })
   }
 
   const uniqueYears = Array.from(new Set(xAxisData.map((date) => date.getFullYear())))
@@ -38,7 +42,7 @@ const CommitChart = ({ seriesData, visible, xAxisData }: CommitChartProps): JSX.
       xAxis={[
         {
           data: xAxisData,
-          label: ' \nTime',
+          label: label,
           scaleType: 'time',
           tickInterval: uniqueYears.map((year) => new Date(`${year}-01-01`)),
           valueFormatter: (date) => formatDate(date),
