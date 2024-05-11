@@ -7,16 +7,11 @@ import RadioGroup from '@mui/material/RadioGroup'
 import { useEffect, useState } from 'react'
 
 import dataService from '~/services/data'
-import { Commit } from '~/types'
+import { Commit, CommitsMode } from '~/types'
 
 import CommitsChart from './CommitsChart'
 import Loading from './Loading'
 import NoData from './NoData'
-
-enum Mode {
-  MONTH = 'month',
-  YEAR = 'year',
-}
 
 const getCommitCountsByMonth = (commits: Commit[]): Record<string, number> => {
   return commits.reduce((counts, commit) => {
@@ -41,7 +36,7 @@ const getCommitCountsByYear = (commits: Commit[]): Record<string, number> => {
 
 const Commits = (): JSX.Element => {
   const [commits, setCommits] = useState<Commit[]>([])
-  const [mode, setMode] = useState<Mode>(Mode.MONTH)
+  const [mode, setMode] = useState<CommitsMode>(CommitsMode.MONTH)
   const [loading, setLoading] = useState<boolean>(true)
   const [noData, setNoData] = useState<boolean>(true)
 
@@ -82,18 +77,18 @@ const Commits = (): JSX.Element => {
   }, [])
 
   const formatDate = (date: Date) => {
-    if (mode === Mode.MONTH) {
+    if (mode === CommitsMode.MONTH) {
       return date.toLocaleDateString('en-US', { month: '2-digit', year: 'numeric' })
     }
     return date.toLocaleDateString('en-US', { year: 'numeric' })
   }
 
   const getLabel = () => {
-    return mode === Mode.MONTH ? ' \nMonth' : ' \nYear'
+    return mode === CommitsMode.MONTH ? ' \nMonth' : ' \nYear'
   }
 
   const commitCountsByPeriod =
-    mode === Mode.MONTH ? getCommitCountsByMonth(commits) : getCommitCountsByYear(commits)
+    mode === CommitsMode.MONTH ? getCommitCountsByMonth(commits) : getCommitCountsByYear(commits)
 
   const earliestDate = new Date(
     Math.min(...Object.keys(commitCountsByPeriod).map((key) => new Date(key).getTime()))
@@ -106,13 +101,13 @@ const Commits = (): JSX.Element => {
   const currentDate = new Date(earliestDate)
   while (currentDate <= latestDate) {
     const period =
-      mode === Mode.MONTH
+      mode === CommitsMode.MONTH
         ? `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`
         : currentDate.getFullYear().toString()
     if (!(period in commitCountsByPeriod)) {
       periodsWithZeroCommits[period] = 0
     }
-    currentDate.setMonth(currentDate.getMonth() + (mode === Mode.MONTH ? 12 : 1))
+    currentDate.setMonth(currentDate.getMonth() + (mode === CommitsMode.MONTH ? 12 : 1))
   }
 
   const mergedCommitCounts = { ...periodsWithZeroCommits, ...commitCountsByPeriod }
@@ -127,18 +122,22 @@ const Commits = (): JSX.Element => {
   return (
     <Box>
       <FormControl>
-        <RadioGroup onChange={(event) => setMode(event.target.value as Mode)} row value={mode}>
+        <RadioGroup
+          onChange={(event) => setMode(event.target.value as CommitsMode)}
+          row
+          value={mode}
+        >
           <FormControlLabel
             control={<Radio />}
             disabled={loading || noData}
             label="Month"
-            value={Mode.MONTH}
+            value={CommitsMode.MONTH}
           />
           <FormControlLabel
             control={<Radio />}
             disabled={loading || noData}
             label="Year"
-            value={Mode.YEAR}
+            value={CommitsMode.YEAR}
           />
         </RadioGroup>
       </FormControl>
@@ -148,6 +147,7 @@ const Commits = (): JSX.Element => {
         <CommitsChart
           formatDate={formatDate}
           label={getLabel()}
+          mode={mode}
           seriesData={seriesData}
           visible={!loading && !noData}
           xAxisData={xAxisData}

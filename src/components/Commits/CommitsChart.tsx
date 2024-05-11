@@ -1,9 +1,12 @@
 import { useTheme } from '@mui/material/styles'
 import { LineChart } from '@mui/x-charts'
 
+import { CommitsMode } from '~/types'
+
 interface CommitChartProps {
   formatDate: (date: Date) => string
   label: string
+  mode: string
   seriesData: number[]
   visible: boolean
   xAxisData: Date[]
@@ -12,6 +15,7 @@ interface CommitChartProps {
 const CommitChart = ({
   formatDate,
   label,
+  mode,
   seriesData,
   visible,
   xAxisData,
@@ -24,7 +28,7 @@ const CommitChart = ({
 
   const uniqueYears = Array.from(new Set(xAxisData.map((date) => date.getFullYear())))
 
-  if (uniqueYears.length > 0) {
+  if (uniqueYears.length > 0 && mode === CommitsMode.MONTH) {
     uniqueYears.shift()
   }
 

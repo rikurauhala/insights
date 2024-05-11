@@ -43,6 +43,11 @@ export interface CommitFromAPI {
   url: string
 }
 
+export enum CommitsMode {
+  MONTH = 'month',
+  YEAR = 'year',
+}
+
 export interface IssueOrPullRequest {
   closedAt: string | null
   createdAt: string
