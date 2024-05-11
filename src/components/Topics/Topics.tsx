@@ -13,7 +13,7 @@ const Topics = (): JSX.Element => {
   const [topics, setTopics] = useState<TopicMap>({})
   const [shown, setShown] = useState<number>(20)
   const [loading, setLoading] = useState<boolean>(true)
-  const [noData, setNoData] = useState<boolean>(false)
+  const [noData, setNoData] = useState<boolean>(true)
 
   useEffect(() => {
     void dataService.getTopics().then((topicData) => {
@@ -40,7 +40,7 @@ const Topics = (): JSX.Element => {
       />
       <Paper elevation={3} sx={{ margin: '20px 0px', padding: '20px' }}>
         <Loading visible={loading} />
-        <NoData visible={noData} />
+        <NoData visible={!loading && noData} />
         <TopicsWordCloud shown={shown} topics={topics} visible={!loading && !noData} />
       </Paper>
     </>

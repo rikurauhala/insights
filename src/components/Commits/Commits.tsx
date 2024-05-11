@@ -6,10 +6,12 @@ import { Commit } from '~/types'
 
 import CommitsChart from './CommitsChart'
 import Loading from './Loading'
+import NoData from './NoData'
 
 const Commits = (): JSX.Element => {
   const [commits, setCommits] = useState<Commit[]>([])
   const [loading, setLoading] = useState<boolean>(true)
+  const [noData, setNoData] = useState<boolean>(true)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,6 +38,7 @@ const Commits = (): JSX.Element => {
             break
           }
           setCommits((prevCommits) => prevCommits.concat(newCommits))
+          setNoData(Object.keys(newCommits).length === 0)
           page++
         }
         currentDate.setMonth(currentDate.getMonth() - 1)
@@ -88,7 +91,8 @@ const Commits = (): JSX.Element => {
   return (
     <Paper elevation={3} sx={{ height: '400px', margin: '20px 0px', padding: '15px' }}>
       <Loading visible={loading} />
-      <CommitsChart seriesData={seriesData} visible={!loading} xAxisData={xAxisData} />
+      <NoData visible={!loading && noData} />
+      <CommitsChart seriesData={seriesData} visible={!loading && !noData} xAxisData={xAxisData} />
     </Paper>
   )
 }

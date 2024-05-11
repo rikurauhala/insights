@@ -27,7 +27,7 @@ const Languages = (): JSX.Element => {
   const [source, setSource] = useState<Source>(Source.REPO)
   const [series, setSeries] = useState<BarSeriesType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
-  const [noData, setNoData] = useState<boolean>(false)
+  const [noData, setNoData] = useState<boolean>(true)
 
   const getSource = useCallback((): LanguageMap => {
     return source === Source.REPO ? languagesByRepo : languagesBySize
@@ -119,7 +119,7 @@ const Languages = (): JSX.Element => {
         sx={{ height: '400px', margin: '20px 0px', padding: loading ? '30px' : 0 }}
       >
         <Loading visible={loading} />
-        <NoData visible={noData && !loading} />
+        <NoData visible={!loading && noData} />
         <LanguagesChart
           data={Object.keys(getSource())}
           formatAxisValue={formatAxisValue}
