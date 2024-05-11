@@ -85,25 +85,36 @@ const Commits = (): JSX.Element => {
 
   const uniqueYears = Array.from(new Set(xAxisData.map((date) => date.getFullYear())))
 
+  if (uniqueYears.length > 0) {
+    uniqueYears.shift()
+  }
+
   const formatDate = (date: Date) => {
-    return date.toLocaleDateString('en-US', { month: 'numeric', year: 'numeric' })
+    return date.toLocaleDateString('en-US', { month: '2-digit', year: 'numeric' })
   }
 
   return (
     <Paper elevation={3} sx={{ height: '400px', margin: '20px 0px', padding: '15px' }}>
       <LineChart
         grid={{ horizontal: true, vertical: true }}
-        series={[{ color: theme.palette.commits.main, data: seriesData }]}
+        margin={{ left: 65, bottom: 70 }}
+        series={[
+          {
+            color: theme.palette.commits.main,
+            data: seriesData,
+            valueFormatter: (value) => `${value} commits`,
+          },
+        ]}
         xAxis={[
           {
             data: xAxisData,
-            label: 'Month',
+            label: ' \nTime',
             scaleType: 'time',
             tickInterval: uniqueYears.map((year) => new Date(`${year}-01-01`)),
             valueFormatter: (date) => formatDate(date),
           },
         ]}
-        yAxis={[{ label: 'Commits', min: 0, tickMinStep: 1 }]}
+        yAxis={[{ label: 'Commits\n', min: 0, tickMinStep: 1 }]}
       />
     </Paper>
   )
