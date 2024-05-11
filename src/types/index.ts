@@ -17,6 +17,7 @@ export type ColorCode = `#${string}`
 
 export interface Commit {
   date: string
+  sha: string
 }
 
 interface CommitDetails {

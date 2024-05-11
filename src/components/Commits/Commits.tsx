@@ -8,36 +8,36 @@ import { Commit } from '~/types'
 
 const Commits = (): JSX.Element => {
   const [commits, setCommits] = useState<Commit[]>([])
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [loading, setLoading] = useState(true)
   const theme = useTheme()
 
   useEffect(() => {
-    const page = 1
-    void dataService.getCommits(page).then((data) => {
-      setCommits(data)
-    })
-  }, [])
-
-  useEffect(() => {
     const fetchData = async () => {
-      let page = 1
-      let fetching = true
-      while (fetching) {
-        const newCommits = await dataService.getCommits(page)
-        page++
-        if (newCommits.length === 0) {
-          fetching = false
-          break
+      const currentDate = new Date()
+      const registeredDate = new Date(2019, 5, 25) // get this from the user data
+
+      while (currentDate >= registeredDate) {
+        let page = 1
+        let fetching = true
+        while (fetching) {
+          const year = currentDate.getFullYear()
+          const month = String(currentDate.getMonth() + 1).padStart(2, '0')
+          const start = `${year}-${month}-01`
+          const endDate = new Date(year, currentDate.getMonth() + 1, 0).getDate()
+          const end = `${year}-${month}-${endDate}`
+
+          const newCommits = await dataService.getCommits(start, end, page)
+          if (newCommits.length === 0) {
+            fetching = false
+            break
+          }
+          setCommits((prevCommits) => prevCommits.concat(newCommits))
+          page++
         }
-        setCommits((prevCommits) => {
-          return prevCommits.concat(newCommits)
-        })
+        currentDate.setMonth(currentDate.getMonth() - 1)
       }
     }
 
     void fetchData()
-    setLoading(false)
   }, [])
 
   const commitCountsByMonth = commits.reduce((counts, commit) => {

@@ -11,15 +11,45 @@ import {
 } from '~/types'
 import { formatTimestamp } from '~/utils'
 
-const getCommits = async (page: number): Promise<Commit[]> => {
-  const data = await octokitService.fetchCommits(page)
+const getCommits = async (start: string, end: string, page: number): Promise<Commit[]> => {
+  const storageKey = 'commits'
+  let storedData = sessionStorage.read(storageKey) as Record<string, Record<number, Commit[]>>
+
+  const dateRange = `${start}-${end}`
+
+  if (!storedData) {
+    storedData = {}
+  }
+
+  if (!storedData[dateRange]) {
+    storedData[dateRange] = {}
+  }
+
+  if (storedData[dateRange][page]) {
+    return storedData[dateRange][page] as Commit[]
+  }
+
+  let username
+  const gitHubUser = sessionStorage.read('gitHubUser') as GitHubUser
+  if (gitHubUser) {
+    username = gitHubUser.username
+  } else {
+    const userData: UserFull = await octokitService.fetchUser()
+    username = userData.login
+  }
+
+  const data = await octokitService.fetchCommits(username, start, end, page)
 
   const commits: Commit[] = []
   data.forEach((commit) => {
     commits.push({
       date: commit.commit.author.date,
+      sha: commit.sha,
     })
   })
+
+  storedData[dateRange][page] = commits
+  sessionStorage.write(storageKey, storedData)
 
   return commits
 }

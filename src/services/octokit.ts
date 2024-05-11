@@ -11,13 +11,15 @@ import {
 
 const octokit = new Octokit({ auth: TOKEN })
 
-const fetchCommits = async (page: number): Promise<CommitFromAPI[]> => {
-  const {
-    data: { login: username },
-  } = await octokit.rest.users.getAuthenticated()
+const fetchCommits = async (
+  username: string | null,
+  start: string,
+  end: string,
+  page: number
+): Promise<CommitFromAPI[]> => {
   try {
     const response = await octokit.request('GET /search/commits', {
-      q: `author:${username} sort:author-date-desc`,
+      q: `author:${username} author-date:${start}..${end}`,
       per_page: 100,
       page: page,
     })
