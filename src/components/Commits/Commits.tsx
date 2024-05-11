@@ -1,14 +1,15 @@
 import Paper from '@mui/material/Paper'
-import { useTheme } from '@mui/material/styles'
-import { LineChart } from '@mui/x-charts'
 import { useEffect, useState } from 'react'
 
 import dataService from '~/services/data'
 import { Commit } from '~/types'
 
+import CommitsChart from './CommitsChart'
+import Loading from './Loading'
+
 const Commits = (): JSX.Element => {
   const [commits, setCommits] = useState<Commit[]>([])
-  const theme = useTheme()
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,6 +43,7 @@ const Commits = (): JSX.Element => {
     }
 
     void fetchData()
+    setLoading(false)
   }, [])
 
   const commitCountsByMonth = commits.reduce((counts, commit) => {
@@ -83,39 +85,10 @@ const Commits = (): JSX.Element => {
   const xAxisData = sortedData.map(({ date }) => date)
   const seriesData = sortedData.map(({ count }) => count)
 
-  const uniqueYears = Array.from(new Set(xAxisData.map((date) => date.getFullYear())))
-
-  if (uniqueYears.length > 0) {
-    uniqueYears.shift()
-  }
-
-  const formatDate = (date: Date) => {
-    return date.toLocaleDateString('en-US', { month: '2-digit', year: 'numeric' })
-  }
-
   return (
     <Paper elevation={3} sx={{ height: '400px', margin: '20px 0px', padding: '15px' }}>
-      <LineChart
-        grid={{ horizontal: true, vertical: true }}
-        margin={{ left: 65, bottom: 70 }}
-        series={[
-          {
-            color: theme.palette.commits.main,
-            data: seriesData,
-            valueFormatter: (value) => `${value} commits`,
-          },
-        ]}
-        xAxis={[
-          {
-            data: xAxisData,
-            label: ' \nTime',
-            scaleType: 'time',
-            tickInterval: uniqueYears.map((year) => new Date(`${year}-01-01`)),
-            valueFormatter: (date) => formatDate(date),
-          },
-        ]}
-        yAxis={[{ label: 'Commits\n', min: 0, tickMinStep: 1 }]}
-      />
+      <Loading visible={loading} />
+      <CommitsChart seriesData={seriesData} visible={!loading} xAxisData={xAxisData} />
     </Paper>
   )
 }
