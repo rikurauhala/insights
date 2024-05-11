@@ -9,9 +9,13 @@ import {
   TopicMap,
   UserFull,
 } from '~/types'
-import { formatTimestamp } from '~/utils'
 
-const getCommits = async (start: string, end: string, page: number): Promise<Commit[]> => {
+const getCommits = async (
+  username: string,
+  start: string,
+  end: string,
+  page: number
+): Promise<Commit[]> => {
   const storageKey = 'commits'
   let storedData = sessionStorage.read(storageKey) as Record<string, Record<number, Commit[]>>
 
@@ -27,15 +31,6 @@ const getCommits = async (start: string, end: string, page: number): Promise<Com
 
   if (storedData[dateRange][page]) {
     return storedData[dateRange][page] as Commit[]
-  }
-
-  let username
-  const gitHubUser = sessionStorage.read('gitHubUser') as GitHubUser
-  if (gitHubUser) {
-    username = gitHubUser.username
-  } else {
-    const userData: UserFull = await octokitService.fetchUser()
-    username = userData.login
   }
 
   const data = await octokitService.fetchCommits(username, start, end, page)
@@ -144,7 +139,7 @@ const getUser = async (): Promise<GitHubUser> => {
     location: userData.location || 'Unknown',
     name: userData.name || userData.login,
     profileUrl: userData.html_url,
-    registrationDate: formatTimestamp(userData.created_at),
+    registrationDate: userData.created_at,
     username: userData.login,
   }
   sessionStorage.write(storageKey, user)

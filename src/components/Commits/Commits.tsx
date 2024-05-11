@@ -12,10 +12,14 @@ const Commits = (): JSX.Element => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const currentDate = new Date()
-      const registeredDate = new Date(2019, 5, 25) // get this from the user data
+      const user = await dataService.getUser()
+      const username = user.username || ''
 
-      while (currentDate >= registeredDate) {
+      const currentDate = new Date()
+      const registrationDate = new Date(user.registrationDate || currentDate)
+      registrationDate.setMonth(registrationDate.getMonth() - 1)
+
+      while (currentDate >= registrationDate) {
         let page = 1
         let fetching = true
         while (fetching) {
@@ -25,7 +29,7 @@ const Commits = (): JSX.Element => {
           const endDate = new Date(year, currentDate.getMonth() + 1, 0).getDate()
           const end = `${year}-${month}-${endDate}`
 
-          const newCommits = await dataService.getCommits(start, end, page)
+          const newCommits = await dataService.getCommits(username, start, end, page)
           if (newCommits.length === 0) {
             fetching = false
             break

@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 
 import dataService from '~/services/data'
 import { GitHubUser } from '~/types'
+import { formatTimestamp } from '~/utils'
 
 import Loading from './Loading'
 import ProfilePicture from './ProfilePicture'
@@ -38,7 +39,7 @@ const Info = (): JSX.Element => {
       key: 'registered',
       title: 'Registered',
       icon: <CalendarMonthIcon />,
-      value: user.registrationDate,
+      value: formatTimestamp(user.registrationDate || ''),
     },
     {
       key: 'location',
