@@ -5,8 +5,8 @@ import {
   CommitFromAPI,
   IssueOrPullRequestFromAPI,
   LanguageMap,
-  RepositoryFull,
-  UserFull,
+  RepositoryFromAPI,
+  UserFromAPI,
 } from '~/types'
 
 const octokit = new Octokit({ auth: TOKEN })
@@ -47,7 +47,7 @@ const fetchIssuesAndPullRequests = async (page: number): Promise<IssueOrPullRequ
   }
 }
 
-const fetchLanguages = async (repositories: RepositoryFull[]): Promise<LanguageMap> => {
+const fetchLanguages = async (repositories: RepositoryFromAPI[]): Promise<LanguageMap> => {
   const languagesArray = await Promise.all(
     repositories.map((repository) =>
       octokit.request(`GET ${repository.languages_url}`).then((response) => response.data)
@@ -63,7 +63,7 @@ const fetchLanguages = async (repositories: RepositoryFull[]): Promise<LanguageM
   return languages
 }
 
-const fetchRepositories = (): Promise<RepositoryFull[]> => {
+const fetchRepositories = (): Promise<RepositoryFromAPI[]> => {
   return new Promise((resolve, reject) => {
     octokit
       .request('GET /user/repos', {
@@ -71,7 +71,7 @@ const fetchRepositories = (): Promise<RepositoryFull[]> => {
         per_page: 100,
       })
       .then((response) => {
-        const repositoriesData = response.data as RepositoryFull[]
+        const repositoriesData = response.data as RepositoryFromAPI[]
         resolve(repositoriesData)
       })
       .catch((error) => {
@@ -81,12 +81,12 @@ const fetchRepositories = (): Promise<RepositoryFull[]> => {
   })
 }
 
-const fetchUser = (): Promise<UserFull> => {
+const fetchUser = (): Promise<UserFromAPI> => {
   return new Promise((resolve, reject) => {
     octokit
       .request('GET /user')
       .then((response) => {
-        const userData = response.data as UserFull
+        const userData = response.data as UserFromAPI
         resolve(userData)
       })
       .catch((error) => {

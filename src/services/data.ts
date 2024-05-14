@@ -5,9 +5,9 @@ import {
   GitHubUser,
   IssueOrPullRequest,
   LanguageMap,
-  RepositoryFull,
+  RepositoryFromAPI,
   TopicMap,
-  UserFull,
+  UserFromAPI,
 } from '~/types'
 
 const getCommits = async (
@@ -114,11 +114,11 @@ const getLanguagesByRepo = async (): Promise<LanguageMap> => {
   return limitedLanguages
 }
 
-const getRepositories = async (): Promise<RepositoryFull[]> => {
+const getRepositories = async (): Promise<RepositoryFromAPI[]> => {
   const storageKey = 'repositories'
   const repositories = sessionStorage.read(storageKey)
   if (repositories) {
-    return repositories as RepositoryFull[]
+    return repositories as RepositoryFromAPI[]
   }
 
   const repositoriesData = await octokitService.fetchRepositories()
@@ -133,7 +133,7 @@ const getUser = async (): Promise<GitHubUser> => {
     return gitHubUser as GitHubUser
   }
 
-  const userData: UserFull = await octokitService.fetchUser()
+  const userData: UserFromAPI = await octokitService.fetchUser()
   const user: GitHubUser = {
     avatarUrl: userData.avatar_url,
     location: userData.location || 'Unknown',

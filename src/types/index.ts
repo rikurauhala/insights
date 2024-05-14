@@ -185,7 +185,7 @@ export interface Repository {
   year?: string
 }
 
-export interface RepositoryFull {
+export interface RepositoryFromAPI {
   allow_forking: boolean
   archive_url: string
   archived: boolean
@@ -300,7 +300,7 @@ interface User {
   url: string
 }
 
-export interface UserFull {
+export interface UserFromAPI {
   avatar_url: string
   bio: string
   blog: string
