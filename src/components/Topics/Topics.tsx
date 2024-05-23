@@ -1,7 +1,9 @@
+import TopicIcon from '@mui/icons-material/Topic'
 import Paper from '@mui/material/Paper'
 import Slider from '@mui/material/Slider'
 import { useEffect, useState } from 'react'
 
+import Section from '~/components/Section'
 import dataService from '~/services/data'
 import { TopicMap } from '~/types'
 
@@ -24,7 +26,12 @@ const Topics = (): JSX.Element => {
   }, [])
 
   return (
-    <>
+    <Section
+      description="Top repository topics"
+      icon={<TopicIcon />}
+      info="Use the slider to control the number of topics shown."
+      title="Topics"
+    >
       <Slider
         disabled={loading || noData}
         marks={Array.from({ length: 5 }, (_, i) => ({
@@ -43,7 +50,7 @@ const Topics = (): JSX.Element => {
         <NoData visible={!loading && noData} />
         <TopicsWordCloud shown={shown} topics={topics} visible={!loading && !noData} />
       </Paper>
-    </>
+    </Section>
   )
 }
 

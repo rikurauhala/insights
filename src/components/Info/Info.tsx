@@ -5,6 +5,7 @@ import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { useEffect, useState } from 'react'
 
+import Section from '~/components/Section'
 import dataService from '~/services/data'
 import { GitHubUser } from '~/types'
 import { formatTimestamp } from '~/utils'
@@ -50,30 +51,32 @@ const Info = (): JSX.Element => {
   ]
 
   return (
-    <Stack
-      alignItems="center"
-      direction={{ xs: 'column', sm: 'row' }}
-      justifyContent="center"
-      spacing={4}
-    >
-      <ProfilePicture url={user.avatarUrl} />
-      <Stack direction="column" justifyContent="space-between" spacing={1} textAlign="left">
-        <Typography component="h2" variant="h5">
-          {user.name ?? <Loading />}
-        </Typography>
-        {infoItems.map(({ key, title, icon, value }) => (
-          <Stack key={key} alignItems="center" direction="row" spacing={1.5}>
-            {icon}
-            <Stack alignItems="start" direction="column">
-              <Typography color="secondary" variant="body2">
-                {title}
-              </Typography>
-              <Typography variant="body1">{value ?? <Loading />}</Typography>
+    <Section>
+      <Stack
+        alignItems="center"
+        direction={{ xs: 'column', sm: 'row' }}
+        justifyContent="center"
+        spacing={4}
+      >
+        <ProfilePicture url={user.avatarUrl} />
+        <Stack direction="column" justifyContent="space-between" spacing={1} textAlign="left">
+          <Typography component="h2" variant="h5">
+            {user.name ?? <Loading />}
+          </Typography>
+          {infoItems.map(({ key, title, icon, value }) => (
+            <Stack key={key} alignItems="center" direction="row" spacing={1.5}>
+              {icon}
+              <Stack alignItems="start" direction="column">
+                <Typography color="secondary" variant="body2">
+                  {title}
+                </Typography>
+                <Typography variant="body1">{value ?? <Loading />}</Typography>
+              </Stack>
             </Stack>
-          </Stack>
-        ))}
+          ))}
+        </Stack>
       </Stack>
-    </Stack>
+    </Section>
   )
 }
 

@@ -1,3 +1,4 @@
+import CodeIcon from '@mui/icons-material/Code'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -8,6 +9,7 @@ import RadioGroup from '@mui/material/RadioGroup'
 import { BarSeriesType } from '@mui/x-charts'
 import { useCallback, useEffect, useState } from 'react'
 
+import Section from '~/components/Section'
 import dataService from '~/services/data'
 import { LanguageMap } from '~/types'
 import { formatPercentage, getColor } from '~/utils'
@@ -93,42 +95,61 @@ const Languages = (): JSX.Element => {
   }
 
   return (
-    <Box>
-      <FormControl>
-        <RadioGroup
-          onChange={(event) => setSource(event.target.value as Source)}
-          row
-          value={source}
+    <Section
+      description="Top programming languages"
+      icon={<CodeIcon />}
+      info={
+        <span>
+          <b>Repository</b> displays the share of each language used as the main (majority) language
+          of a repository.
+          <br />
+          <br />
+          <b>Total size</b> shows the proportion of each language used across all repositories by
+          the total number of megabytes.
+          <br />
+          <br />
+          Hover over the chart to see the exact number and share of each item.
+        </span>
+      }
+      title="Languages"
+    >
+      <Box>
+        <FormControl>
+          <RadioGroup
+            onChange={(event) => setSource(event.target.value as Source)}
+            row
+            value={source}
+          >
+            <FormControlLabel
+              control={<Radio />}
+              disabled={loading || noData}
+              label="Repository"
+              value={Source.REPO}
+            />
+            <FormControlLabel
+              control={<Radio />}
+              disabled={loading || noData}
+              label="Total size"
+              value={Source.SIZE}
+            />
+          </RadioGroup>
+        </FormControl>
+        <Paper
+          elevation={3}
+          sx={{ height: '400px', margin: '20px 0px', padding: loading ? '30px' : 0 }}
         >
-          <FormControlLabel
-            control={<Radio />}
-            disabled={loading || noData}
-            label="Repository"
-            value={Source.REPO}
+          <Loading visible={loading} />
+          <NoData visible={!loading && noData} />
+          <LanguagesChart
+            data={Object.keys(getSource())}
+            formatAxisValue={formatAxisValue}
+            label={getLabel()}
+            series={series}
+            visible={!loading && !noData}
           />
-          <FormControlLabel
-            control={<Radio />}
-            disabled={loading || noData}
-            label="Total size"
-            value={Source.SIZE}
-          />
-        </RadioGroup>
-      </FormControl>
-      <Paper
-        elevation={3}
-        sx={{ height: '400px', margin: '20px 0px', padding: loading ? '30px' : 0 }}
-      >
-        <Loading visible={loading} />
-        <NoData visible={!loading && noData} />
-        <LanguagesChart
-          data={Object.keys(getSource())}
-          formatAxisValue={formatAxisValue}
-          label={getLabel()}
-          series={series}
-          visible={!loading && !noData}
-        />
-      </Paper>
-    </Box>
+        </Paper>
+      </Box>
+    </Section>
   )
 }
 

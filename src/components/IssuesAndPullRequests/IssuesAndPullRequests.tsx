@@ -1,6 +1,8 @@
+import AdjustIcon from '@mui/icons-material/Adjust'
 import Stack from '@mui/material/Stack'
 import { useEffect, useState } from 'react'
 
+import Section from '~/components/Section'
 import dataService from '~/services/data'
 import { IssueOrPullRequest } from '~/types'
 
@@ -50,22 +52,29 @@ const IssuesAndPullRequests = (): JSX.Element => {
   }, [])
 
   return (
-    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-      <Content
-        closed={issues.filter((issue) => issue.state === 'closed').length}
-        loading={loading}
-        noData={noIssues}
-        open={issues.filter((issue) => issue.state === 'open').length}
-        units="issues"
-      />
-      <Content
-        closed={pullRequests.filter((pr) => pr.state === 'closed').length}
-        loading={loading}
-        noData={noPullRequests}
-        open={pullRequests.filter((pr) => pr.state === 'open').length}
-        units="pull requests"
-      />
-    </Stack>
+    <Section
+      description="Opened and closed issues and pull requests"
+      icon={<AdjustIcon />}
+      info="The pie charts display the share of opened and closed issues and pull requests."
+      title="Issues and PRs"
+    >
+      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+        <Content
+          closed={issues.filter((issue) => issue.state === 'closed').length}
+          loading={loading}
+          noData={noIssues}
+          open={issues.filter((issue) => issue.state === 'open').length}
+          units="issues"
+        />
+        <Content
+          closed={pullRequests.filter((pr) => pr.state === 'closed').length}
+          loading={loading}
+          noData={noPullRequests}
+          open={pullRequests.filter((pr) => pr.state === 'open').length}
+          units="pull requests"
+        />
+      </Stack>
+    </Section>
   )
 }
 
