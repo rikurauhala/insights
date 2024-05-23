@@ -1,5 +1,8 @@
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import InfoIcon from '@mui/icons-material/InfoOutlined'
+import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
+import CircularProgress from '@mui/material/CircularProgress'
 import ClickAwayListener from '@mui/material/ClickAwayListener'
 import IconButton from '@mui/material/IconButton'
 import Paper from '@mui/material/Paper'
@@ -67,7 +70,18 @@ const Section = ({
             {chipVisible && (
               <Chip
                 color={fetching ? 'warning' : 'success'}
+                icon={
+                  <Box alignItems="center" display="flex" paddingRight="5px">
+                    {fetching ? (
+                      <CircularProgress color="inherit" size={15} />
+                    ) : (
+                      <CheckCircleOutlineIcon sx={{ fontSize: 20 }} />
+                    )}
+                  </Box>
+                }
                 label={fetching ? 'Fetching data' : 'Data fetched!'}
+                size="small"
+                sx={{ padding: '15px 10px' }}
                 variant="outlined"
               />
             )}
