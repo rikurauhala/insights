@@ -39,8 +39,8 @@ const getCommitCountsByYear = (commits: Commit[]): Record<string, number> => {
 const Commits = (): JSX.Element => {
   const [fetching, setFetching] = useState<boolean>(true)
   const [loading, setLoading] = useState<boolean>(true)
-  const [noData, setNoData] = useState<boolean>(true)
   const [commits, setCommits] = useState<Commit[]>([])
+  const [noData, setNoData] = useState<boolean>(true)
   const [mode, setMode] = useState<CommitsMode>(CommitsMode.MONTH)
 
   useEffect(() => {

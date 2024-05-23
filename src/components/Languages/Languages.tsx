@@ -24,12 +24,12 @@ enum Source {
 }
 
 const Languages = (): JSX.Element => {
+  const [loading, setLoading] = useState<boolean>(true)
   const [languagesByRepo, setLanguagesByRepo] = useState<LanguageMap>({})
   const [languagesBySize, setLanguagesBySize] = useState<LanguageMap>({})
+  const [noData, setNoData] = useState<boolean>(true)
   const [source, setSource] = useState<Source>(Source.REPO)
   const [series, setSeries] = useState<BarSeriesType[]>([])
-  const [loading, setLoading] = useState<boolean>(true)
-  const [noData, setNoData] = useState<boolean>(true)
 
   const getSource = useCallback((): LanguageMap => {
     return source === Source.REPO ? languagesByRepo : languagesBySize

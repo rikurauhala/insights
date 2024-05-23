@@ -12,9 +12,9 @@ const IssuesAndPullRequests = (): JSX.Element => {
   const [fetching, setFetching] = useState<boolean>(true)
   const [loading, setLoading] = useState<boolean>(true)
   const [issues, setIssues] = useState<IssueOrPullRequest[]>([])
-  const [noIssues, setNoIssues] = useState<boolean>(true)
+  const [noIssuesData, setNoIssuesData] = useState<boolean>(true)
   const [pullRequests, setPullRequests] = useState<IssueOrPullRequest[]>([])
-  const [noPullRequests, setNoPullRequests] = useState<boolean>(true)
+  const [noPullRequestsData, setNoPullRequestsData] = useState<boolean>(true)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,7 +32,7 @@ const IssuesAndPullRequests = (): JSX.Element => {
             (issueOrPullRequest) => issueOrPullRequest.type === 'issue'
           )
           if (newIssues.length > 0) {
-            setNoIssues(false)
+            setNoIssuesData(false)
             setLoading(false)
           }
           return prevIssues.concat(newIssues)
@@ -42,7 +42,7 @@ const IssuesAndPullRequests = (): JSX.Element => {
             (issueOrPullRequest) => issueOrPullRequest.type === 'pullRequest'
           )
           if (newPullRequests.length > 0) {
-            setNoPullRequests(false)
+            setNoPullRequestsData(false)
             setLoading(false)
           }
           return prevPullRequests.concat(newPullRequests)
@@ -66,14 +66,14 @@ const IssuesAndPullRequests = (): JSX.Element => {
         <Content
           closed={issues.filter((issue) => issue.state === 'closed').length}
           loading={loading}
-          noData={noIssues}
+          noData={noIssuesData}
           open={issues.filter((issue) => issue.state === 'open').length}
           units="issues"
         />
         <Content
           closed={pullRequests.filter((pr) => pr.state === 'closed').length}
           loading={loading}
-          noData={noPullRequests}
+          noData={noPullRequestsData}
           open={pullRequests.filter((pr) => pr.state === 'open').length}
           units="pull requests"
         />

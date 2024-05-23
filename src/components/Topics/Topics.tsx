@@ -12,10 +12,10 @@ import NoData from './NoData'
 import TopicsWordCloud from './TopicsWordCloud'
 
 const Topics = (): JSX.Element => {
-  const [topics, setTopics] = useState<TopicMap>({})
-  const [shown, setShown] = useState<number>(20)
   const [loading, setLoading] = useState<boolean>(true)
+  const [topics, setTopics] = useState<TopicMap>({})
   const [noData, setNoData] = useState<boolean>(true)
+  const [shown, setShown] = useState<number>(20)
 
   useEffect(() => {
     void dataService.getTopics().then((topicData) => {
