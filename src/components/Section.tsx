@@ -40,6 +40,11 @@ const Section = ({
   const [chipVisible, setChipVisible] = useState<boolean>(true)
 
   useEffect(() => {
+    if (fetching === undefined) {
+      setChipVisible(false)
+      return
+    }
+
     if (fetching === false) {
       const timer = setTimeout(() => {
         setChipVisible(false)
