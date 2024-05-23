@@ -9,11 +9,12 @@ import { IssueOrPullRequest } from '~/types'
 import Content from './Content'
 
 const IssuesAndPullRequests = (): JSX.Element => {
+  const [fetching, setFetching] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(true)
   const [issues, setIssues] = useState<IssueOrPullRequest[]>([])
   const [noIssues, setNoIssues] = useState<boolean>(true)
   const [pullRequests, setPullRequests] = useState<IssueOrPullRequest[]>([])
   const [noPullRequests, setNoPullRequests] = useState<boolean>(true)
-  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,6 +33,7 @@ const IssuesAndPullRequests = (): JSX.Element => {
           )
           if (newIssues.length > 0) {
             setNoIssues(false)
+            setLoading(false)
           }
           return prevIssues.concat(newIssues)
         })
@@ -41,19 +43,21 @@ const IssuesAndPullRequests = (): JSX.Element => {
           )
           if (newPullRequests.length > 0) {
             setNoPullRequests(false)
+            setLoading(false)
           }
           return prevPullRequests.concat(newPullRequests)
         })
       }
+      setFetching(false)
     }
 
     void fetchData()
-    setLoading(false)
   }, [])
 
   return (
     <Section
       description="Opened and closed issues and pull requests"
+      fetching={fetching}
       icon={<AdjustIcon />}
       info="The pie charts display the share of opened and closed issues and pull requests."
       title="Issues and PRs"

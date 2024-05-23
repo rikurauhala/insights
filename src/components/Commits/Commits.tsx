@@ -37,10 +37,11 @@ const getCommitCountsByYear = (commits: Commit[]): Record<string, number> => {
 }
 
 const Commits = (): JSX.Element => {
-  const [commits, setCommits] = useState<Commit[]>([])
-  const [mode, setMode] = useState<CommitsMode>(CommitsMode.MONTH)
+  const [fetching, setFetching] = useState<boolean>(true)
   const [loading, setLoading] = useState<boolean>(true)
   const [noData, setNoData] = useState<boolean>(true)
+  const [commits, setCommits] = useState<Commit[]>([])
+  const [mode, setMode] = useState<CommitsMode>(CommitsMode.MONTH)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,14 +69,15 @@ const Commits = (): JSX.Element => {
           }
           setCommits((prevCommits) => prevCommits.concat(newCommits))
           setNoData(Object.keys(newCommits).length === 0)
+          setLoading(false)
           page++
         }
         currentDate.setMonth(currentDate.getMonth() - 1)
       }
+      setFetching(false)
     }
 
     void fetchData()
-    setLoading(false)
   }, [])
 
   const formatDate = (date: Date) => {
@@ -124,6 +126,7 @@ const Commits = (): JSX.Element => {
   return (
     <Section
       description="Commits over time"
+      fetching={fetching}
       icon={<CommitIcon />}
       info="The chart displays commits made by you over time."
       title="Commits"
