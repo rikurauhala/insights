@@ -160,3 +160,55 @@ sequenceDiagram
   USER     ->> ELEMENT : views and interacts with data
   deactivate   ELEMENT
 ```
+
+### Incremental fetching
+
+Due to the rate limits imposed on their API by GitHub, it is only possible to fetch up to 1000 data points per query. Only 100 results can be fetched per page so to fetch all 1000 results, a minimum of 10 GET requests must be made.
+
+The `Issues and Pull Requests` component works this way. In the `Commits` component, the same process is repeated for each month as active users are likely to have made more than 1000 commits. If data is already stored in the session storage, only one request to data service is enough. See the previous diagram.
+
+```mermaid
+sequenceDiagram
+  autonumber
+
+    actor       USER    as User
+  box rgba(0, 255, 0, 0.1) Browser
+    participant APP     as React app
+    participant ISSUES  as Issues and Pull Requests
+    participant DATA    as Data service
+    participant STORAGE as Session storage
+    participant OCTOKIT as Octokit service
+  end
+  box rgba(0, 0, 255, 0.1) Internet
+    participant GITHUB  as GitHub API
+  end
+
+  USER     ->> APP     : opens
+  APP      ->> ISSUES  : loads
+  activate     ISSUES
+  ISSUES   ->> ISSUES  : renders skeleton loader
+  ISSUES   ->> ISSUES  : displays an orange "Fetching data" notification chip
+  loop Up to 10 times
+    ISSUES   ->> DATA    : requests data
+    activate     DATA
+    DATA     ->> STORAGE : checks for data
+    STORAGE -->> DATA    : no data
+    deactivate   DATA
+    DATA     ->> OCTOKIT : requests partial data
+    activate     OCTOKIT
+    OCTOKIT  ->> GITHUB  : requests partial data
+    GITHUB  -->> OCTOKIT : returns partial data
+    OCTOKIT -->> DATA    : returns partial data
+    deactivate   OCTOKIT
+    activate     DATA
+    DATA     ->> DATA    : formats partial data
+    DATA     ->> STORAGE : stores and updates stored data
+    DATA    -->> ISSUES  : returns partial data
+    deactivate   DATA
+    ISSUES   ->> ISSUES  : renders data / updates partial data
+    USER     ->> ISSUES  : views and interacts with partial data
+  end
+  ISSUES   ->> ISSUES  : displays a green "Data fetched" notification chip
+  USER     ->> ISSUES  : views and interacts with complete data
+  deactivate   ISSUES
+```
