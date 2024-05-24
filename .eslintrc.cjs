@@ -19,6 +19,7 @@ module.exports = {
         pathGroups: [{ pattern: '~/**', group: 'internal', position: 'before' }],
       },
     ],
+    'no-constant-condition': 'off',
     'react/jsx-sort-props': ['error', { reservedFirst: true }],
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
   },

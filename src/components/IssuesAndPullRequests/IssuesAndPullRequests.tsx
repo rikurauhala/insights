@@ -19,12 +19,10 @@ const IssuesAndPullRequests = (): JSX.Element => {
   useEffect(() => {
     const fetchData = async () => {
       let page = 1
-      let fetching = true
-      while (fetching) {
+      while (true) {
         const newData = await dataService.getIssuesAndPullRequests(page)
         page++
         if (newData.length === 0) {
-          fetching = false
           break
         }
         setIssues((prevIssues) => {

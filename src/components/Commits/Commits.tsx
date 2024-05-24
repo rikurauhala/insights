@@ -54,8 +54,7 @@ const Commits = (): JSX.Element => {
 
       while (currentDate >= registrationDate) {
         let page = 1
-        let fetching = true
-        while (fetching) {
+        while (true) {
           const year = currentDate.getFullYear()
           const month = String(currentDate.getMonth() + 1).padStart(2, '0')
           const start = `${year}-${month}-01`
@@ -64,7 +63,6 @@ const Commits = (): JSX.Element => {
 
           const newCommits = await dataService.getCommits(username, start, end, page)
           if (newCommits.length === 0) {
-            fetching = false
             break
           }
           setCommits((prevCommits) => prevCommits.concat(newCommits))
