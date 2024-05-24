@@ -5,6 +5,7 @@ import Chip from '@mui/material/Chip'
 import CircularProgress from '@mui/material/CircularProgress'
 import ClickAwayListener from '@mui/material/ClickAwayListener'
 import Fade from '@mui/material/Fade'
+import Grow from '@mui/material/Grow'
 import IconButton from '@mui/material/IconButton'
 import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
@@ -60,7 +61,7 @@ const Section = ({
             </Typography>
           </Stack>
           <Stack alignItems="center" direction="row" gap={1}>
-            <Fade appear={false} in={chipVisible} timeout={4000}>
+            <Fade appear={false} in={chipVisible} timeout={5000}>
               <Chip
                 color={fetching ? 'warning' : 'success'}
                 icon={
@@ -68,7 +69,9 @@ const Section = ({
                     {fetching ? (
                       <CircularProgress color="inherit" size={15} />
                     ) : (
-                      <CheckCircleOutlineIcon sx={{ fontSize: 20 }} />
+                      <Grow in={!fetching} timeout={1000}>
+                        <CheckCircleOutlineIcon sx={{ fontSize: 20 }} />
+                      </Grow>
                     )}
                   </Box>
                 }
