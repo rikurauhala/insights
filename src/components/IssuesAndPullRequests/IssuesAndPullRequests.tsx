@@ -57,7 +57,12 @@ const IssuesAndPullRequests = (): JSX.Element => {
       description="Opened and closed issues and pull requests"
       fetching={fetching}
       icon={<AdjustIcon />}
-      info="The pie charts display the share of opened and closed issues and pull requests."
+      info={
+        <span>
+          <p>The pie charts display the share of opened and closed issues and pull requests.</p>
+          <p>It may take a while for the data to be fetched.</p>
+        </span>
+      }
       title="Issues and PRs"
     >
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>

@@ -126,7 +126,12 @@ const Commits = (): JSX.Element => {
       description="Commits over time"
       fetching={fetching}
       icon={<CommitIcon />}
-      info="The chart displays commits made by you over time."
+      info={
+        <span>
+          <p>The chart displays commits made by you over time.</p>
+          <p>It may take a while for the data to be fetched.</p>
+        </span>
+      }
       title="Commits"
     >
       <Box>
