@@ -4,6 +4,7 @@ import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import CircularProgress from '@mui/material/CircularProgress'
 import ClickAwayListener from '@mui/material/ClickAwayListener'
+import Fade from '@mui/material/Fade'
 import IconButton from '@mui/material/IconButton'
 import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
@@ -43,16 +44,8 @@ const Section = ({
   const [chipVisible, setChipVisible] = useState<boolean>(true)
 
   useEffect(() => {
-    if (fetching === undefined) {
+    if (fetching === false || fetching === undefined) {
       setChipVisible(false)
-      return
-    }
-
-    if (fetching === false) {
-      const timer = setTimeout(() => {
-        setChipVisible(false)
-      }, 2000)
-      return () => clearTimeout(timer)
     }
   }, [fetching])
 
@@ -67,7 +60,7 @@ const Section = ({
             </Typography>
           </Stack>
           <Stack alignItems="center" direction="row" gap={1}>
-            {chipVisible && (
+            <Fade appear={false} in={chipVisible} timeout={4000}>
               <Chip
                 color={fetching ? 'warning' : 'success'}
                 icon={
@@ -84,7 +77,7 @@ const Section = ({
                 sx={{ padding: '15px 10px' }}
                 variant="outlined"
               />
-            )}
+            </Fade>
             <ClickAwayListener onClickAway={() => setTooltipOpen(false)}>
               <Tooltip
                 arrow
