@@ -60,7 +60,11 @@ export const formatPercentage = (total: number, units: string, value: number): s
  * @returns {string} The formatted date.
  * @example formatTimestamp('2024-04-19T00:00:00Z') // Returns '19 April 2024'
  */
-export const formatTimestamp = (timestamp: string): string => {
+export const formatTimestamp = (timestamp: string): string | null => {
+  if (!timestamp) {
+    return null
+  }
+
   return new Date(timestamp).toLocaleDateString('en-UK', {
     day: '2-digit',
     month: 'long',

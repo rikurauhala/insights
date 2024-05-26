@@ -1,7 +1,11 @@
 import Skeleton from '@mui/material/Skeleton'
 
-const Loading = (): JSX.Element => {
-  return <Skeleton animation="wave" width={150} />
+interface LoadingProps {
+  id: string
+}
+
+const Loading = ({ id }: LoadingProps): JSX.Element => {
+  return <Skeleton animation="wave" data-cy={`info-skeleton-${id}`} width={150} />
 }
 
 export default Loading

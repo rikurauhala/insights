@@ -61,7 +61,7 @@ const Info = (): JSX.Element => {
         <ProfilePicture url={user.avatarUrl} />
         <Stack direction="column" justifyContent="space-between" spacing={1} textAlign="left">
           <Typography component="h2" variant="h5">
-            {user.name ?? <Loading />}
+            {user.name ?? <Loading id="name" />}
           </Typography>
           {infoItems.map(({ key, title, icon, value }) => (
             <Stack key={key} alignItems="center" direction="row" spacing={1.5}>
@@ -70,7 +70,7 @@ const Info = (): JSX.Element => {
                 <Typography color="secondary" variant="body2">
                   {title}
                 </Typography>
-                <Typography variant="body1">{value ?? <Loading />}</Typography>
+                <Typography variant="body1">{value ?? <Loading id={key} />}</Typography>
               </Stack>
             </Stack>
           ))}
