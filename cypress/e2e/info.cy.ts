@@ -1,24 +1,36 @@
 describe('Info section', () => {
   describe('with no data', () => {
     beforeEach(() => {
-      cy.intercept('**://*.github.com/**', {
-        statusCode: 204,
-        body: '',
-      })
+      cy.disableApiConnection()
       cy.visit('/')
     })
 
-    it('contains subtitles', () => {
-      cy.contains('Username')
-      cy.contains('Registered')
-      cy.contains('Location')
+    it('does not contain profile picture', () => {
+      cy.get('[data-cy=info-profile-picture]').should('not.exist')
+      cy.get('[data-cy=info-profile-picture-skeleton]').should('exist')
     })
 
-    it('contains loading skeletons', () => {
-      cy.get('[data-cy=info-skeleton-name]').should('exist')
-      cy.get('[data-cy=info-skeleton-username]').should('exist')
-      cy.get('[data-cy=info-skeleton-registered]').should('exist')
-      cy.get('[data-cy=info-skeleton-location]').should('exist')
+    it('does not contain name', () => {
+      cy.get('[data-cy=info-name]').should('not.exist')
+      cy.get('[data-cy=info-name-skeleton]').should('exist')
+    })
+
+    it('does not contain username', () => {
+      cy.contains('Username')
+      cy.get('[data-cy=info-username]').should('not.exist')
+      cy.get('[data-cy=info-username-skeleton]').should('exist')
+    })
+
+    it('does not contain registration date', () => {
+      cy.contains('Registered')
+      cy.get('[data-cy=info-registered]').should('not.exist')
+      cy.get('[data-cy=info-registered-skeleton]').should('exist')
+    })
+
+    it('does not contain location', () => {
+      cy.contains('Location')
+      cy.get('[data-cy=info-location]').should('not.exist')
+      cy.get('[data-cy=info-location-skeleton]').should('exist')
     })
   })
 })

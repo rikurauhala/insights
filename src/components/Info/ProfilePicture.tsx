@@ -16,11 +16,17 @@ const ProfilePicture = ({ url }: ProfilePictureProps): JSX.Element => {
   }
 
   if (!url) {
-    return <Skeleton data-cy="profile-picture-skeleton" sx={style} variant="circular" />
+    return <Skeleton data-cy="info-profile-picture-skeleton" sx={style} variant="circular" />
   }
 
   return (
-    <Box alt="Profile picture" component="img" data-cy="profile-picture" src={url} sx={style} />
+    <Box
+      alt="Profile picture"
+      component="img"
+      data-cy="info-profile-picture"
+      src={url}
+      sx={style}
+    />
   )
 }
 

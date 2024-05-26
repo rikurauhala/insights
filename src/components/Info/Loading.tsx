@@ -5,7 +5,7 @@ interface LoadingProps {
 }
 
 const Loading = ({ id }: LoadingProps): JSX.Element => {
-  return <Skeleton animation="wave" data-cy={`info-skeleton-${id}`} width={150} />
+  return <Skeleton animation="wave" data-cy={`info-${id}-skeleton`} width={150} />
 }
 
 export default Loading
