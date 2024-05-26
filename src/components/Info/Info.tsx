@@ -1,6 +1,7 @@
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import GitHubIcon from '@mui/icons-material/GitHub'
 import PlaceIcon from '@mui/icons-material/Place'
+import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { useEffect, useState } from 'react'
@@ -61,7 +62,7 @@ const Info = (): JSX.Element => {
         <ProfilePicture url={user.avatarUrl} />
         <Stack direction="column" justifyContent="space-between" spacing={1} textAlign="left">
           <Typography component="h2" variant="h5">
-            {user.name ?? <Loading id="name" />}
+            {user.name ? <Box data-cy="info-name">{user.name}</Box> : <Loading id="name" />}
           </Typography>
           {infoItems.map(({ key, title, icon, value }) => (
             <Stack key={key} alignItems="center" direction="row" spacing={1.5}>
@@ -70,7 +71,9 @@ const Info = (): JSX.Element => {
                 <Typography color="secondary" variant="body2">
                   {title}
                 </Typography>
-                <Typography variant="body1">{value ?? <Loading id={key} />}</Typography>
+                <Typography variant="body1">
+                  {value ? <Box data-cy={`info-${key}`}>{value}</Box> : <Loading id={key} />}
+                </Typography>
               </Stack>
             </Stack>
           ))}

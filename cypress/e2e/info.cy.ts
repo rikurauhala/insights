@@ -33,4 +33,40 @@ describe('Info section', () => {
       cy.get('[data-cy=info-location-skeleton]').should('exist')
     })
   })
+
+  describe('with data', () => {
+    beforeEach(() => {
+      cy.disableApiConnection()
+      cy.intercept('GET', 'https://api.github.com/user', { fixture: 'user.json' })
+      cy.visit('/')
+    })
+
+    it('contains profile picture', () => {
+      cy.get('[data-cy=info-profile-picture]').should('exist')
+      cy.get('[data-cy=info-profile-picture-skeleton]').should('not.exist')
+    })
+
+    it('contains name', () => {
+      cy.get('[data-cy=info-name]').should('exist')
+      cy.get('[data-cy=info-name-skeleton]').should('not.exist')
+    })
+
+    it('contains username', () => {
+      cy.contains('Username')
+      cy.get('[data-cy=info-username]').should('exist')
+      cy.get('[data-cy=info-username-skeleton]').should('not.exist')
+    })
+
+    it('contains registration date', () => {
+      cy.contains('Registered')
+      cy.get('[data-cy=info-registered]').should('exist')
+      cy.get('[data-cy=info-registered-skeleton]').should('not.exist')
+    })
+
+    it('contains location', () => {
+      cy.contains('Location')
+      cy.get('[data-cy=info-location]').should('exist')
+      cy.get('[data-cy=info-location-skeleton]').should('not.exist')
+    })
+  })
 })
