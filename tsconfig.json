@@ -18,8 +18,9 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"]
-    }
+    },
+    "types": ["node", "cypress"]
   },
-  "include": ["src/**/*"],
+  "include": ["**/*"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
