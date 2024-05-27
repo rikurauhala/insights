@@ -65,6 +65,22 @@ describe('Info section', () => {
 
     it('contains location', () => {
       cy.contains('Location')
+      cy.contains('United States')
+      cy.get('[data-cy=info-location]').should('exist')
+      cy.get('[data-cy=info-location-skeleton]').should('not.exist')
+    })
+  })
+
+  describe('with data but no location', () => {
+    beforeEach(() => {
+      cy.disableApiConnection()
+      cy.intercept('GET', 'https://api.github.com/user', { fixture: 'user2.json' })
+      cy.visit('/')
+    })
+
+    it('contains unknown location', () => {
+      cy.contains('Location')
+      cy.contains('Unknown')
       cy.get('[data-cy=info-location]').should('exist')
       cy.get('[data-cy=info-location-skeleton]').should('not.exist')
     })
