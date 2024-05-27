@@ -16,24 +16,30 @@ import Loading from './Loading'
 import NoData from './NoData'
 
 const getCommitCountsByMonth = (commits: Commit[]): Record<string, number> => {
-  return commits.reduce((counts, commit) => {
-    const commitDate = new Date(commit.date)
-    const monthYear = `${commitDate.getFullYear()}-${String(commitDate.getMonth() + 1).padStart(
-      2,
-      '0'
-    )}`
-    counts[monthYear] = (counts[monthYear] || 0) + 1
-    return counts
-  }, {} as Record<string, number>)
+  return commits.reduce(
+    (counts, commit) => {
+      const commitDate = new Date(commit.date)
+      const monthYear = `${commitDate.getFullYear()}-${String(commitDate.getMonth() + 1).padStart(
+        2,
+        '0'
+      )}`
+      counts[monthYear] = (counts[monthYear] || 0) + 1
+      return counts
+    },
+    {} as Record<string, number>
+  )
 }
 
 const getCommitCountsByYear = (commits: Commit[]): Record<string, number> => {
-  return commits.reduce((counts, commit) => {
-    const commitDate = new Date(commit.date)
-    const year = commitDate.getFullYear().toString()
-    counts[year] = (counts[year] || 0) + 1
-    return counts
-  }, {} as Record<string, number>)
+  return commits.reduce(
+    (counts, commit) => {
+      const commitDate = new Date(commit.date)
+      const year = commitDate.getFullYear().toString()
+      counts[year] = (counts[year] || 0) + 1
+      return counts
+    },
+    {} as Record<string, number>
+  )
 }
 
 const Commits = (): JSX.Element => {
