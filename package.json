@@ -9,7 +9,8 @@
     "dev": "vite",
     "format": "prettier --write .",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "test": "cypress open"
+    "test": "cypress open",
+    "test:ci": "cypress run"
   },
   "dependencies": {
     "@cyberblast/react-wordcloud": "^1.2.9",
