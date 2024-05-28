@@ -118,3 +118,4 @@ npm run dev
 - [Contributing](./docs/contributing.md)
 - [Credits](./docs/credits.md)
 - [License](./LICENSE.md)
+- [Security](./docs/security.md)
