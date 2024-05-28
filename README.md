@@ -115,5 +115,6 @@ npm run dev
 ## Documentation
 
 - [Architecture](./docs/architecture.md)
+- [Contributing](./docs/contributing.md)
 - [Credits](./docs/credits.md)
 - [License](./LICENSE.md)
