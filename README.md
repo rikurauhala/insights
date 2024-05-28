@@ -117,4 +117,3 @@ npm run dev
 - [Architecture](./docs/architecture.md)
 - [Credits](./docs/credits.md)
 - [License](./LICENSE.md)
-- [Resources](./docs/resources.md)
