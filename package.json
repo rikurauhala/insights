@@ -16,7 +16,7 @@
     "@cyberblast/react-wordcloud": "^1.2.9",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
-    "@mui/icons-material": "^5.15.15",
+    "@mui/icons-material": "^5.15.19",
     "@mui/material": "^5.15.15",
     "@mui/x-charts": "^7.2.0",
     "color-contrast-checker": "^2.1.0",
