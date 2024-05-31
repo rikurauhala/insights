@@ -22,3 +22,13 @@ jobs:
         run: npm run lint
       - name: Format with Prettier
         run: npm run format
+
+  test:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Run tests
+        uses: cypress-io/github-action@v6
+        with:
+          start: npm run dev
