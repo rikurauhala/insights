@@ -25,5 +25,6 @@ jobs:
       - name: Run tests
         uses: cypress-io/github-action@v6
         with:
-          start: npm run dev
+          wait-on: http://localhost:5173
+          start: npx vite --host
           browser: chrome
