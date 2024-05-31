@@ -1,4 +1,4 @@
-name: CI
+name: Continuous Integration
 
 on:
   push:
@@ -30,7 +30,7 @@ jobs:
       - name: Format with Prettier
         run: npm run format
 
-      - name: Run tests
+      - name: Run tests with Cypress
         uses: cypress-io/github-action@v6
         with:
           wait-on: http://localhost:5173
