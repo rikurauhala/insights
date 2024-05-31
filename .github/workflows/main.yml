@@ -30,3 +30,15 @@ jobs:
           browser: chrome
         env:
           VITE_TOKEN: ${{ secrets.VITE_TOKEN }}
+      - name: Upload Cypress Screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots/**/*
+      - name: Upload Cypress Videos
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-videos
+          path: cypress/videos/**/*
