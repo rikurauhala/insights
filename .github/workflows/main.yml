@@ -28,3 +28,5 @@ jobs:
           wait-on: http://localhost:5173
           start: npx vite --host
           browser: chrome
+        env:
+          VITE_TOKEN: ${{ secrets.VITE_TOKEN }}
