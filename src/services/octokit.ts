@@ -48,6 +48,9 @@ const fetchIssuesAndPullRequests = async (page: number): Promise<IssueOrPullRequ
 }
 
 const fetchLanguages = async (repositories: RepositoryFromAPI[]): Promise<LanguageMap> => {
+  if (repositories == undefined) {
+    return {}
+  }
   const languagesArray = await Promise.all(
     repositories.map((repository) =>
       octokit.request(`GET ${repository.languages_url}`).then((response) => response.data)

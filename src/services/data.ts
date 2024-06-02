@@ -85,6 +85,9 @@ const getLanguagesBySize = async (): Promise<LanguageMap> => {
   }
 
   const repositories = await getRepositories()
+  if (repositories == undefined) {
+    return {}
+  }
   const languages = await octokitService.fetchLanguages(repositories)
 
   const limitedLanguages = sortAndLimitLanguages(languages, 10)
@@ -100,6 +103,9 @@ const getLanguagesByRepo = async (): Promise<LanguageMap> => {
   }
 
   const repositories = await getRepositories()
+  if (repositories == undefined) {
+    return {}
+  }
   const languageMap: LanguageMap = {}
   repositories.forEach(({ language }) => {
     if (!language) {
@@ -134,6 +140,16 @@ const getUser = async (): Promise<GitHubUser> => {
   }
 
   const userData: UserFromAPI = await octokitService.fetchUser()
+  if (userData == undefined) {
+    return {
+      avatarUrl: '',
+      location: 'Unknown',
+      name: 'Unknown',
+      profileUrl: '',
+      registrationDate: '',
+      username: 'Unknown',
+    }
+  }
   const user: GitHubUser = {
     avatarUrl: userData.avatar_url,
     location: userData.location || 'Unknown',
@@ -154,6 +170,10 @@ const getTopics = async (): Promise<TopicMap> => {
   }
 
   const repositories = await getRepositories()
+  if (repositories == undefined) {
+    return {}
+  }
+
   const topicMap: TopicMap = {}
   repositories.forEach(({ topics }) => {
     topics.forEach((topic) => {
