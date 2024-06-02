@@ -10,7 +10,7 @@
     "format": "prettier --write .",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "test": "cypress open",
-    "test:ci": "cypress run"
+    "test:ci": "cypress run --browser firefox"
   },
   "dependencies": {
     "@cyberblast/react-wordcloud": "^1.2.9",
@@ -25,6 +25,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@cypress/code-coverage": "^3.12.39",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
@@ -39,6 +40,7 @@
     "eslint-plugin-react-refresh": "^0.4.6",
     "prettier": "^3.2.5",
     "typescript": "^5.2.2",
-    "vite": "^5.2.0"
+    "vite": "^5.2.0",
+    "vite-plugin-istanbul": "^6.0.2"
   }
 }
