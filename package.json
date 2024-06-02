@@ -1,7 +1,10 @@
 {
   "name": "insights",
+  "description": "Visualize your coding journey",
   "author": "Riku Rauhala <riku.rauhala@helsinki.fi>",
+  "homepage": "https://github.com/rikurauhala/insights",
   "private": true,
+  "license": "MIT",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
