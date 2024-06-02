@@ -16,8 +16,11 @@
 
 </div>
 
+## Tech
+
 <div align="center">
 
+![CodeCov](https://img.shields.io/badge/codecov-%23ff0077.svg?style=for-the-badge&logo=codecov&logoColor=white)
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 ![Cypress](https://img.shields.io/badge/-cypress-%23E5E5E5?style=for-the-badge&logo=cypress&logoColor=058a5e)
 ![Dependabot](https://img.shields.io/badge/dependabot-025E8C?style=for-the-badge&logo=dependabot&logoColor=white)
@@ -31,6 +34,15 @@
 ![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+
+</div>
+
+## Development
+
+<div align="center">
+
+[![Continuous Integration](https://github.com/rikurauhala/insights/actions/workflows/main.yml/badge.svg)](https://github.com/rikurauhala/insights/actions/workflows/main.yml)
+[![codecov](https://codecov.io/gh/rikurauhala/insights/graph/badge.svg?token=956U3CZC68)](https://codecov.io/gh/rikurauhala/insights)
 
 </div>
 
