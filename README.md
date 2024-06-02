@@ -137,3 +137,4 @@ npm run dev
 - [Credits](./docs/credits.md)
 - [License](./LICENSE.md)
 - [Security](./docs/security.md)
+- [Testing](./docs/testing.md)
