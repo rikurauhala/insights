@@ -37,12 +37,13 @@
 
 </div>
 
-## Development
+## Status
 
 <div align="center">
 
 [![Continuous Integration](https://github.com/rikurauhala/insights/actions/workflows/main.yml/badge.svg)](https://github.com/rikurauhala/insights/actions/workflows/main.yml)
 [![codecov](https://codecov.io/gh/rikurauhala/insights/graph/badge.svg?token=956U3CZC68)](https://codecov.io/gh/rikurauhala/insights)
+[![Maintainability](https://api.codeclimate.com/v1/badges/1687d15a56957cd16aa4/maintainability)](https://codeclimate.com/github/rikurauhala/insights/maintainability)
 
 </div>
 
