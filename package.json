@@ -13,7 +13,8 @@
     "format": "prettier --write .",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run --browser firefox"
+    "cypress:run": "cypress run --browser firefox",
+    "coverage": "nyc report --reporter=lcov --report-dir=coverage"
   },
   "dependencies": {
     "@cyberblast/react-wordcloud": "^1.2.9",
