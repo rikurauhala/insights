@@ -76,7 +76,7 @@ Please make sure to always run tests before creating a pull request to ensure no
 
 ```bash
 # Run tests
-$ npm run test
+$ npm run cypress:run
 ```
 
 ## Resources
