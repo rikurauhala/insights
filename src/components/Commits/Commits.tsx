@@ -12,14 +12,15 @@ import CommitsChart from './CommitsChart'
 import Loading from './Loading'
 import NoData from './NoData'
 
+const getMonthYear = (date: Date): string => {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`
+}
+
 const getCommitCountsByMonth = (commits: Commit[]): Record<string, number> => {
   return commits.reduce(
     (counts, commit) => {
       const commitDate = new Date(commit.date)
-      const monthYear = `${commitDate.getFullYear()}-${String(commitDate.getMonth() + 1).padStart(
-        2,
-        '0'
-      )}`
+      const monthYear = getMonthYear(commitDate)
       counts[monthYear] = (counts[monthYear] || 0) + 1
       return counts
     },
@@ -98,6 +99,7 @@ const Commits = (): JSX.Element => {
   const earliestDate = new Date(
     Math.min(...Object.keys(commitCountsByPeriod).map((key) => new Date(key).getTime()))
   )
+
   const latestDate = new Date(
     Math.max(...Object.keys(commitCountsByPeriod).map((key) => new Date(key).getTime()))
   )
@@ -106,9 +108,7 @@ const Commits = (): JSX.Element => {
   const currentDate = new Date(earliestDate)
   while (currentDate <= latestDate) {
     const period =
-      mode === CommitsMode.MONTH
-        ? `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`
-        : currentDate.getFullYear().toString()
+      mode === CommitsMode.MONTH ? getMonthYear(currentDate) : currentDate.getFullYear().toString()
     if (!(period in commitCountsByPeriod)) {
       periodsWithZeroCommits[period] = 0
     }
