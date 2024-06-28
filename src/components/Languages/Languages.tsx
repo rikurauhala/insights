@@ -1,14 +1,11 @@
 import CodeIcon from '@mui/icons-material/Code'
 import Box from '@mui/material/Box'
-import FormControl from '@mui/material/FormControl'
-import FormControlLabel from '@mui/material/FormControlLabel'
 import Paper from '@mui/material/Paper'
-import Radio from '@mui/material/Radio'
-import RadioGroup from '@mui/material/RadioGroup'
 
 import { BarSeriesType } from '@mui/x-charts'
 import { useCallback, useEffect, useState } from 'react'
 
+import OptionSelector from '~/components/OptionSelector'
 import Section from '~/components/Section'
 import dataService from '~/services/data'
 import { LanguageMap } from '~/types'
@@ -94,6 +91,10 @@ const Languages = (): JSX.Element => {
     return `${(parseInt(value, 10) / megaBytes).toFixed(2)}`
   }
 
+  const handleSourceChange = (newSource: string) => {
+    setSource(newSource as Source)
+  }
+
   return (
     <Section
       description="Top programming languages"
@@ -114,26 +115,15 @@ const Languages = (): JSX.Element => {
       title="Languages"
     >
       <Box>
-        <FormControl>
-          <RadioGroup
-            onChange={(event) => setSource(event.target.value as Source)}
-            row
-            value={source}
-          >
-            <FormControlLabel
-              control={<Radio />}
-              disabled={loading || noData}
-              label="Repository"
-              value={Source.REPO}
-            />
-            <FormControlLabel
-              control={<Radio />}
-              disabled={loading || noData}
-              label="Total size"
-              value={Source.SIZE}
-            />
-          </RadioGroup>
-        </FormControl>
+        <OptionSelector
+          disabled={loading || noData}
+          onChange={handleSourceChange}
+          options={[
+            { label: 'Repository', value: Source.REPO },
+            { label: 'Total size', value: Source.SIZE },
+          ]}
+          value={source}
+        />
         <Paper
           elevation={3}
           sx={{ height: '400px', margin: '20px 0px', padding: loading ? '30px' : 0 }}

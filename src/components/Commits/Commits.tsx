@@ -1,12 +1,9 @@
 import CommitIcon from '@mui/icons-material/Commit'
 import Box from '@mui/material/Box'
-import FormControl from '@mui/material/FormControl'
-import FormControlLabel from '@mui/material/FormControlLabel'
 import Paper from '@mui/material/Paper'
-import Radio from '@mui/material/Radio'
-import RadioGroup from '@mui/material/RadioGroup'
 import { useEffect, useState } from 'react'
 
+import OptionSelector from '~/components/OptionSelector'
 import Section from '~/components/Section'
 import dataService from '~/services/data'
 import { Commit, CommitsMode } from '~/types'
@@ -127,6 +124,10 @@ const Commits = (): JSX.Element => {
   const xAxisData = sortedData.map(({ date }) => date)
   const seriesData = sortedData.map(({ count }) => count)
 
+  const handleModeChange = (newMode: string) => {
+    setMode(newMode as CommitsMode)
+  }
+
   return (
     <Section
       description="Commits over time"
@@ -141,26 +142,15 @@ const Commits = (): JSX.Element => {
       title="Commits"
     >
       <Box>
-        <FormControl>
-          <RadioGroup
-            onChange={(event) => setMode(event.target.value as CommitsMode)}
-            row
-            value={mode}
-          >
-            <FormControlLabel
-              control={<Radio />}
-              disabled={loading || noData}
-              label="Month"
-              value={CommitsMode.MONTH}
-            />
-            <FormControlLabel
-              control={<Radio />}
-              disabled={loading || noData}
-              label="Year"
-              value={CommitsMode.YEAR}
-            />
-          </RadioGroup>
-        </FormControl>
+        <OptionSelector
+          disabled={loading || noData}
+          onChange={handleModeChange}
+          options={[
+            { label: 'Month', value: CommitsMode.MONTH },
+            { label: 'Year', value: CommitsMode.YEAR },
+          ]}
+          value={mode}
+        />
         <Paper elevation={3} sx={{ height: '400px', margin: '20px 0px', padding: '15px' }}>
           <Loading visible={loading} />
           <NoData visible={!loading && noData} />
