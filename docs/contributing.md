@@ -83,6 +83,7 @@ $ npm run cypress:run
 
 Here are some useful resources.
 
+- [Code Climate documentation](https://docs.codeclimate.com/docs/getting-started-with-code-climate)
 - [Cypress documentation](https://docs.cypress.io)
 - [GitHub documentation](https://docs.github.com/en)
   - [GitHub REST API documentation](https://docs.github.com/en/rest)
