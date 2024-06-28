@@ -52,6 +52,14 @@ const IssuesAndPullRequests = (): JSX.Element => {
     void fetchData()
   }, [])
 
+  const getClosed = (items: IssueOrPullRequest[]): number => {
+    return items.filter((item) => item.state === 'closed').length
+  }
+
+  const getOpen = (items: IssueOrPullRequest[]): number => {
+    return items.filter((item) => item.state === 'open').length
+  }
+
   return (
     <Section
       description="Opened and closed issues and pull requests"
@@ -67,17 +75,17 @@ const IssuesAndPullRequests = (): JSX.Element => {
     >
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
         <Content
-          closed={issues.filter((issue) => issue.state === 'closed').length}
+          closed={getClosed(issues)}
           loading={loading}
           noData={noIssuesData}
-          open={issues.filter((issue) => issue.state === 'open').length}
+          open={getOpen(issues)}
           units="issues"
         />
         <Content
-          closed={pullRequests.filter((pr) => pr.state === 'closed').length}
+          closed={getClosed(pullRequests)}
           loading={loading}
           noData={noPullRequestsData}
-          open={pullRequests.filter((pr) => pr.state === 'open').length}
+          open={getOpen(pullRequests)}
           units="pull requests"
         />
       </Stack>
