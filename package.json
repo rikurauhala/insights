@@ -25,12 +25,12 @@
     "@mui/x-charts": "^7.2.0",
     "color-contrast-checker": "^2.1.0",
     "octokit": "^3.2.0",
-    "react": "^18.2.0",
+    "react": "^18.3.1",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@cypress/code-coverage": "^3.12.39",
-    "@types/react": "^18.2.66",
+    "@types/react": "^18.3.3",
     "@types/react-dom": "^18.2.22",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
